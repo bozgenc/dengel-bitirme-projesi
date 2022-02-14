@@ -10,10 +10,131 @@ export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            ogrenciNo: '',
             isLoading: true,
             imageChoose: 0,
+            name: '',
+            surname: '',
+            email: '',
+            password: '',
+            passwordConfirmFieldEnabled: false,
+            passwordConfirm: '',
+            signUpButtonDisabled: true,
+            errorBorderForMail: false,
+            errorBorderForPassword: false,
+            passAuth1: false,
+            passAuth2: false,
         };
+    }
+
+    validateMail(text) {
+        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        console.log(reg.test(text.toLowerCase()));
+        console.log(text);
+        if (reg.test(text) === false) {
+            this.setState({
+                errorBorderForMail: true,
+                email : '',
+                signUpButtonDisabled: true,
+            }, () => {
+                Alert.alert(
+                    'Hata ',
+                    'Lütfen geçerli bir mail adresi girin!',
+                    [
+                        {text: 'OK', onPress: () => console.log('Email hatası')},
+                    ],
+                    {cancelable: false},
+                );
+
+                this.textInput.clear()
+            })
+        }
+        else {
+            this.setState({
+                email: text,
+                errorBorderForMail: false,
+                passAuth2: true
+            })
+        }
+    }
+
+    validatePassword(text) {
+        let eligible = true;
+        let msg = ""
+        if(text.length < 8) {
+            eligible = false;
+            msg += "Parolanız minimum 8 karakter içermelidir."
+        }
+
+        if(!eligible) {
+            Alert.alert(
+                'Hata ',
+                msg,
+                [
+                    {text: 'OK', onPress: () => console.log('Password Confirm hatası')},
+                ],
+                {cancelable: false},
+            );
+
+            this.setState({
+                errorBorderForPassword: true,
+                password: '',
+                passwordForConfirm: '',
+                signUpButtonDisabled: true,
+            }, () => {
+                this.textInput2.clear();
+                this.textInput3.clear();
+            })
+
+            return;
+        }
+        if(text === this.state.password) {
+            this.setState({
+                passwordConfirm: text,
+                signUpButtonDisabled: false,
+                errorBorderForPassword: false,
+                passAuth1: true
+            })
+        }
+        else {
+            this.setState({
+                errorBorderForPassword: true,
+                password: '',
+                passwordForConfirm: '',
+                signUpButtonDisabled: true,
+            }, () => {
+                Alert.alert(
+                    'Hata ',
+                    'Girdiğiniz parolalar uyuşmuyor!',
+                    [
+                        {text: 'OK', onPress: () => console.log('Password Confirm hatası')},
+                    ],
+                    {cancelable: false},
+                );
+                this.textInput2.clear()
+                this.textInput3.clear()
+
+            });
+        }
+    }
+
+    onSubmit = () => {
+        this.validateMail(this.state.email);
+        this.validatePassword(this.state.passwordConfirm)
+        this.saveUser();
+    }
+
+    saveUser() {
+        if(this.state.passAuth1 && this.state.passAuth2) {
+            let userCredentials  = {
+                name: this.state.name,
+                surname: this.state.surname,
+                email: this.state.email,
+                passwordHashed: "",
+            };
+            console.log(userCredentials);
+            // bcrypt password hashing ?
+            // save user credentials to db
+        }
     }
 
     render() {
@@ -50,7 +171,7 @@ export default class Login extends Component {
                                 autoCorrect={false}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                    this.setState({imageChoose: text.length});
+                                    this.setState({imageChoose: text.length, name: text});
                                 }}
                             />
                         </View>
@@ -63,53 +184,63 @@ export default class Login extends Component {
                                 autoCorrect={false}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                    this.setState({imageChoose: text.length});
+                                    this.setState({imageChoose: text.length, surname: text});
                                 }}
                             />
                         </View>
                         <View>
                             <TextInput
-                                style={styles.input}
+                                style={this.state.errorBorderForMail ? styles.inputError: styles.input}
                                 placeholder="E-Mail Adresi"
+                                ref={input => { this.textInput = input }}
                                 textAlign='center'
                                 maxLength={20}
                                 autoCorrect={false}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                    this.setState({imageChoose: text.length});
+                                    this.setState({imageChoose: text.length, email: text});
                                 }}
                             />
                         </View>
                         <View>
                             <TextInput
-                                style={styles.input}
+                                style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
                                 placeholder="Parola"
                                 secureTextEntry={true}
+                                ref={input => { this.textInput2 = input }}
                                 textAlign='center'
                                 maxLength={15}
                                 autoCorrect={false}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                    this.setState({imageChoose: -1});
+                                    this.setState({imageChoose: -1, password: text, passwordConfirmFieldEnabled: true});
                                 }}
                             />
                         </View>
                         <View>
                             <TextInput
-                                style={styles.input}
+                                style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
+                                editable = {this.state.passwordConfirmFieldEnabled}
                                 secureTextEntry={true}
+                                ref={input => { this.textInput3 = input }}
                                 placeholder="Parola Onayı"
                                 textAlign='center'
                                 maxLength={15}
                                 autoCorrect={false}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                    this.setState({imageChoose: -1});
+                                    this.setState({imageChoose: -1, passwordConfirm: text});
+                                    if(text.length != 0) {
+                                        this.setState({
+                                            signUpButtonDisabled: false
+                                        });
+                                    }
                                 }}
                             />
                         </View>
 
                         <TouchableOpacity
+                            disabled={this.state.signUpButtonDisabled}
                             onPress={() => this.onSubmit()}
                         >
                             <View style={styles.button}>
@@ -153,6 +284,18 @@ const styles = StyleSheet.create({
         fontFamily: 'Helvetica-Bold',
         borderWidth: 2,
         borderColor: '#383838',
+        borderRadius: 10,
+        height: 35,
+        marginTop: 5,
+        marginLeft: -screen.width / 10,
+        width: '140%',
+        textAlign: 'left',
+    },
+    inputError: {
+        alignItems: 'center',
+        fontFamily: 'Helvetica-Bold',
+        borderWidth: 2,
+        borderColor: '#B00D23',
         borderRadius: 10,
         height: 35,
         marginTop: 5,
