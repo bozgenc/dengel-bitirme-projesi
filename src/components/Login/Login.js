@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 import {Header, Left, Right} from "native-base"
 import DeviceInfo from 'react-native-device-info';
+import MainScreenUser from "../MainScreenUser/MainScreenUser";
 
 var screen = Dimensions.get('window');
 var deviceModel = DeviceInfo.getModel();
@@ -134,6 +135,7 @@ export default class Login extends Component {
             console.log(userCredentials);
             // bcrypt password hashing ?
             // save user credentials to db
+            this.props.navigation.navigate('Anasayfa');
         }
     }
 
