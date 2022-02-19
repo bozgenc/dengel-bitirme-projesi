@@ -18,11 +18,9 @@ import Profile from "../Profile/Profile";
 function Home() {
     return (
         <Drawer.Navigator
-            lazy = {true}
             screenOptions={{
-                headerShown: false
-            }}
-            drawerContentOptions={{
+                headerShown: false,
+                lazy: true,
                 inactiveTintColor: 'black',
                 activeTintColor: '#d0c6c6'
             }}

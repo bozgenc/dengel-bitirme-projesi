@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 import {Header, Left, Right} from "native-base"
 import DeviceInfo from 'react-native-device-info';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BallIndicator, BarIndicator, DotIndicator, MaterialIndicator, PacmanIndicator, PulseIndicator, SkypeIndicator, UIActivityIndicator, WaveIndicator,} from 'react-native-indicators';
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
 
 var screen = Dimensions.get('window');
@@ -24,13 +26,28 @@ export default class Login extends Component {
             errorBorderForPassword: false,
             passAuth1: false,
             passAuth2: false,
+            renderLoading: true,
         };
+    }
+
+    componentDidMount = async() => {
+        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+        if(isLoggedIn == "true") {
+            this.setState({
+                renderLoading: true
+            }, () => {
+                this.props.navigation.navigate('Anasayfa')
+            })
+        }
+        else {
+            this.setState({
+                renderLoading: false,
+            })
+        }
     }
 
     validateMail(text) {
         let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        console.log(reg.test(text.toLowerCase()));
-        console.log(text);
         if (reg.test(text) === false) {
             this.setState({
                 errorBorderForMail: true,
@@ -121,11 +138,7 @@ export default class Login extends Component {
     onSubmit = () => {
         this.validateMail(this.state.email);
         this.validatePassword(this.state.passwordConfirm)
-        this.saveUser();
-    }
-
-    saveUser() {
-        if(this.state.passAuth1 && this.state.passAuth2) {
+        if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword) {
             let userCredentials  = {
                 name: this.state.name,
                 surname: this.state.surname,
@@ -133,135 +146,148 @@ export default class Login extends Component {
                 passwordHashed: "",
             };
             console.log(userCredentials);
+            AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+
+        }
+    }
+
+    saveUser() {
+        if(this.state.passAuth1 && this.state.passAuth2) {
             // bcrypt password hashing ?
             // save user credentials to db
-            this.props.navigation.navigate('Anasayfa');
         }
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <Header style={{
-                    height: (screen.height * 60) / 100,
-                    backgroundColor: 'white',
-                    borderBottomWidth: 7,
-                    borderBottomColor: '#292929',
-                }}>
-                    <View style={{flexDirection: 'column'}}>
-                        <View style={{
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                            marginTop: 50,
-                        }}>
-                            <Image
-                                source={this.state.imageChoose == 0 ? require('../images/yeniBekleme.jpg') : this.state.imageChoose == 1 ? require('../images/yeniBir.jpg') : this.state.imageChoose == 2 ? require('../images/yeniIki.jpg') :
-                                    this.state.imageChoose == 3 ? require('../images/yeniUc.jpg') : this.state.imageChoose == 4 ? require('../images/yeniDort.jpg') : this.state.imageChoose == 5 ? require('../images/yeniBes.jpg') :
-                                        this.state.imageChoose == 6 ? require('../images/yeniAlti.jpg') : this.state.imageChoose == 7 ? require('../images/yeniYedi.jpg') : this.state.imageChoose == 8 ? require('../images/yeniSekiz.jpg') : this.state.imageChoose == -1 ? require('../images/password2.jpg') : this.state.imageChoose == 9 ? require('../images/yeniDokuz.jpg') : this.state.imageChoose == 10 ? require('../images/yeniOn.jpg') : require('../images/yeniOnbir.jpg')
-                                } style={
-                                deviceModel == 'iPhone 11' || deviceModel == 'iPhone 11 Pro Max' || deviceModel == 'iPhone 12' || deviceModel == 'iPhone 12 Pro' ||
-                                deviceModel == 'iPhone XS Max' || deviceModel == 'iPhone 12 Pro Max' || deviceModel == 'iPhone 7 Plus' || deviceModel == 'iPhone XR' ||
-                                deviceModel == 'iPhone 8 Plus' || deviceModel == 'iPhone 6S Plus' || deviceModel == 'iPhone 6 Plus' ? styles.imageForBiggerDevices :
-                                    deviceModel == 'iPhone SE' || deviceModel == 'iPhone 5' || deviceModel == 'iPhone 5S' ? styles.imageForSmallDevices : styles.image}/>
-                        </View>
-                        <View>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="İsim"
-                                textAlign='center'
-                                maxLength={15}
-                                autoCorrect={false}
-                                returnKeyType={'done'}
-                                onChangeText={(text) => {
-                                    this.setState({imageChoose: text.length, name: text});
-                                }}
-                            />
-                        </View>
-                        <View>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Soyisim"
-                                textAlign='center'
-                                maxLength={15}
-                                autoCorrect={false}
-                                returnKeyType={'done'}
-                                onChangeText={(text) => {
-                                    this.setState({imageChoose: text.length, surname: text});
-                                }}
-                            />
-                        </View>
-                        <View>
-                            <TextInput
-                                style={this.state.errorBorderForMail ? styles.inputError: styles.input}
-                                placeholder="E-Mail Adresi"
-                                ref={input => { this.textInput = input }}
-                                textAlign='center'
-                                maxLength={20}
-                                autoCorrect={false}
-                                returnKeyType={'done'}
-                                onChangeText={(text) => {
-                                    this.setState({imageChoose: text.length, email: text});
-                                }}
-                            />
-                        </View>
-                        <View>
-                            <TextInput
-                                style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
-                                placeholder="Parola"
-                                secureTextEntry={true}
-                                ref={input => { this.textInput2 = input }}
-                                textAlign='center'
-                                maxLength={15}
-                                autoCorrect={false}
-                                returnKeyType={'done'}
-                                onChangeText={(text) => {
-                                    this.setState({imageChoose: -1, password: text, passwordConfirmFieldEnabled: true});
-                                }}
-                            />
-                        </View>
-                        <View>
-                            <TextInput
-                                style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
-                                editable = {this.state.passwordConfirmFieldEnabled}
-                                secureTextEntry={true}
-                                ref={input => { this.textInput3 = input }}
-                                placeholder="Parola Onayı"
-                                textAlign='center'
-                                maxLength={15}
-                                autoCorrect={false}
-                                returnKeyType={'done'}
-                                onChangeText={(text) => {
-                                    this.setState({imageChoose: -1, passwordConfirm: text});
-                                    if(text.length != 0) {
-                                        this.setState({
-                                            signUpButtonDisabled: false
-                                        });
-                                    }
-                                }}
-                            />
-                        </View>
-
-                        <TouchableOpacity
-                            disabled={this.state.signUpButtonDisabled}
-                            onPress={() => this.onSubmit()}
-                        >
-                            <View style={styles.button}>
-                                <Text style={{
-                                    fontSize: 18,
-                                    color: 'white',
-                                    textAlign: 'center',
-                                    paddingTop: 0,
-                                    fontWeight: 'bold',
-                                }}>
-                                    Kaydol
-                                </Text>
+        if(this.state.renderLoading) {
+            return(
+                <PacmanIndicator color='black'/>
+            );
+        }
+        else {
+            return (
+                <View style={styles.container}>
+                    <Header style={{
+                        height: (screen.height * 60) / 100,
+                        backgroundColor: 'white',
+                        borderBottomWidth: 7,
+                        borderBottomColor: '#292929',
+                    }}>
+                        <View style={{flexDirection: 'column'}}>
+                            <View style={{
+                                justifyContent: 'flex-start',
+                                alignItems: 'center',
+                                marginTop: 50,
+                            }}>
+                                <Image
+                                    source={this.state.imageChoose == 0 ? require('../images/yeniBekleme.jpg') : this.state.imageChoose == 1 ? require('../images/yeniBir.jpg') : this.state.imageChoose == 2 ? require('../images/yeniIki.jpg') :
+                                        this.state.imageChoose == 3 ? require('../images/yeniUc.jpg') : this.state.imageChoose == 4 ? require('../images/yeniDort.jpg') : this.state.imageChoose == 5 ? require('../images/yeniBes.jpg') :
+                                            this.state.imageChoose == 6 ? require('../images/yeniAlti.jpg') : this.state.imageChoose == 7 ? require('../images/yeniYedi.jpg') : this.state.imageChoose == 8 ? require('../images/yeniSekiz.jpg') : this.state.imageChoose == -1 ? require('../images/password2.jpg') : this.state.imageChoose == 9 ? require('../images/yeniDokuz.jpg') : this.state.imageChoose == 10 ? require('../images/yeniOn.jpg') : require('../images/yeniOnbir.jpg')
+                                    } style={
+                                    deviceModel == 'iPhone 11' || deviceModel == 'iPhone 11 Pro Max' || deviceModel == 'iPhone 12' || deviceModel == 'iPhone 12 Pro' ||
+                                    deviceModel == 'iPhone XS Max' || deviceModel == 'iPhone 12 Pro Max' || deviceModel == 'iPhone 7 Plus' || deviceModel == 'iPhone XR' ||
+                                    deviceModel == 'iPhone 8 Plus' || deviceModel == 'iPhone 6S Plus' || deviceModel == 'iPhone 6 Plus' ? styles.imageForBiggerDevices :
+                                        deviceModel == 'iPhone SE' || deviceModel == 'iPhone 5' || deviceModel == 'iPhone 5S' ? styles.imageForSmallDevices : styles.image}/>
                             </View>
-                        </TouchableOpacity>
+                            <View>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="İsim"
+                                    textAlign='center'
+                                    maxLength={15}
+                                    autoCorrect={false}
+                                    returnKeyType={'done'}
+                                    onChangeText={(text) => {
+                                        this.setState({imageChoose: text.length, name: text});
+                                    }}
+                                />
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Soyisim"
+                                    textAlign='center'
+                                    maxLength={15}
+                                    autoCorrect={false}
+                                    returnKeyType={'done'}
+                                    onChangeText={(text) => {
+                                        this.setState({imageChoose: text.length, surname: text});
+                                    }}
+                                />
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={this.state.errorBorderForMail ? styles.inputError: styles.input}
+                                    placeholder="E-Mail Adresi"
+                                    ref={input => { this.textInput = input }}
+                                    textAlign='center'
+                                    maxLength={20}
+                                    autoCorrect={false}
+                                    returnKeyType={'done'}
+                                    onChangeText={(text) => {
+                                        this.setState({imageChoose: text.length, email: text});
+                                    }}
+                                />
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
+                                    placeholder="Parola"
+                                    secureTextEntry={true}
+                                    ref={input => { this.textInput2 = input }}
+                                    textAlign='center'
+                                    maxLength={15}
+                                    autoCorrect={false}
+                                    returnKeyType={'done'}
+                                    onChangeText={(text) => {
+                                        this.setState({imageChoose: -1, password: text, passwordConfirmFieldEnabled: true});
+                                    }}
+                                />
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
+                                    editable = {this.state.passwordConfirmFieldEnabled}
+                                    secureTextEntry={true}
+                                    ref={input => { this.textInput3 = input }}
+                                    placeholder="Parola Onayı"
+                                    textAlign='center'
+                                    maxLength={15}
+                                    autoCorrect={false}
+                                    returnKeyType={'done'}
+                                    onChangeText={(text) => {
+                                        this.setState({imageChoose: -1, passwordConfirm: text});
+                                        if(text.length != 0) {
+                                            this.setState({
+                                                signUpButtonDisabled: false
+                                            });
+                                        }
+                                    }}
+                                />
+                            </View>
 
-                    </View>
-                </Header>
-            </View>
-        );
+                            <TouchableOpacity
+                                disabled={this.state.signUpButtonDisabled}
+                                onPress={() => this.onSubmit()}
+                            >
+                                <View style={styles.button}>
+                                    <Text style={{
+                                        fontSize: 18,
+                                        color: 'white',
+                                        textAlign: 'center',
+                                        paddingTop: 0,
+                                        fontWeight: 'bold',
+                                    }}>
+                                        Kaydol
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+                    </Header>
+                </View>
+            );
+        }
     }
 }
 
