@@ -28,6 +28,7 @@ export default class Login extends Component {
             passAuth1: false,
             passAuth2: false,
             renderLoading: true,
+            loggedIn: false,
         };
     }
 
@@ -46,9 +47,11 @@ export default class Login extends Component {
             })
         }
 
-        GoogleSignin.configure({
-            webClientId: '50768797639-balvndqlqktdtks061taihf6dq34mc3n.apps.googleusercontent.com',
-          });
+        if(DeviceInfo.getSystemName() == "Android") {
+            GoogleSignin.configure({
+                webClientId: '50768797639-balvndqlqktdtks061taihf6dq34mc3n.apps.googleusercontent.com',
+            });
+        }
     }
 
     validateMail(text) {
@@ -104,7 +107,7 @@ export default class Login extends Component {
         }
     };
 
-    /*I did not test this function but may be tested later*/ 
+    /*I did not test this function but may be tested later*/
     /*getCurrentUserInfo = async () => {
         try {
           const userInfo = await GoogleSignin.signInSilently();
@@ -205,21 +208,19 @@ export default class Login extends Component {
 
     render() {
         let area;
-        if(DeviceInfo.getSystemName()=="Android"){
+        if(DeviceInfo.getSystemName() == "Android"){
             area =  <GoogleSigninButton
-            style={{ width: '140%', height: 48,  
-            alignItems: 'center', 
-            justifyContent: 'center', 
+            style={{ width: '140%', height: 48,
+            alignItems: 'center',
+            justifyContent: 'center',
             borderWidth: 2,
             borderColor: '#383838',
             borderRadius: 10,
-            height: 43,
             marginTop: 5,
             marginLeft: -screen.width / 10}}
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Dark}
-            onPress={this._signIn}
-            disabled={this.state.isSigninInProgress} />
+            onPress={this._signIn} />
         }
         if(this.state.renderLoading) {
             return(
