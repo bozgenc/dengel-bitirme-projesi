@@ -5,6 +5,7 @@ import DeviceInfo from 'react-native-device-info';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BallIndicator, BarIndicator, DotIndicator, MaterialIndicator, PacmanIndicator, PulseIndicator, SkypeIndicator, UIActivityIndicator, WaveIndicator,} from 'react-native-indicators';
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 var screen = Dimensions.get('window');
 var deviceModel = DeviceInfo.getModel();
@@ -44,6 +45,10 @@ export default class Login extends Component {
                 renderLoading: false,
             })
         }
+
+        GoogleSignin.configure({
+            webClientId: '50768797639-balvndqlqktdtks061taihf6dq34mc3n.apps.googleusercontent.com',
+          });
     }
 
     validateMail(text) {
@@ -74,6 +79,46 @@ export default class Login extends Component {
             })
         }
     }
+
+    _signIn = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            console.log("-----------------", userInfo, "--------------------");
+            console.log("Welcome", userInfo.user.name);
+            this.setState({ userInfo: userInfo, loggedIn: true });
+        } catch (error) {
+          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+          } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (f.e. sign in) is in progress already
+          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+          } else {
+            // some other error happened
+          }
+        }
+        finally{
+            if(this.state.loggedIn==true)
+                AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+        }
+    };
+
+    /*I did not test this function but may be tested later*/ 
+    /*getCurrentUserInfo = async () => {
+        try {
+          const userInfo = await GoogleSignin.signInSilently();
+          this.setState({ userInfo });
+        } catch (error) {
+          if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+            // user has not signed in yet
+            this.setState({ loggedIn: false });
+          } else {
+            // some other error
+            this.setState({ loggedIn: false });
+          }
+        }
+      };*/
 
     validatePassword(text) {
         let eligible = true;
@@ -159,6 +204,23 @@ export default class Login extends Component {
     }
 
     render() {
+        let area;
+        if(DeviceInfo.getSystemName()=="Android"){
+            area =  <GoogleSigninButton
+            style={{ width: '140%', height: 48,  
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            borderWidth: 2,
+            borderColor: '#383838',
+            borderRadius: 10,
+            height: 43,
+            marginTop: 5,
+            marginLeft: -screen.width / 10}}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={this._signIn}
+            disabled={this.state.isSigninInProgress} />
+        }
         if(this.state.renderLoading) {
             return(
                 <PacmanIndicator color='black'/>
@@ -166,6 +228,7 @@ export default class Login extends Component {
         }
         else {
             return (
+                //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
                     <Header style={{
                         height: (screen.height * 60) / 100,
@@ -266,6 +329,8 @@ export default class Login extends Component {
                                 />
                             </View>
 
+                            {area}
+
                             <TouchableOpacity
                                 disabled={this.state.signUpButtonDisabled}
                                 onPress={() => this.onSubmit()}
@@ -283,9 +348,11 @@ export default class Login extends Component {
                                 </View>
                             </TouchableOpacity>
 
+
                         </View>
                     </Header>
                 </View>
+                //</ScrollView>
             );
         }
     }
@@ -354,7 +421,7 @@ const styles = StyleSheet.create({
         height: 200,
         resizeMode: 'contain',
     },
-    imageForSmallDevices: { // SE için falan
+    imageForSmallDevices: { // SE icin falan
         width: 150,
         height: 150,
         resizeMode: 'contain',

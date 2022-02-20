@@ -14,6 +14,7 @@ import MainScreenUser from "../MainScreenUser/MainScreenUser";
 import MeetingSearch from "../MeetingSearch/MeetingSearch";
 import Settings from "../Settings/Settings";
 import Profile from "../Profile/Profile";
+import Logout from "../Logout/Logout";
 
 function Home() {
     return (
@@ -29,6 +30,7 @@ function Home() {
             <Drawer.Screen name="Profile" component={Profile}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch}/>
             <Drawer.Screen name="Settings" component={Settings}/>
+            <Drawer.Screen name="Log out" component={Logout}/>
 
         </Drawer.Navigator>
     );
