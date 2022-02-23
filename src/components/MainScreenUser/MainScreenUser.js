@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 import {Header, Left, Right} from "native-base"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class MainScreenUser extends  Component {
+
+    componentDidMount = async () => {
+    }
+
     render() {
         return (
           <View style = {{flex: 1, backgroundColor: "#faf8f8"}}>

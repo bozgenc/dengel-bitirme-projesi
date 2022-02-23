@@ -26,12 +26,11 @@ function Home() {
                 activeTintColor: '#d0c6c6'
             }}
         >
-            <Drawer.Screen name="Home" component={MainScreenUser}/>
-            <Drawer.Screen name="Profile" component={Profile}/>
-            <Drawer.Screen name="Search For Meetings" component={MeetingSearch}/>
-            <Drawer.Screen name="Settings" component={Settings}/>
-            <Drawer.Screen name="Log out" component={Logout}/>
-
+            <Drawer.Screen name="Home" component={MainScreenUser} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
@@ -45,8 +44,8 @@ export default class Routes extends Component {
                     screenOptions={{
                         headerShown: false
                     }} >
-                    <Stack.Screen name="Login" component={Login}/>
-                    <Stack.Screen name="Anasayfa" component={Home}/>
+                    <Stack.Screen name="Login" component={Login} options={{unmountOnBlur:true}}/>
+                    <Stack.Screen name="Anasayfa" component={Home} options={{unmountOnBlur:true}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );

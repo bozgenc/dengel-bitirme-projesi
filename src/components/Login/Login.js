@@ -29,6 +29,7 @@ export default class Login extends Component {
             passAuth2: false,
             renderLoading: true,
             loggedIn: false,
+            userExist: false,
         };
     }
 
@@ -51,35 +52,6 @@ export default class Login extends Component {
             GoogleSignin.configure({
                 webClientId: '50768797639-balvndqlqktdtks061taihf6dq34mc3n.apps.googleusercontent.com',
             });
-        }
-    }
-
-    validateMail(text) {
-        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        if (reg.test(text) === false) {
-            this.setState({
-                errorBorderForMail: true,
-                email : '',
-                signUpButtonDisabled: true,
-            }, () => {
-                Alert.alert(
-                    'Hata ',
-                    'Lütfen geçerli bir mail adresi girin!',
-                    [
-                        {text: 'OK', onPress: () => console.log('Email hatası')},
-                    ],
-                    {cancelable: false},
-                );
-
-                this.textInput.clear()
-            })
-        }
-        else {
-            this.setState({
-                email: text,
-                errorBorderForMail: false,
-                passAuth2: true
-            })
         }
     }
 
@@ -123,6 +95,35 @@ export default class Login extends Component {
         }
       };*/
 
+    validateMail(text) {
+        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if (reg.test(text) === false) {
+            this.setState({
+                errorBorderForMail: true,
+                email : '',
+                //signUpButtonDisabled: true,
+            }, () => {
+                Alert.alert(
+                    'Hata ',
+                    'Lütfen geçerli bir mail adresi girin!',
+                    [
+                        {text: 'OK', onPress: () => console.log('Email hatası')},
+                    ],
+                    {cancelable: false},
+                );
+
+                this.textInput.clear()
+            })
+        }
+        else {
+            this.setState({
+                email: text,
+                errorBorderForMail: false,
+                passAuth2: true
+            })
+        }
+    }
+
     validatePassword(text) {
         let eligible = true;
         let msg = ""
@@ -130,7 +131,6 @@ export default class Login extends Component {
             eligible = false;
             msg += "Parolanız minimum 8 karakter içermelidir."
         }
-
         if(!eligible) {
             Alert.alert(
                 'Hata ',
@@ -140,7 +140,6 @@ export default class Login extends Component {
                 ],
                 {cancelable: false},
             );
-
             this.setState({
                 errorBorderForPassword: true,
                 password: '',
@@ -150,7 +149,6 @@ export default class Login extends Component {
                 this.textInput2.clear();
                 this.textInput3.clear();
             })
-
             return;
         }
         if(text === this.state.password) {
@@ -178,14 +176,54 @@ export default class Login extends Component {
                 );
                 this.textInput2.clear()
                 this.textInput3.clear()
-
             });
         }
     }
 
-    onSubmit = () => {
-        this.validateMail(this.state.email);
-        this.validatePassword(this.state.passwordConfirm)
+    validatePasswordForUser = async (text)  => {
+        let eligible = true;
+        let msg = ""
+        if(text.length < 8) {
+            eligible = false;
+            msg += "Parolanız minimum 8 karakter içermelidir."
+        }
+        if(!eligible) {
+            Alert.alert(
+                'Hata ',
+                msg,
+                [
+                    {text: 'OK', onPress: () => console.log('Password hatası')},
+                ],
+                {cancelable: false},
+            );
+            this.setState({
+                errorBorderForPassword: true,
+                password: '',
+            }, () => {
+                this.textInput2.clear();
+            })
+        }
+        else {
+            this.setState({
+                errorBorderForPassword: false,
+            });
+        }
+    }
+
+    onSubmit = async () => {
+        // database tamamlanınca burada log-in sign-in durumuna göre user exist ya da değil gibi kontroller yapılacak
+        if(!this.state.userExist) {
+            this.validateMail(this.state.email);
+            this.validatePassword(this.state.passwordConfirm)
+        }
+        else if(this.state.userExist) {
+            await this.validateMail(this.state.email);
+            await this.validatePasswordForUser(this.state.password);
+
+            if(!this.state.errorBorderForPassword && !this.state.errorBorderForMail) {
+                AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+            }
+        }
         if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword) {
             let userCredentials  = {
                 name: this.state.name,
@@ -195,7 +233,6 @@ export default class Login extends Component {
             };
             console.log(userCredentials);
             AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
-
         }
     }
 
@@ -203,6 +240,19 @@ export default class Login extends Component {
         if(this.state.passAuth1 && this.state.passAuth2) {
             // bcrypt password hashing ?
             // save user credentials to db
+        }
+    }
+
+    alreadyUser() { // login page renderını değiştirmek için, ilk seferde kaydolduktan sonra sonraki girişlerde sadece mail ve parola görüntülenir
+        let current = this.state.userExist;
+        if(!current) {
+            this.setState({
+                signUpButtonDisabled: false,
+                userExist: !current
+            })
+        }
+        else {
+            this.setState({userExist: !current})
         }
     }
 
@@ -232,7 +282,7 @@ export default class Login extends Component {
                 //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
                     <Header style={{
-                        height: (screen.height * 60) / 100,
+                        height: this.state.userExist ? (screen.height * 45) / 100: (screen.height * 60) / 100,
                         backgroundColor: 'white',
                         borderBottomWidth: 7,
                         borderBottomColor: '#292929',
@@ -254,30 +304,37 @@ export default class Login extends Component {
                                         deviceModel == 'iPhone SE' || deviceModel == 'iPhone 5' || deviceModel == 'iPhone 5S' ? styles.imageForSmallDevices : styles.image}/>
                             </View>
                             <View>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="İsim"
-                                    textAlign='center'
-                                    maxLength={15}
-                                    autoCorrect={false}
-                                    returnKeyType={'done'}
-                                    onChangeText={(text) => {
-                                        this.setState({imageChoose: text.length, name: text});
-                                    }}
-                                />
+                                {
+                                    !this.state.userExist &&
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="İsim"
+                                        textAlign='center'
+                                        maxLength={15}
+                                        autoCorrect={false}
+                                        returnKeyType={'done'}
+                                        onChangeText={(text) => {
+                                            this.setState({imageChoose: text.length, name: text});
+                                        }}
+                                    />
+                                }
+
                             </View>
                             <View>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Soyisim"
-                                    textAlign='center'
-                                    maxLength={15}
-                                    autoCorrect={false}
-                                    returnKeyType={'done'}
-                                    onChangeText={(text) => {
-                                        this.setState({imageChoose: text.length, surname: text});
-                                    }}
-                                />
+                                {
+                                    !this.state.userExist &&
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Soyisim"
+                                        textAlign='center'
+                                        maxLength={15}
+                                        autoCorrect={false}
+                                        returnKeyType={'done'}
+                                        onChangeText={(text) => {
+                                            this.setState({imageChoose: text.length, surname: text});
+                                        }}
+                                    />
+                                }
                             </View>
                             <View>
                                 <TextInput
@@ -285,7 +342,7 @@ export default class Login extends Component {
                                     placeholder="E-Mail Adresi"
                                     ref={input => { this.textInput = input }}
                                     textAlign='center'
-                                    maxLength={20}
+                                    maxLength={25}
                                     autoCorrect={false}
                                     returnKeyType={'done'}
                                     onChangeText={(text) => {
@@ -309,25 +366,28 @@ export default class Login extends Component {
                                 />
                             </View>
                             <View>
-                                <TextInput
-                                    style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
-                                    editable = {this.state.passwordConfirmFieldEnabled}
-                                    secureTextEntry={true}
-                                    ref={input => { this.textInput3 = input }}
-                                    placeholder="Parola Onayı"
-                                    textAlign='center'
-                                    maxLength={15}
-                                    autoCorrect={false}
-                                    returnKeyType={'done'}
-                                    onChangeText={(text) => {
-                                        this.setState({imageChoose: -1, passwordConfirm: text});
-                                        if(text.length != 0) {
-                                            this.setState({
-                                                signUpButtonDisabled: false
-                                            });
-                                        }
-                                    }}
-                                />
+                                {
+                                    !this.state.userExist &&
+                                    <TextInput
+                                        style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
+                                        editable = {this.state.passwordConfirmFieldEnabled}
+                                        secureTextEntry={true}
+                                        ref={input => { this.textInput3 = input }}
+                                        placeholder="Parola Onayı"
+                                        textAlign='center'
+                                        maxLength={15}
+                                        autoCorrect={false}
+                                        returnKeyType={'done'}
+                                        onChangeText={(text) => {
+                                            this.setState({imageChoose: -1, passwordConfirm: text});
+                                            if(text.length != 0) {
+                                                this.setState({
+                                                    signUpButtonDisabled: false
+                                                });
+                                            }
+                                        }}
+                                    />
+                                }
                             </View>
 
                             {area}
@@ -344,7 +404,7 @@ export default class Login extends Component {
                                         paddingTop: 0,
                                         fontWeight: 'bold',
                                     }}>
-                                        Kaydol
+                                        {this.state.userExist ? 'Giriş Yap' : 'Kaydol'}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -352,8 +412,17 @@ export default class Login extends Component {
 
                         </View>
                     </Header>
+
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity onPress={() => {
+                            this.alreadyUser();
+                        }}>
+                            <Text style={{paddingTop: 20, fontSize: 18, color: '#efebeb', fontWeight: 'bold'}}>
+                                {this.state.userExist ? "Hesap Oluştur" : "Zaten Kayıtlı Mısınız ? "}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                //</ScrollView>
             );
         }
     }
