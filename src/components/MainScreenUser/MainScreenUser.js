@@ -17,7 +17,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 
 var screen = Dimensions.get('window');
-var deviceModel = DeviceInfo.getModel();
 
 
 export default class MainScreenUser extends Component {
@@ -129,8 +128,6 @@ export default class MainScreenUser extends Component {
                         renderItem={({item}) => (
                             <TouchableOpacity
                                 onPress={() => {
-                                    //this.setData(item);
-                                    //this.props.navigation.navigate('OgrenciDetayBilgiler')
                                     console.log("Clicked to meeting"); // burada meetinge gidecek
                                 }}
                             >
@@ -192,5 +189,4 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'black'
     }
-
 });

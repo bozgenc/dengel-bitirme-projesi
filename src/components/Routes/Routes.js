@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {createDrawerNavigator} from "@react-navigation/drawer";
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 import Login from "../Login/Login";
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
@@ -15,6 +16,8 @@ import MeetingSearch from "../MeetingSearch/MeetingSearch";
 import Settings from "../Settings/Settings";
 import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
+import Notifications from "../Notifications/Notifications";
+import NotificationDetail from "../Notifications/NotificationDetail"
 
 function Home() {
     return (
@@ -26,7 +29,7 @@ function Home() {
                 activeTintColor: '#d0c6c6'
             }}
         >
-            <Drawer.Screen name="Home" component={MainScreenUser} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Home" component={MainScreenTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
@@ -34,8 +37,49 @@ function Home() {
         </Drawer.Navigator>
     );
 }
-export default class Routes extends Component {
 
+function MainScreenTabs() {
+    return(
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+              headerShown: false,
+              tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
+                  if (route.name === 'Anasayfa') {
+                      iconName = focused
+                          ? 'home'
+                          : 'home';
+                  } else if (route.name === 'Bildirimler') {
+                      iconName = focused ? 'notifications' : 'notifications';
+                  }
+                  return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: '#B00D23',
+              tabBarInactiveTintColor: 'gray',
+          })}
+      >
+          <Tab.Screen name='Anasayfa' component={MainScreenUser}/>
+          <Tab.Screen name='Bildirimler' component={NotificationTab}/>
+      </Tab.Navigator>
+    );
+}
+
+function NotificationTab() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false,
+                presentation: 'modal'
+            }}
+        >
+            <Stack.Screen name='Notification' component={Notifications}/>
+            <Stack.Screen name='BildirimDetayi' component={NotificationDetail} />
+        </Stack.Navigator>
+    );
+}
+
+export default class Routes extends Component {
     render() {
         return (
             <NavigationContainer>
