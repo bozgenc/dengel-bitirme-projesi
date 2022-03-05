@@ -1,8 +1,28 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 import {Header, Left, Right} from "native-base"
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 export default class Profile extends  Component {
+    constructor() {
+        super();
+        this.state = {
+            name: '',
+            surname: '',
+            email: '',
+            password: '',
+        }
+    }
+
+    componentDidMount =  async () => {
+        this.setState({
+            name: 'Baran',
+            surname: 'Özgenç',
+            email: 'bozgenc@gmail.com',
+            password: 'PASSWORD'
+        })
+    }
+
     render() {
         return (
             <View style = {{flex: 1, backgroundColor: "#faf8f8"}}>
@@ -26,9 +46,23 @@ export default class Profile extends  Component {
                     </Header>
                 </View>
 
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{textAlign: 'center', fontSize: 40 }}>
-                        Profile Screen
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    marginLeft:20
+                    }}>
+                    <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
+                        İsim: {this.state.name}
+                    </Text>
+                    <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
+                        Soyisim: {this.state.surname}
+                    </Text>
+                    <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
+                        E-mail: {this.state.email}
+                    </Text>
+                    <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
+                        Password: {this.state.password}
                     </Text>
                 </View>
             </View>

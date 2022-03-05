@@ -267,7 +267,7 @@ export default class Login extends Component {
             borderColor: '#383838',
             borderRadius: 10,
             marginTop: 5,
-            marginLeft: -screen.width / 10}}
+            marginLeft: -screen.width + 540}}
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Dark}
             onPress={this._signIn} />
@@ -390,8 +390,6 @@ export default class Login extends Component {
                                 }
                             </View>
 
-                            {area}
-
                             <TouchableOpacity
                                 disabled={this.state.signUpButtonDisabled}
                                 onPress={() => this.onSubmit()}
@@ -409,7 +407,6 @@ export default class Login extends Component {
                                 </View>
                             </TouchableOpacity>
 
-
                         </View>
                     </Header>
 
@@ -421,7 +418,19 @@ export default class Login extends Component {
                                 {this.state.userExist ? "Hesap Oluştur" : "Zaten Kayıtlı Mısınız ? "}
                             </Text>
                         </TouchableOpacity>
+
+                       
                     </View>
+                    <View style = {{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 200,
+                        height: 200,
+                        paddingLeft: 60
+                    }}>
+                        {area}  
+                    </View>
+                   
                 </View>
             );
         }
