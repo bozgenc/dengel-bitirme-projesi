@@ -101,7 +101,7 @@ export default class Login extends Component {
             this.setState({
                 errorBorderForMail: true,
                 email : '',
-                //signUpButtonDisabled: true,
+                signUpButtonDisabled: true,
             }, () => {
                 Alert.alert(
                     'Hata ',
@@ -215,24 +215,23 @@ export default class Login extends Component {
         if(!this.state.userExist) {
             this.validateMail(this.state.email);
             this.validatePassword(this.state.passwordConfirm)
+            if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword) {
+                let userCredentials  = {
+                    name: this.state.name,
+                    surname: this.state.surname,
+                    email: this.state.email,
+                    passwordHashed: "",
+                };
+                console.log(userCredentials);
+                AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+            }
         }
         else if(this.state.userExist) {
             await this.validateMail(this.state.email);
             await this.validatePasswordForUser(this.state.password);
-
             if(!this.state.errorBorderForPassword && !this.state.errorBorderForMail) {
                 AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
             }
-        }
-        if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword) {
-            let userCredentials  = {
-                name: this.state.name,
-                surname: this.state.surname,
-                email: this.state.email,
-                passwordHashed: "",
-            };
-            console.log(userCredentials);
-            AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
         }
     }
 
