@@ -59,6 +59,15 @@ export default class MainScreenUser extends Component {
             userSurname: 'Özgenç',
             meetingsIncoming: meetings
         })
+
+        try {
+            const response = await fetch("http://localhost:5000/records");
+            const jsonData = await response.json();
+            console.log(jsonData);
+        }
+        catch (e) {
+            console.log(e.message);
+        }
     }
 
     render() {
