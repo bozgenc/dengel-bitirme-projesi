@@ -18,6 +18,7 @@ import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
+import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
 
 function Home() {
     return (
@@ -34,6 +35,7 @@ function Home() {
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
