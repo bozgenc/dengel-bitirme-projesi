@@ -19,6 +19,7 @@ import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
 import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
+import Diary from "../Diary/Diary";
 
 function Home() {
     return (
@@ -36,6 +37,7 @@ function Home() {
             <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Diary" component={Diary} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
