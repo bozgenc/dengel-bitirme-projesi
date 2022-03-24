@@ -1,28 +1,15 @@
 import React, {Component} from 'react';
-import {Header, Left, Right} from "native-base"
-import {
-    StyleSheet,
-    Platform,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View, Alert, Dimensions,
-} from 'react-native';
-import RtcEngine, {
-    RtcLocalView,
-    RtcRemoteView,
-    VideoRenderMode,
-    ClientRole,
-    ChannelProfile,
-} from 'react-native-agora';
-
+import {Header, Left, Right, Footer} from "native-base"
+import {StyleSheet, Platform, ScrollView, Text, TouchableOpacity, View, Alert, Dimensions,} from 'react-native';
 import requestCameraAndAudioPermission from './Permissions';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-var screen = Dimensions.get('window');
 
+import RtcEngine, {RtcLocalView, RtcRemoteView, VideoRenderMode, ClientRole, ChannelProfile,} from 'react-native-agora';
 const token = "0060aef85eb049745c994888624682d07d4IACPP8LpycjeOrLLXjRdAeB7aE8QjcnPjrcIaRoGHc8IjLNR+IYAAAAAEAAhqfJEM8w9YgEAAQAyzD1i";
 const appId = '0aef85eb049745c994888624682d07d4';
 const channelName = 'dengelCh2';
+
+var screen = Dimensions.get('window');
 
 export default class App extends Component {
     constructor(props) {
@@ -34,10 +21,7 @@ export default class App extends Component {
             cameraOpen: true,
             micOpen: true,
             myId: 0,
-            camTextWhenClosed: 'Kamerayı Aç',
-            camTextWhenOpen: 'Kamerayı Kapat',
-            micTextWhenClosed: 'Mikrofonu Aç',
-            micTextWhenOpen: 'Mikrofonu Kapat',
+            connectionEstablished: false,
         };
 
         if (Platform.OS === 'android') {
@@ -105,7 +89,6 @@ export default class App extends Component {
         this.init().then();
     }
 
-
     init = async () => {
         this._engine = await RtcEngine.create(appId);
         await this._engine.enableVideo();
@@ -149,22 +132,18 @@ export default class App extends Component {
         });
     };
 
-
     startCall = async () => {
-        // Join Channel using null token and channel name
         console.log("meeting başladı");
         await this._engine?.joinChannel(token, channelName, null, 0);
         this.setState({
-            meetingStarted: true
+            connectionEstablished: true,
         })
     };
-
 
     endCall = async () => {
         await this._engine?.leaveChannel();
         this.setState({ peerIds: [], joinSucceed: false });
     };
-
 
     toggleCamera = async () => {
         if(this.state.cameraOpen) {
@@ -226,7 +205,7 @@ export default class App extends Component {
                         </TouchableOpacity>
                     </Left>
 
-                    <Text style={{marginTop: 10, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Meeting In Progress</Text>
+                    <Text style={{marginTop: 20, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Meeting In Progress</Text>
 
                     <Right>
                         <TouchableOpacity
@@ -240,56 +219,49 @@ export default class App extends Component {
                     </Right>
                 </Header>
 
-                <View>
-                    <TouchableOpacity style={{marginLeft: 10, marginTop: 10}} onPress={this.startCall}>
-                        <Text>
-                            Start Call
+                <View style = {{alignItems:'center', marginRight: 15, height: this.state.connectionEstablished ? 0 : 60 }} >
+                    <Text style = {styles.textStyle}>
+                        Kendini Hazır Hissedince
+                    </Text>
+                    <TouchableOpacity style={this.state.connectionEstablished ? styles.hideButton : styles.startCallButton} onPress={this.startCall}>
+                        <Text style = {styles.textStyle}>
+                            Bağlan
                         </Text>
                     </TouchableOpacity>
                 </View>
 
-                <View>
+                <View style = {{flexDirection: 'row'}}>
+                    <TouchableOpacity style={!this.state.connectionEstablished ? styles.hideButton : styles.camMicButton} onPress={this.toggleMicrophone}>
+                        <Text style = {styles.textStyle}>
+                            Mikrofon:  {this.state.micOpen ? 'Açık' : 'Kapalı'}
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={!this.state.connectionEstablished ? styles.hideButton : styles.camMicButton} onPress={this.toggleCamera}>
+                        <Text style = {styles.textStyle}>
+                            Kamera: {this.state.cameraOpen ? 'Açık' : 'Kapalı'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style = {{}}>
                     <RtcLocalView.SurfaceView
-                        style={{ marginLeft: 10, marginTop: 10, height: 250, width: (screen.width / 2 )-10}}
+                        style={{ marginLeft: 10, marginTop: 10, height: this.state.cameraOpen ?  250 : 0, width: (screen.width / 2 )- 10, alignItems: 'center', justifyContent:'center'}}
                         channelId={channelName}
                         renderMode={VideoRenderMode.Hidden}
                     />
+
+                    <View style = {{height: this.state.connectionEstablished ? 30: 0}}>
+                        <Text style = {styles.infoText}>
+                            Diğer Katılımcılar ({this.state.peerIds.length})
+                        </Text>
+                    </View>
                 </View>
 
                 <View style = {{marginTop: 10}}>
                     {this._renderRemoteVideos()}
                 </View>
 
-
-            </View>
-
-        );
-    }
-
-    _renderVideos = () => {
-        const { joinSucceed } = this.state;
-        return joinSucceed ? (
-            <View style={styles.fullView}>
-                {this.state.isHost ? (
-                    <RtcLocalView.SurfaceView
-                        style={styles.max}
-                        channelId={channelName}
-                        renderMode={VideoRenderMode.Hidden}
-                    />
-                ) : (
-                    <></>
-                )}
-                {this._renderRemoteVideos()}
-            </View>
-        ) : null;
-    };
-
-    _renderBlack() {
-        return (
-            <View style = {styles.max}>
-                <Text style = {{color: 'red'}}>
-                    User User
-                </Text>
             </View>
         );
     }
@@ -337,6 +309,39 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
         marginHorizontal: 2.5,
+    },
+    startCallButton: {
+        marginLeft: 20,
+        marginTop: 10,
+        backgroundColor: '#d6d6d6',
+        width: 150,
+        height: 50,
+        borderRadius: 20,
+    },
+    hideButton: {
+        height: 0
+    },
+    textStyle: {
+        textAlign: 'center',
+        paddingTop: 12,
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    camMicButton: {
+        marginLeft: 12,
+        marginTop: 10,
+        backgroundColor: '#d6d6d6',
+        width: (screen.width / 2) - 20,
+        height: 50,
+        borderColor: 'grey',
+        borderRadius: 20,
+    },
+    infoText: {
+        paddingTop: 8,
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#B00D23'
     }
 });
 
