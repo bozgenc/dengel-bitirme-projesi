@@ -137,7 +137,8 @@ export default class MainScreenUser extends Component {
                         renderItem={({item}) => (
                             <TouchableOpacity
                                 onPress={() => {
-                                    console.log("Clicked to meeting"); // burada meetinge gidecek
+                                    console.log("Redirecting to meeting");
+                                    this.props.navigation.navigate('Live Meeting');
                                 }}
                             >
                                 <View style={styles.arrayItem}>

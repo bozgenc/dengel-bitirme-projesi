@@ -308,6 +308,7 @@ export default class Login extends Component {
                                     <TextInput
                                         style={styles.input}
                                         placeholder="İsim"
+                                        placeholderTextColor="grey"
                                         textAlign='center'
                                         maxLength={15}
                                         autoCorrect={false}
@@ -325,6 +326,7 @@ export default class Login extends Component {
                                     <TextInput
                                         style={styles.input}
                                         placeholder="Soyisim"
+                                        placeholderTextColor="grey"
                                         textAlign='center'
                                         maxLength={15}
                                         autoCorrect={false}
@@ -339,6 +341,7 @@ export default class Login extends Component {
                                 <TextInput
                                     style={this.state.errorBorderForMail ? styles.inputError: styles.input}
                                     placeholder="E-Mail Adresi"
+                                    placeholderTextColor="grey"
                                     ref={input => { this.textInput = input }}
                                     textAlign='center'
                                     maxLength={25}
@@ -353,6 +356,7 @@ export default class Login extends Component {
                                 <TextInput
                                     style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
                                     placeholder="Parola"
+                                    placeholderTextColor="grey"
                                     secureTextEntry={true}
                                     ref={input => { this.textInput2 = input }}
                                     textAlign='center'
@@ -373,6 +377,7 @@ export default class Login extends Component {
                                         secureTextEntry={true}
                                         ref={input => { this.textInput3 = input }}
                                         placeholder="Parola Onayı"
+                                        placeholderTextColor="grey"
                                         textAlign='center'
                                         maxLength={15}
                                         autoCorrect={false}
@@ -418,7 +423,7 @@ export default class Login extends Component {
                             </Text>
                         </TouchableOpacity>
 
-                       
+
                     </View>
                     <View style = {{
                         justifyContent: 'center',
@@ -427,9 +432,9 @@ export default class Login extends Component {
                         height: 200,
                         paddingLeft: 60
                     }}>
-                        {area}  
+                        {area}
                     </View>
-                   
+
                 </View>
             );
         }
