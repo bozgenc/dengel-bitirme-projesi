@@ -18,6 +18,7 @@ import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
+import LiveMeeting from "../Meetings/LiveMeeting";
 
 function Home() {
     return (
@@ -58,10 +59,24 @@ function MainScreenTabs() {
               tabBarInactiveTintColor: 'gray',
           })}
       >
-          <Tab.Screen name='Anasayfa' component={MainScreenUser}/>
+          <Tab.Screen name='Anasayfa' component={MainScreenStack}/>
           <Tab.Screen name='Bildirimler' component={NotificationTab}/>
       </Tab.Navigator>
     );
+}
+
+function MainScreenStack() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name='Ana sayfa' component={MainScreenUser}/>
+            <Stack.Screen name='Live Meeting' component={LiveMeeting}/>
+        </Stack.Navigator>
+    )
 }
 
 function NotificationTab() {
