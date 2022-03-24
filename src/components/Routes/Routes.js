@@ -13,12 +13,14 @@ const Tab = createBottomTabNavigator();
 import Login from "../Login/Login";
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
 import MeetingSearch from "../MeetingSearch/MeetingSearch";
+import SignInList from "../SignInList/SignInList";
 import Settings from "../Settings/Settings";
 import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
 import LiveMeeting from "../Meetings/LiveMeeting";
+import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
 
 function Home() {
     return (
@@ -33,8 +35,10 @@ function Home() {
             <Drawer.Screen name="Home" component={MainScreenTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Sign in for List" component={SignInList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
