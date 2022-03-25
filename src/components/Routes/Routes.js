@@ -14,6 +14,7 @@ import Login from "../Login/Login";
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
 import MeetingSearch from "../MeetingSearch/MeetingSearch";
 import SignInList from "../SignInList/SignInList";
+import ViewList from "../ViewList/ViewList";
 import Settings from "../Settings/Settings";
 import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
@@ -36,6 +37,7 @@ function Home() {
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Sign in for List" component={SignInList} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="View List" component={ViewList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
