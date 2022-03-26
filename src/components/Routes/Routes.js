@@ -36,9 +36,8 @@ function Home() {
             <Drawer.Screen name="Home" component={MainScreenTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Sign in for List" component={SignInList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="View List" component={ViewList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
