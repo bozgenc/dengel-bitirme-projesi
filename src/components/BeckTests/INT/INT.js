@@ -226,7 +226,10 @@ export default class INT extends Component{
 
         if(newIndex==9){
             console.log("INT (Kisiler Arasi Duyarlilik) Score: ", this.state.score/9, "\n");
-            this.props.navigation.navigate('Home');
+            var scr = this.state.score / 9;
+            scr = scr.toString();
+            AsyncStorage.setItem('INT', scr);
+            this.props.navigation.navigate('EndTest');
         }
 
         else{

@@ -234,7 +234,7 @@ export default class SOM extends Component{
         let _answer;
         if(newIndex==12){
             console.log("Somatization Score: ", this.state.score/12, "\n");
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('EndTest');
         }
         else{
             if(this.state.answers[newIndex] != null){

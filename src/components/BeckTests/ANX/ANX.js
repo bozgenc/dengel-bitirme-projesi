@@ -229,7 +229,10 @@ export default class ANX extends Component{
 
         if(newIndex==10){
             console.log("ANX (Kaygı) Score: ", this.state.score/10, "\n");
-            this.props.navigation.navigate('Home');
+            var scr = this.state.score / 10;
+            scr = scr.toString();
+            AsyncStorage.setItem('ANX', scr);
+            this.props.navigation.navigate('EndTest');
         
         }
         else{
