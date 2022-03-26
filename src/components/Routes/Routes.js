@@ -22,6 +22,18 @@ import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
 import LiveMeeting from "../Meetings/LiveMeeting";
 import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
+import OKB from "../BeckTests/OKB/OKB";
+import SOM from "../BeckTests/SOM/SOM";
+import DEP from "../BeckTests/DEP/DEP";
+import INT from "../BeckTests/INT/INT";
+import PSY from "../BeckTests/PSY/PSY";
+import PAR from "../BeckTests/PAR/PAR";
+import ANX from "../BeckTests/ANX/ANX";
+import HOS from "../BeckTests/HOS/HOS";
+import PHOB from "../BeckTests/PHOB/PHOB";
+import StartTest from "../BeckTests/StartTest";
+import Definition from "../BeckTests/Definitions";
+import Diary from "../Diary/Diary";
 
 function Home() {
     return (
@@ -41,6 +53,9 @@ function Home() {
             <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Start Test" component={StartTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="SOM" component={SOM} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
