@@ -5,9 +5,9 @@ import requestCameraAndAudioPermission from './Permissions';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 import RtcEngine, {RtcLocalView, RtcRemoteView, VideoRenderMode, ClientRole, ChannelProfile,} from 'react-native-agora';
-const token = "0060aef85eb049745c994888624682d07d4IACPP8LpycjeOrLLXjRdAeB7aE8QjcnPjrcIaRoGHc8IjLNR+IYAAAAAEAAhqfJEM8w9YgEAAQAyzD1i";
+const token = "0060aef85eb049745c994888624682d07d4IABMLVOHjGPH44j2fARbghQWfcvS2qRa6iN72i7UyQpZCHcYP08AAAAAEADR1hyrj5RAYgEAAQCOlEBi";
 const appId = '0aef85eb049745c994888624682d07d4';
-const channelName = 'dengelCh2';
+const channelName = 'sprint2';
 
 var screen = Dimensions.get('window');
 
@@ -280,6 +280,7 @@ export default class App extends Component {
                         <RtcRemoteView.SurfaceView
                             style={styles.remote}
                             uid={value}
+                            key={value}
                             channelId={channelName}
                             renderMode={VideoRenderMode.Hidden}
                             zOrderMediaOverlay={true}

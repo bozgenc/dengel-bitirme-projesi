@@ -42,6 +42,7 @@ export default class MainScreenUser extends Component {
                 price: '3,000.00'
             },
             {
+                id: 2,
                 name: 'Can Koçyiğitoğlu',
                 profession: 'Şizofreni',
                 price: '1,100.00'
@@ -81,14 +82,6 @@ export default class MainScreenUser extends Component {
                         <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Liste</Text>
 
                         <Right>
-                            <TouchableOpacity
-                                onPress={() => console.log(this.state.meetingsIncoming)}
-                                style={{color: "black"}}
-                            >
-                                <Text style={{marginLeft: 10, fontSize: 33, color: '#B00D23', marginRight: 6}}>
-                                    +
-                                </Text>
-                            </TouchableOpacity>
                         </Right>
                     </Header>
                 </View>
