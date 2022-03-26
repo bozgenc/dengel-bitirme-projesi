@@ -27,7 +27,6 @@ export default class DEP extends Component{
             answers: [],
             index: 0,
             score: 0,
-            num_of_questions: 10,
             button0clicked: false,
             button1clicked: false,
             button2clicked: false,
@@ -53,7 +52,7 @@ export default class DEP extends Component{
         let q4 = "Kolayca ağlama durumu";
         question_s.push(q4);
 
-        let q5 = "Yakalandığını veya tuza düşürğldüğünü hissetme";
+        let q5 = "Yakalandığını veya tuza düşürüldüğünü hissetme";
         question_s.push(q5);
 
         let q6 = "Yaşanan kötü olaylar için kendini suçlama";
@@ -237,7 +236,10 @@ export default class DEP extends Component{
         let _answer;
         if(newIndex==13){
             console.log("Depression Score: ", this.state.score/13, "\n");
-            this.props.navigation.navigate('Home');
+            var scr = this.state.score / 13;
+            scr = scr.toString();
+            AsyncStorage.setItem('DEP', scr);
+            this.props.navigation.navigate('EndTest');
         }
         else{
             if(this.state.answers[newIndex] != null){

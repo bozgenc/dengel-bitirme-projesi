@@ -34,7 +34,7 @@ export default class EndTest extends Component {
     }
 
     Exit = () => {
-        this.props.navigation.navigate('Anasayfa');
+        this.props.navigation.navigate('Home_');
     }
 
 
@@ -57,8 +57,8 @@ export default class EndTest extends Component {
                 </View>
                 
                 <TouchableOpacity onPress={() => this.Exit()}>
-                    <View style={styles.buttoExit}>
-                        <Text style={styles.textStyle2}>
+                    <View style={styles.buttonExit}>
+                        <Text style={styles.textStyleButton}>
                             Ana Menüye Dön
                         </Text>
                     </View>

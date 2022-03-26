@@ -228,7 +228,10 @@ export default class OKB extends Component{
         let _answer;
         if(newIndex==10){
             console.log("OKB Score: ", this.state.score/10, "\n");
-            this.props.navigation.navigate('Home');
+            var scr = this.state.score / 10;
+            scr = scr.toString();
+            AsyncStorage.setItem('OKB', scr);
+            this.props.navigation.navigate('EndTest');
         }
         else{
             if(this.state.answers[newIndex] != null){

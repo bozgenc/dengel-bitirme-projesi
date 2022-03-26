@@ -220,7 +220,10 @@ export default class HOS extends Component{
 
         if(newIndex == 7){
             console.log("HOS (Ofke ve Dusmanlık) Score: ", this.state.score/7, "\n");
-            this.props.navigation.navigate('Home');
+            var scr = this.state.score / 7;
+            scr = scr.toString();
+            AsyncStorage.setItem('HOS', scr);
+            this.props.navigation.navigate('EndTest');
         }
         
         else{

@@ -36,7 +36,7 @@ export default class StartTest extends Component {
     }
 
     StartTest = () => {
-        var route_to = this.props.navigation.state.params.test_name;
+        var route_to =localStorage.getItem('token');
         if(route_to == "ANX")
             this.props.navigation.navigate('ANX');
         else if(route_to == "PAR")

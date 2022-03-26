@@ -217,7 +217,10 @@ export default class PAR extends Component{
 
         if(newIndex == 6){
             console.log("PAR (paranoid) Score: ", this.state.score/6, "\n");
-            this.props.navigation.navigate('Home');
+            var scr = this.state.score / 6;
+            scr = scr.toString();
+            AsyncStorage.setItem('PAR', scr);
+            this.props.navigation.navigate('EndTest');
         }
         
         else{

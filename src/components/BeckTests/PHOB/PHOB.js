@@ -216,8 +216,11 @@ export default class PHOB extends Component{
         let _answer;
 
         if(newIndex == 6){
-            console.log("PHOB (fobik anksiyete) Score: ", this.state.score/6, "\n");
-            this.props.navigation.navigate('Home');
+            console.log("PHOB (fobik anksiyete) Score: ", this.state.score / 6, "\n");
+            var scr = this.state.score / 6;
+            scr = scr.toString();
+            AsyncStorage.setItem('PHOB', scr);
+            this.props.navigation.navigate('EndTest');
         }
         
         else{
