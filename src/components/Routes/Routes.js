@@ -36,6 +36,7 @@ import Definition from "../BeckTests/Definitions";
 import Suggestions from "../BeckTests/Suggestions";
 import Diary from "../Diary/Diary";
 import EndTest from "../BeckTests/EndTest";
+import Patients from "../ExpertPages/Patients/Patients";
 
 
 function Home() {
@@ -57,6 +58,7 @@ function Home() {
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Suggestions" component={TestTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
