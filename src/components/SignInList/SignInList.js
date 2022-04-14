@@ -4,7 +4,7 @@ import {Header, Left, Right} from "native-base"
 
 var screen = Dimensions.get('window');
 
-export default class MeetingSearch extends  Component {
+export default class SignInList extends  Component {
     constructor() {
         super();
         this.state = {

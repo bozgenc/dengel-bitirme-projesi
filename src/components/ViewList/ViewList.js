@@ -1,25 +1,14 @@
-import React, {Component} from 'react';
+import { Header, Left, Right } from "native-base";
+import React, { Component } from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    ScrollView,
-    TextInput,
-    Button,
-    TouchableOpacity,
-    Image,
-    Alert,
-    FlatList
+    Dimensions, FlatList, StyleSheet,
+    Text, TouchableOpacity, View
 } from 'react-native';
-import {Header, Left, Right} from "native-base"
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import DeviceInfo from "react-native-device-info";
 
 var screen = Dimensions.get('window');
 
 
-export default class MainScreenUser extends Component {
+export default class ViewList extends Component {
     constructor() {
         super();
         this.state = {
@@ -42,6 +31,7 @@ export default class MainScreenUser extends Component {
                 price: '3,000.00'
             },
             {
+                id:2,
                 name: 'Can Koçyiğitoğlu',
                 profession: 'Şizofreni',
                 price: '1,100.00'
@@ -103,6 +93,7 @@ export default class MainScreenUser extends Component {
                     height: screen.height,
                     backgroundColor: '#faf8f8'
                 }}>
+
                     <FlatList
                         style = {{flex: 0}}
                         initialNumToRender={3}
@@ -111,10 +102,14 @@ export default class MainScreenUser extends Component {
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(item) => item.id}
                         data={this.state.meetingsIncoming}
-                        renderItem={({item}) => (
+                        renderItem={({item,index}) => (
                             <TouchableOpacity
+                            key={index}
                                 onPress={() => {
-                                    console.log("Clicked to meeting"); // burada meetinge gidecek
+                                    this.props.navigation.navigate(
+                                        'Details',
+                                         item 
+                                      );
                                 }}
                             >
                                 <View style={styles.arrayItem}>
