@@ -22,7 +22,7 @@ app.get("/Users", async (req,res) => {
 
 app.get("/User_experts", async (req,res) => {
     try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
-        const allRecords = await pool.query('SELECT * FROM public.users WHERE ')
+        const allRecords = await pool.query('SELECT * FROM public.users, public.user_experts WHERE id = expert_id')
         res.json(allRecords.rows)
     } catch(err) {
         console.log(err.message)

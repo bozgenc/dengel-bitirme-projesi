@@ -40,6 +40,10 @@ export default class MainScreenUser extends Component {
             console.log(e.message);
         }
 
+        this.setState({
+            users : jsonData
+        })
+
     }
 
     render() {
@@ -90,9 +94,9 @@ export default class MainScreenUser extends Component {
                                 }}
                             >
                                 <View style={styles.arrayItem}>
-                                    <Text style={styles.textStyleList}>{"İsim: "} {item.first_name} </Text>
-                                    <Text style={styles.textStyleList}>{"Alanı: "} {item.profession} </Text>
-                                    <Text style={styles.textStyleList}>{"Ücret: "} {item.price} </Text>
+                                    <Text style={styles.textStyleList}>{"İsim: "} {item.first_name} {" "} {item.last_name} </Text>
+                                    <Text style={styles.textStyleList}>{"Alanı: "} {item.specialties[0]} </Text>
+                                    <Text style={styles.textStyleList}>{"Açıklama: "} {item.description} </Text>
                                 </View>
                             </TouchableOpacity>
                         )}/>
