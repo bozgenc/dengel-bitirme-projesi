@@ -20,10 +20,9 @@ export default class ViewList extends Component {
     componentDidMount =  async () => {
 
         try {
-            response = await fetch("http://192.168.1.37:5000/User_experts");
+            response = await fetch("http://10.2.40.148:5000/User_experts");
             jsonData = await response.json();
             console.log(jsonData);
-            
         }
         catch (e) {
             console.log(e.message);
@@ -76,7 +75,7 @@ export default class ViewList extends Component {
                         showsVerticalScrollIndicator={true}
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(item) => item.id}
-                        data={this.state.meetingsIncoming}
+                        data={this.state.users}
                         renderItem={({item,index}) => (
                             <TouchableOpacity
                             key={index}

@@ -9,6 +9,13 @@ import { Button } from 'react-native-elements';
 const Details = ({ route }) => {
     const navigate = useNavigation();
     const data = route.params;
+    var skill = "";
+    for(var i = 0; i < data.specialties.length; i++) {
+        if (i < data.specialties.length-1)
+            skill += data.specialties[i] + ", ";
+        else
+        skill += data.specialties[i];
+    }
     return (
         <View style = {{flex: 1, backgroundColor: "#faf8f8"}}>
             <View>
@@ -46,13 +53,13 @@ const Details = ({ route }) => {
                     marginLeft:20
                     }}>
                     <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
-                        İsim: {data.name}
+                    {"İsim: "} {data.first_name} {" "} {data.last_name}
                     </Text>
                     <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
-                        Ücret: {data.price}
+                    {"Alanı: "} {skill}
                     </Text>
                     <Text style={{textAlign: 'center', fontSize: 20, marginTop: 20 }}>
-                        Uzmanlık: {data.profession}
+                    {"Açıklama: "} {data.description}
                     </Text>
             </View>
       </View>
