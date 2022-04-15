@@ -21,7 +21,9 @@ import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
 import LiveMeeting from "../Meetings/LiveMeeting";
+import RatingTest from "../Rating/Rating";
 import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
+import Details from "../DetailPage/Detailpage";
 import OKB from "../BeckTests/OKB/OKB";
 import SOM from "../BeckTests/SOM/SOM";
 import DEP from "../BeckTests/DEP/DEP";
@@ -37,7 +39,6 @@ import Suggestions from "../BeckTests/Suggestions";
 import Diary from "../Diary/Diary";
 import EndTest from "../BeckTests/EndTest";
 import Patients from "../ExpertPages/Patients/Patients";
-
 
 function Home() {
     return (
@@ -55,9 +56,12 @@ function Home() {
             <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name='Rating Test' component={RatingTest}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
             <Drawer.Screen name="Suggestions" component={TestTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name='Ana Sayfa_x' component={MainScreenUser}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
@@ -126,6 +130,8 @@ function MainScreenStack() {
         >
             <Stack.Screen name='Ana sayfa' component={MainScreenUser}/>
             <Stack.Screen name='Live Meeting' component={LiveMeeting}/>
+            <Stack.Screen name='Rating Meeting' component={RatingTest}/>
+            <Stack.Screen name='Ana Sayfa_x' component={MainScreenUser}/>
         </Stack.Navigator>
     )
 }
