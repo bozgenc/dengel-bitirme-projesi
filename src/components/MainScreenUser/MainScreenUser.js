@@ -89,7 +89,7 @@ export default class MainScreenUser extends Component {
         })
 
         try {
-            const response = await fetch("http://localhost:5000/records");
+            const response = await fetch("http://192.168.1.37:5000/Users");
             const jsonData = await response.json();
             console.log(jsonData);
         }

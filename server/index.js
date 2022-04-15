@@ -11,15 +11,31 @@ app.use(express.json());
 // CREATE
 
 // READ
-app.get("/records", async (req,res) => {
+app.get("/Users", async (req,res) => {
     try{
-        const allRecords = await pool.query('SELECT * FROM public."Personel"')
+        const allRecords = await pool.query('SELECT * FROM public.users')
         res.json(allRecords.rows)
     } catch(err) {
         console.log(err.message)
     }
 })
 
+app.get("/User_experts", async (req,res) => {
+    try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
+        const allRecords = await pool.query('SELECT * FROM public.users WHERE ')
+        res.json(allRecords.rows)
+    } catch(err) {
+        console.log(err.message)
+    }
+})
+
+/**
+ *  SELECT foods.tem_name,foods.item_unit,
+    company.company_name, company.company_city
+    FROM foods ,company
+    WHERE  foods.company_id =company.company_id
+    AND company.company_city='London';
+ */
 // UPDATE
 
 // DELETE
