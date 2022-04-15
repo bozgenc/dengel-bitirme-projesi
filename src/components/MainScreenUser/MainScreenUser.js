@@ -133,14 +133,7 @@ export default class MainScreenUser extends Component {
                         <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Home</Text>
 
                         <Right>
-                            <TouchableOpacity
-                                onPress={() => console.log(this.state.meetingsIncoming)}
-                                style={{color: "black"}}
-                            >
-                                <Text style={{marginLeft: 10, fontSize: 33, color: '#B00D23', marginRight: 6}}>
-                                    +
-                                </Text>
-                            </TouchableOpacity>
+
                         </Right>
                     </Header>
                 </View>

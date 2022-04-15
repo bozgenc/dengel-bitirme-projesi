@@ -12,12 +12,13 @@ import {
     Alert,
     FlatList
 } from 'react-native';
-import {Left, Right} from "native-base"
+import {Header, Left, Right} from "native-base"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
+var screen = Dimensions.get('window');
 
 export default class Definition extends Component{
     constructor(){
@@ -191,7 +192,7 @@ export default class Definition extends Component{
         let btn_prev;
         if(this.state.index!=0){
             btn_prev =
-            <View style={{flex:1}}>
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goPreviousDef()}  disabled = {this.state.goPrevDisabled}>
                     <View style={styles.buttonPrev}>
                         <Text style={styles.textStyleButton}>
@@ -204,7 +205,7 @@ export default class Definition extends Component{
         let btn_next;
         if(this.state.index != 8){
             btn_next =
-            <View style={{flex:1}}>
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goNextDef()}>
                     <View style={styles.buttonNext}>
                         <Text style={styles.textStyleButton}>
@@ -219,7 +220,7 @@ export default class Definition extends Component{
         let btn_fin;
         if(this.state.index == 8){
             btn_fin =
-            <View style={{flex:1}}>
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goNextDef()}>
                     <View style={styles.buttonFin}>
                         <Text style={styles.textStyleButton}>
@@ -231,42 +232,52 @@ export default class Definition extends Component{
         }
 
         return(
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+                <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
+                    <Left>
+                    </Left>
 
-                <View style={styles.container3} >
-                    <Text style={styles.textStyle2}>
-                            {this.state.headers[this.state.index]}
-                    </Text>
-                </View>
+                    <Text style={{marginTop: 10, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Tanımlar</Text>
 
-                <Card style={styles.gCard}>
-                    <Text style={styles.textStyle3}>
-                        {this.state.definitions[this.state.index]}
-                    </Text>
-
-                </Card>
-
-                <Card style={styles.bCard}>
-                    <TouchableOpacity onPress={() => this.Select()}>
-                        <View style={this.state.is_curr_selected ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                Seç
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </Card>
+                    <Right>
+                    </Right>
+                </Header>
 
                 <View>
-                    <View style={{ marginTop: windowHeight-windowHeight*0.63, marginLeft: '5%', flexDirection:"row"}}>
+                    <View style={styles.container3} >
+                        <Text style={styles.textStyle2}>
+                            {this.state.headers[this.state.index]}
+                        </Text>
+                    </View>
 
-                        {btn_prev}
-                        {btn_next}
-                        {btn_fin}
+                    <Card style={styles.gCard}>
+                        <Text style={styles.textStyle3}>
+                            {this.state.definitions[this.state.index]}
+                        </Text>
 
+                    </Card>
+
+                    <Card style={styles.bCard}>
+                        <TouchableOpacity onPress={() => this.Select()}>
+                            <View style={this.state.is_curr_selected ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    Seç
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </Card>
+
+                    <View style={{marginTop: 10}}>
+                        <View>
+
+                            {btn_prev}
+                            {btn_next}
+                            {btn_fin}
+
+                        </View>
                     </View>
                 </View>
-
-            </ScrollView>
+            </View>
         );
     }
 }
@@ -324,14 +335,12 @@ const styles = StyleSheet.create({
         marginTop: 2,
         marginLeft: 10,
         fontSize: 20,
-        fontFamily: "sans-serif-light",
         fontWeight: 'bold'
     },
     textStyleButton: {
         marginTop: 2,
         marginLeft: 2,
         fontSize: 14,
-        fontFamily: "sans-serif-light",
         fontWeight: 'bold'
     },
     textStyle3: {
@@ -339,7 +348,6 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'center',
         paddingTop: 0,
-        fontFamily: "sans-serif"
     },
     button: {
         alignItems: 'center',
@@ -384,7 +392,7 @@ const styles = StyleSheet.create({
     buttonNext: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        width: '90%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#7cfc00',
         borderRadius: 100,
@@ -394,7 +402,7 @@ const styles = StyleSheet.create({
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        width: '85%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#ff6347',
         borderRadius: 100,
@@ -404,7 +412,7 @@ const styles = StyleSheet.create({
     buttonFin: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        width: '90%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#ffd700',
         borderRadius: 100,

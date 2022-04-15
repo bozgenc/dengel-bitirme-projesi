@@ -239,7 +239,7 @@ export default class Patients extends Component {
     render() {
         let btn_next;
         if(true){
-            btn_next = 
+            btn_next =
             <View style={{flex:1}}>
                 <TouchableOpacity onPress={() => this.NextPage()}>
                     <View style={styles.buttonPrev}>
@@ -247,13 +247,13 @@ export default class Patients extends Component {
                             Sonraki sayfa
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
 
         let btn_prev;
         if(this.state.index!=0){
-            btn_prev = 
+            btn_prev =
             <View style={{flex:1}}>
                 <TouchableOpacity onPress={() => this.PrevPage()}>
                     <View style={styles.buttonPrev}>
@@ -261,13 +261,13 @@ export default class Patients extends Component {
                             Önceki sayfa
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
 
         let btn_backToMenu;
         if(true){
-            btn_backToMenu = 
+            btn_backToMenu =
             <View style={{flex:1}}>
                 <TouchableOpacity onPress={() => this.BackToMP()}>
                     <View style={styles.buttonMenu}>
@@ -275,7 +275,7 @@ export default class Patients extends Component {
                             Ana Menü
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
 
@@ -285,26 +285,18 @@ export default class Patients extends Component {
                     <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
                         <Left>
                             <TouchableOpacity
-                                onPress={() => console.log("***********")}
+                                onPress={() => this.props.navigation.goBack()}
                                 style={{color: "black"}}
                             >
                                 <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
-                                    ≡
+                                    {"<"}
                                 </Text>
                             </TouchableOpacity>
                         </Left>
 
-                        <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Home</Text>
+                        <Text style={{marginTop: 10, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Danışan Skorları</Text>
 
                         <Right>
-                            <TouchableOpacity
-                                onPress={() => console.log("***********")}
-                                style={{color: "black"}}
-                            >
-                                <Text style={{marginLeft: 10, fontSize: 33, color: '#B00D23', marginRight: 6}}>
-                                    +
-                                </Text>
-                            </TouchableOpacity>
                         </Right>
                     </Header>
                 </View>
@@ -362,7 +354,7 @@ export default class Patients extends Component {
 
                         {btn_prev}
                         {btn_next}
-                        
+
                     </View>
                 </View>
 
@@ -420,14 +412,13 @@ const styles = StyleSheet.create({
     textStyle2ListBlue: {
         marginTop: 5,
         fontWeight: 'bold',
-        fontSize: 18, 
+        fontSize: 18,
         color: '#B00D23',
         textAlign: 'center'
         },
     buttonNext: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '90%',
         borderWidth: 2,
         borderColor: '#7cfc00',
@@ -438,7 +429,6 @@ const styles = StyleSheet.create({
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '85%',
         borderWidth: 2,
         borderColor: '#ff6347',
@@ -449,7 +439,6 @@ const styles = StyleSheet.create({
     buttonMenu: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '85%',
         borderWidth: 2,
         borderColor: '#ff6347',

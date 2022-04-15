@@ -10,15 +10,20 @@ app.use(express.json());
 
 // CREATE
 
-// READ
-app.get("/records", async (req,res) => {
-    try{
-        const allRecords = await pool.query('SELECT * FROM public."Personel"')
-        res.json(allRecords.rows)
-    } catch(err) {
-        console.log(err.message)
+app.post("/saveUser", async(req, res) => {
+    try {
+        let user = req.body.userCredentials;
+        let sqlQuery = "INSERT INTO public.users (first_name, last_name, password, email, age, user_type, sex) VALUES ("
+            + "'" + user.name + "'" +  "," + "'" + user.surname + "'" + "," + "'" + user.password + "'" + "," + "'" +
+            user.email + "'"+ ","   + "'" + user.age + "'" + ","  + "'" + user.userType + "'"+   ", 'X')";
+        console.log(sqlQuery)
+        await pool.query(sqlQuery);
+    } catch (e) {
+        console.log(e.message);
     }
 })
+
+// READ
 
 // UPDATE
 
