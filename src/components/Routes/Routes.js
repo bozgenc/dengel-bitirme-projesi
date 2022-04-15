@@ -22,6 +22,7 @@ import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
 import LiveMeeting from "../Meetings/LiveMeeting";
 import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
+import Details from "../DetailPage/Detailpage";
 import OKB from "../BeckTests/OKB/OKB";
 import SOM from "../BeckTests/SOM/SOM";
 import DEP from "../BeckTests/DEP/DEP";
@@ -37,7 +38,6 @@ import Suggestions from "../BeckTests/Suggestions";
 import Diary from "../Diary/Diary";
 import EndTest from "../BeckTests/EndTest";
 import Patients from "../ExpertPages/Patients/Patients";
-
 
 function Home() {
     return (
@@ -56,6 +56,7 @@ function Home() {
             <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
             <Drawer.Screen name="Suggestions" component={TestTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
