@@ -54,13 +54,10 @@ function Home() {
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name='Rating Test' component={RatingTest}/>
-            <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Professional Meetings" component={UzmanStack} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
-            <Drawer.Screen name="Suggestions" component={TestTabs} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name='Ana Sayfa_x' component={MainScreenUser}/>
+            <Drawer.Screen name="Test Önerileri" component={TestTabs} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Mental Rahatsızlık Bilgileri" component={Definition} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
@@ -136,6 +133,20 @@ function MainScreenStack() {
     )
 }
 
+function UzmanStack() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name='Uzman Görüntüleme' component={ViewList}/>
+            <Stack.Screen name='Detaylar' component={Details}/>
+        </Stack.Navigator>
+    )
+}
+
 function NotificationTab() {
     return (
         <Stack.Navigator
@@ -161,6 +172,7 @@ export default class Routes extends Component {
                         headerShown: false
                     }} >
                     <Stack.Screen name="Login" component={Login} options={{unmountOnBlur:true}}/>
+                    <Stack.Screen name="FirstTest" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
                     <Stack.Screen name="Anasayfa" component={Home} options={{unmountOnBlur:true}}/>
                 </Stack.Navigator>
             </NavigationContainer>
