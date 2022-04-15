@@ -20,8 +20,24 @@ import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
 import NotificationDetail from "../Notifications/NotificationDetail"
+import LiveMeeting from "../Meetings/LiveMeeting";
 import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
 import Details from "../DetailPage/Detailpage";
+import OKB from "../BeckTests/OKB/OKB";
+import SOM from "../BeckTests/SOM/SOM";
+import DEP from "../BeckTests/DEP/DEP";
+import INT from "../BeckTests/INT/INT";
+import PSY from "../BeckTests/PSY/PSY";
+import PAR from "../BeckTests/PAR/PAR";
+import ANX from "../BeckTests/ANX/ANX";
+import HOS from "../BeckTests/HOS/HOS";
+import PHOB from "../BeckTests/PHOB/PHOB";
+import StartTest from "../BeckTests/StartTest";
+import Definition from "../BeckTests/Definitions";
+import Suggestions from "../BeckTests/Suggestions";
+import Diary from "../Diary/Diary";
+import EndTest from "../BeckTests/EndTest";
+import Patients from "../ExpertPages/Patients/Patients";
 
 function Home() {
     return (
@@ -36,12 +52,41 @@ function Home() {
             <Drawer.Screen name="Home" component={MainScreenTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Sign in for List" component={SignInList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="View List" component={ViewList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Settings" component={Settings} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
+            <Drawer.Screen name="Suggestions" component={TestTabs} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
+        </Drawer.Navigator>
+    );
+}
+
+function TestTabs(){
+    return(
+        <Drawer.Navigator
+            screenOptions={{
+                headerShown: false,
+                lazy: true,
+                inactiveTintColor: 'black',
+                activeTintColor: '#d0c6c6'
+            }}
+        >
+        <Drawer.Screen name="Suggestions_" component={Suggestions} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="StartTest_" component={StartTest} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Anx_" component={ANX} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Dep_" component={DEP} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Som_" component={SOM} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Psy_" component={PSY} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Hos_" component={HOS} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Par_" component={PAR} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Okb_" component={OKB} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Phob_" component={PHOB} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Int_" component={INT} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="EndTest" component={EndTest} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Home_" component={Home} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
@@ -66,10 +111,24 @@ function MainScreenTabs() {
               tabBarInactiveTintColor: 'gray',
           })}
       >
-          <Tab.Screen name='Anasayfa' component={MainScreenUser}/>
+          <Tab.Screen name='Anasayfa' component={MainScreenStack}/>
           <Tab.Screen name='Bildirimler' component={NotificationTab}/>
       </Tab.Navigator>
     );
+}
+
+function MainScreenStack() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name='Ana sayfa' component={MainScreenUser}/>
+            <Stack.Screen name='Live Meeting' component={LiveMeeting}/>
+        </Stack.Navigator>
+    )
 }
 
 function NotificationTab() {

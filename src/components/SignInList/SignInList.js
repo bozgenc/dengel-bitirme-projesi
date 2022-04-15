@@ -53,7 +53,7 @@ export default class SignInList extends  Component {
                 </View>
 
                 <View>
-                    <View>
+                    <View style = {{alignItems:'center',}}>
                     {
                         <TextInput
                             style={styles.input}
@@ -69,7 +69,7 @@ export default class SignInList extends  Component {
                     }
                     </View>
 
-                    <View>
+                    <View style = {{alignItems: 'center'}}>
                     {
                         <TextInput
                             style={styles.input}
@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: '30%',
+        width: '40%',
         borderWidth: 2,
         borderColor: '#383838',
         borderRadius: 10,
         height: 35,
         backgroundColor: '#4d738d',
         marginTop: 20,
-        marginLeft: screen.width / 3,
+        marginLeft: (screen.width - screen.width * 0.4) / 2,
         fontFamily: 'Helvetica-Bold',
     }
 });

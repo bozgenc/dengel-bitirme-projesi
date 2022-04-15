@@ -6012,6 +6012,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-native-agora@^3.5.3":
+  "integrity" "sha512-erkLr45JHe1ktipE2b/v9EoOq7uzX7LrRPKVYNAvLsgqlQvspV7yYhGSBjN+TJLYAbx85YI7Udoj8IpRG+RfDw=="
+  "resolved" "https://registry.npmjs.org/react-native-agora/-/react-native-agora-3.5.3.tgz"
+  "version" "3.5.3"
+
 "react-native-codegen@^0.0.8":
   "integrity" "sha512-k/944+0XD+8l7zDaiKfYabyEKmAmyZgS1mj+4LcSRPyHnrjgCHKrh/Y6jM6kucQ6xU1+1uyMmF/dSkikxK8i+Q=="
   "resolved" "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.8.tgz"
@@ -6055,6 +6060,11 @@
     "react-native-ratings" "8.0.4"
     "react-native-size-matters" "^0.3.1"
 
+"react-native-exit-app@^1.1.0":
+  "integrity" "sha512-Spne19zfMfJvnUTX909EHUqWMk69rATtLJq9XMBGpNSHhx0M7v5yetx2Z87egBhLOqQm+CWfD/oxWzDG8rbIQA=="
+  "resolved" "https://registry.npmjs.org/react-native-exit-app/-/react-native-exit-app-1.1.0.tgz"
+  "version" "1.1.0"
+
 "react-native-gesture-handler@*", "react-native-gesture-handler@^2.2.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-WF25CNgn164bF9juW8N/jICIFXiEOgsxCuY7DRlnFdiH5ZfvMYtZHRC+zr1fFMap2ty1f2HWDQNVVSo0FDXP4A=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.2.0.tgz"
@@ -6087,6 +6097,11 @@
   "integrity" "sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg=="
   "resolved" "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   "version" "1.3.1"
+
+"react-native-permissions@^3.3.1":
+  "integrity" "sha512-Ap9nVWBWJ7lyU6Ye3Qltm2V+Ut6XjDcs+6ZBmK1UUxcCoSSGx/mQg2GbMJLjlnoVtUgVHR3IhyZ0mN9DlMPRFQ=="
+  "resolved" "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.3.1.tgz"
+  "version" "3.3.1"
 
 "react-native-ratings@8.0.4":
   "integrity" "sha512-Xczu5lskIIRD6BEdz9A0jDRpEck/SFxRqiglkXi0u67yAtI1/pcJC76P4MukCbT8K4BPVl+42w83YqXBoBRl7A=="
@@ -6156,7 +6171,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.67 || 1000.0.0", "react-native@>=0.38.0", "react-native@>=0.40", "react-native@>=0.42.0", "react-native@>=0.43.0", "react-native@>=0.50.0", "react-native@>=0.56.0", "react-native@>=0.57", "react-native@>=0.63.0", "react-native@0.67.2":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.67 || 1000.0.0", "react-native@>=0.38.0", "react-native@>=0.40", "react-native@>=0.42.0", "react-native@>=0.43.0", "react-native@>=0.50.0", "react-native@>=0.56.0", "react-native@>=0.57", "react-native@>=0.63.0", "react-native@>=0.63.3", "react-native@0.67.2":
   "integrity" "sha512-grEtpOLLvtSg8Bivg0ffVRCjTkresqMt7Jdog/geF6VAYhb4RnLaaUCWvyrfyB9buf135FKnqg5BIuve/XQNXA=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.67.2.tgz"
   "version" "0.67.2"
@@ -6223,7 +6238,7 @@
     "raf" "^3.1.0"
     "tween-functions" "^1.0.1"
 
-"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.0", "react@>=15.4.0 || ^16.0.0-alpha", "react@>=16.0.0-alpha.3", "react@>=16.4.1", "react@16 || 17", "react@17.0.2":
+"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^17.0.0", "react@>=15.4.0 || ^16.0.0-alpha", "react@>=16.0.0-alpha.3", "react@>=16.13.1", "react@>=16.4.1", "react@16 || 17", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
