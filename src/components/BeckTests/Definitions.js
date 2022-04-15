@@ -136,7 +136,7 @@ export default class Definition extends Component{
             score: new_score,
             is_curr_selected: true,
         });
-    }   
+    }
 
     goPreviousDef = () => {
         let newIndex= this.state.index - 1;
@@ -175,7 +175,7 @@ export default class Definition extends Component{
             }
             this.props.navigation.navigate('Home');
         }
-        
+
         else{
             if(this.state.selectedList[newIndex] != null){
                 is_selected_before = true;
@@ -190,7 +190,7 @@ export default class Definition extends Component{
     render () {
         let btn_prev;
         if(this.state.index!=0){
-            btn_prev = 
+            btn_prev =
             <View style={{flex:1}}>
                 <TouchableOpacity onPress={() => this.goPreviousDef()}  disabled = {this.state.goPrevDisabled}>
                     <View style={styles.buttonPrev}>
@@ -198,12 +198,12 @@ export default class Definition extends Component{
                             Önceki
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
         let btn_next;
         if(this.state.index != 8){
-            btn_next = 
+            btn_next =
             <View style={{flex:1}}>
                 <TouchableOpacity onPress={() => this.goNextDef()}>
                     <View style={styles.buttonNext}>
@@ -211,14 +211,14 @@ export default class Definition extends Component{
                             Sonraki
                         </Text>
                     </View>
-                </TouchableOpacity>  
+                </TouchableOpacity>
             </View>
-            
+
         }
 
         let btn_fin;
         if(this.state.index == 8){
-            btn_fin = 
+            btn_fin =
             <View style={{flex:1}}>
                 <TouchableOpacity onPress={() => this.goNextDef()}>
                     <View style={styles.buttonFin}>
@@ -226,13 +226,13 @@ export default class Definition extends Component{
                             Bitir
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
 
         return(
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                
+
                 <View style={styles.container3} >
                     <Text style={styles.textStyle2}>
                             {this.state.headers[this.state.index]}
@@ -275,12 +275,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
     },
     container2: {
         flex: 2,
         flexDirection: 'row',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
         marginTop: '90%',
         paddingVertical : 2,
         paddingHorizontal : 20
@@ -384,7 +384,6 @@ const styles = StyleSheet.create({
     buttonNext: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '90%',
         borderWidth: 2,
         borderColor: '#7cfc00',
@@ -395,7 +394,6 @@ const styles = StyleSheet.create({
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '85%',
         borderWidth: 2,
         borderColor: '#ff6347',
@@ -406,7 +404,6 @@ const styles = StyleSheet.create({
     buttonFin: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '90%',
         borderWidth: 2,
         borderColor: '#ffd700',

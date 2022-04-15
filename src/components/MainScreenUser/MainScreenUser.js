@@ -194,7 +194,6 @@ export default class MainScreenUser extends Component {
                 </View>
 
                 {scores}
-
             </View>
         );
     }
@@ -216,12 +215,16 @@ const styles = StyleSheet.create({
         marginLeft: 6,
     },
     container2: {
-        flex: 2,
         flexDirection: "column",
-        backgroundColor: '#fff0f5',
-        marginTop: 10,
-        paddingVertical : 2,
-        paddingHorizontal : 20
+        backgroundColor: '#efebeb',
+        paddingHorizontal : 20,
+        shadowColor: 'black',
+        shadowOpacity: .2,
+        shadowRadius: 5,
+        marginLeft: 6,
+        borderRadius: 15,
+        marginBottom: 10,
+        height: 250
     },
     textStyle: {
         marginTop: 10,
@@ -259,12 +262,12 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginLeft: 4,
         fontSize: 12,
-        color: 'red'
+        color: 'black'
     },
     textStyle2ListBlue: {
         marginTop: 5,
         fontWeight: 'bold',
-        fontSize: 18, 
+        fontSize: 18,
         color: '#B00D23',
         textAlign: 'center'
     }

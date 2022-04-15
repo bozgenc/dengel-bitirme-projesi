@@ -18,6 +18,7 @@ import DeviceInfo from "react-native-device-info";
 import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
+var screen = Dimensions.get('window');
 
 export default class HOS extends Component{
     constructor(){
@@ -225,7 +226,7 @@ export default class HOS extends Component{
             AsyncStorage.setItem('HOS', scr);
             this.props.navigation.navigate('EndTest');
         }
-        
+
         else{
             if(this.state.answers[newIndex] != null){
                 _answer = this.state.answers[newIndex];
@@ -235,7 +236,7 @@ export default class HOS extends Component{
                     isButton2 = false;
                     isButton3 = false;
                     isButton4 = true;
-                } 
+                }
                 else if(_answer == "button 3"){
                     isButton0 = false;
                     isButton1 = false;
@@ -263,7 +264,7 @@ export default class HOS extends Component{
                     isButton2 = false;
                     isButton3 = false;
                     isButton4 = false;
-                } 
+                }
             }
             this.setState({
                 index: newIndex,
@@ -276,25 +277,25 @@ export default class HOS extends Component{
         }
     }
 
-    render () {
+    render() {
         let btn_prev;
         if(this.state.index!=0){
-            btn_prev = 
-            <View style={{flex:1}}>
+            btn_prev =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goPreviousQuestion()}>
                     <View style={styles.buttonPrev}>
                         <Text style={styles.textStyle2}>
                             Önceki
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
-        
+
         return(
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <Card style={styles.gCard}>
-                
+
                     <Avatar
                         size={64}
                         rounded
@@ -358,19 +359,19 @@ export default class HOS extends Component{
                     </TouchableOpacity>
                 </Card>
 
-                <View>
-                    <View style={{ marginTop: windowHeight-windowHeight*0.63, marginLeft: '5%', flexDirection:"row"}}>
+                <View style = {{marginTop: 10}}>
+                    <View>
 
                         {btn_prev}
 
-                        <View style={{flex:1}}>
+                        <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center',}}>
                             <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
                                 <View style={styles.buttonNext}>
                                     <Text style={styles.textStyle2}>
                                         Sonraki
                                     </Text>
                                 </View>
-                            </TouchableOpacity>  
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -384,12 +385,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
     },
     container2: {
         flex: 2,
         flexDirection: 'row',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
         marginTop: '90%',
         paddingVertical : 2,
         paddingHorizontal : 20
@@ -425,20 +426,18 @@ const styles = StyleSheet.create({
         marginLeft: 2,
         fontSize: 20,
         fontWeight: "bold",
-        fontFamily: "sans-serif-light"
+        textAlign : 'center',
     },
     textStyle2: {
         marginTop: 2,
         marginLeft: 2,
         fontSize: 14,
-        fontFamily: "sans-serif-light",
         fontWeight: "bold"
     },
     textStyle3: {
         fontSize: 15,
         color: 'black',
         textAlign: 'center',
-        fontFamily: "sans-serif-light",
         paddingTop: 0
     },
     button: {
@@ -484,8 +483,7 @@ const styles = StyleSheet.create({
     buttonNext: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%',
+        width: screen.width -100,
         borderWidth: 2,
         borderColor: '#7cfc00',
         borderRadius: 100,
@@ -495,8 +493,7 @@ const styles = StyleSheet.create({
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '85%',
+        width: screen.width -100,
         borderWidth: 2,
         borderColor: '#ff6347',
         borderRadius: 100,

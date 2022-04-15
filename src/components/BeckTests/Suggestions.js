@@ -32,64 +32,85 @@ export default class Suggestions extends  Component {
     }
     render() {
         return (
-                <View style = {{flex: 1, backgroundColor: "#faf8f8"}}>
-                    <TouchableOpacity onPress={() => this.ANX()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                ANX
+            <View>
+                <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
+                    <Left>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.openDrawer()}
+                            style={{color: "black"}}
+                        >
+                            <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
+                                ≡
                             </Text>
-                        </View>
-                    </TouchableOpacity>  
-                    <TouchableOpacity onPress={() => this.DEP()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                DEP
-                            </Text>
-                        </View>
-                    </TouchableOpacity> 
-                    <TouchableOpacity onPress={() => this.SOM()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                SOM
-                            </Text>
-                        </View>
-                    </TouchableOpacity> 
-                    <TouchableOpacity onPress={() => this.PHOB()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                PHOB
-                            </Text>
-                        </View>
-                    </TouchableOpacity>  
-                    <TouchableOpacity onPress={() => this.PAR()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                PAR
-                            </Text>
-                        </View>
-                    </TouchableOpacity>  
-                    <TouchableOpacity onPress={() => this.HOS()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                HOS
-                            </Text>
-                        </View>
-                    </TouchableOpacity> 
-                    <TouchableOpacity onPress={() => this.OKB()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                OKB
-                            </Text>
-                        </View>
-                    </TouchableOpacity> 
-                    <TouchableOpacity onPress={() => this.PSY()} >
-                        <View style={styles.buttonNext}>
-                            <Text style={styles.textStyle2}>
-                                PSY
-                            </Text>
-                        </View>
-                    </TouchableOpacity>   
-                </View>
+                        </TouchableOpacity>
+                    </Left>
+
+                    <Text style={{marginTop: 16, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Öneriler</Text>
+
+                    <Right>
+                    </Right>
+                </Header>
+
+                <View style = {{backgroundColor: "#faf8f8"}}>
+                <TouchableOpacity onPress={() => this.ANX()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            Anksiyete Testi
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.DEP()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            Depresyon Testi
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.SOM()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            Somatizm Testi
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.PHOB()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            PHOB
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.PAR()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            Paranoya Testi
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.HOS()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            HOS
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.OKB()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            OKB
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.PSY()} >
+                    <View style={styles.buttonNext}>
+                        <Text style={styles.textStyle2}>
+                            PSY
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            </View>
         );
     }
 }
@@ -98,7 +119,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
         alignItems: 'center',
     },
     container3: {
@@ -128,7 +149,6 @@ const styles = StyleSheet.create({
         color: 'red',
         textAlign: 'center',
         paddingTop: 0,
-        fontFamily: "sans-serif",
         fontWeight: 'bold'
     },
     textStyle: {
@@ -136,33 +156,28 @@ const styles = StyleSheet.create({
         marginLeft: 2,
         fontSize: 20,
         fontWeight: "bold",
-        fontFamily: "sans-serif-light"
     },
     textStyle2: {
         marginTop: 2,
         marginLeft: 2,
         fontSize: 14,
-        fontFamily: "sans-serif-light",
         fontWeight: "bold"
     },
     textStyle3: {
         fontSize: 15,
         color: 'black',
         textAlign: 'center',
-        fontFamily: "sans-serif-light",
         paddingTop: 0
     },
     textStyleButton: {
         marginTop: 2,
         marginLeft: 2,
         fontSize: 14,
-        fontFamily: "sans-serif-light",
         fontWeight: 'bold'
     },
     buttonNext: {
         justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center',
         width: '90%',
         borderWidth: 2,
         marginTop: 10,

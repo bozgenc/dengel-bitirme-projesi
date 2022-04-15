@@ -55,7 +55,6 @@ function Home() {
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name='Rating Test' component={RatingTest}/>
             <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
@@ -63,6 +62,7 @@ function Home() {
             <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name='Ana Sayfa_x' component={MainScreenUser}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
