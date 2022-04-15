@@ -188,6 +188,7 @@ export default class App extends Component {
             ],
             {cancelable: false},
         );
+        this.props.navigation.navigate('Rating Meeting');
     }
 
     render() {
