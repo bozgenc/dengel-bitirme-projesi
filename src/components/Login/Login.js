@@ -213,9 +213,6 @@ export default class Login extends Component {
     }
 
     onSubmit = async () => {
-        // database tamamlanınca burada log-in sign-in durumuna göre user exist ya da değil gibi kontroller yapılacak
-
-        console.log(this.state);
         if(!this.state.userExist) {
             this.validateMail(this.state.email);
             this.validatePassword(this.state.passwordConfirm)
@@ -244,14 +241,13 @@ export default class Login extends Component {
                     console.log(e.message);
                 }
 
-                if(userCredentials.userType == 'user') {
-                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('FirstTest'));
-                }
-                else {
+                if(userCredentials.userType == 'expert') {
                     AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('ExpertDetails'));
                 }
+                else {
+                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('FirstTest'));
 
-
+                }
             }
         }
         else if(this.state.userExist) {
@@ -260,13 +256,6 @@ export default class Login extends Component {
             if(!this.state.errorBorderForPassword && !this.state.errorBorderForMail) {
                 AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
             }
-        }
-    }
-
-    saveUser() {
-        if(this.state.passAuth1 && this.state.passAuth2) {
-            // bcrypt password hashing ?
-            // save user credentials to db
         }
     }
 

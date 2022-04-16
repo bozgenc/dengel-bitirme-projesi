@@ -39,6 +39,7 @@ import Suggestions from "../BeckTests/Suggestions";
 import Diary from "../Diary/Diary";
 import EndTest from "../BeckTests/EndTest";
 import Patients from "../ExpertPages/Patients/Patients";
+import ExpertInformationLogin from "../ExpertInformationLogin/ExpertInformationLogin";
 
 function Home() {
     return (
@@ -173,6 +174,7 @@ export default class Routes extends Component {
                     }} >
                     <Stack.Screen name="Login" component={Login} options={{unmountOnBlur:true}}/>
                     <Stack.Screen name="FirstTest" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+                    <Stack.Screen name="ExpertDetails" component={ExpertInformationLogin} options={{unmountOnBlur:true}}/>
                     <Stack.Screen name="Anasayfa" component={Home} options={{unmountOnBlur:true}}/>
                 </Stack.Navigator>
             </NavigationContainer>
