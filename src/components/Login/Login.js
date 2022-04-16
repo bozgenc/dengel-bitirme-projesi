@@ -32,6 +32,7 @@ export default class Login extends Component {
             renderLoading: true,
             loggedIn: false,
             userExist: false,
+            userTckn: '',
         };
     }
 
@@ -212,11 +213,28 @@ export default class Login extends Component {
         }
     }
 
+    validateTckn(tckn) {
+        let pass = true;
+        if(tckn.length != 11) {
+            pass = false;
+            Alert.alert(
+                'Hata ',
+                'Lütfen 11 haneli T.C. Kimlik Numaranızı Girin',
+                [
+                    {text: 'OK', onPress: () => console.log('TCKN hatası')},
+                ],
+                {cancelable: false},
+            );
+        }
+        return pass;
+    }
+
     onSubmit = async () => {
         if(!this.state.userExist) {
             this.validateMail(this.state.email);
             this.validatePassword(this.state.passwordConfirm)
-            if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword) {
+            let tc_pass = this.validateTckn(this.state.userTckn);
+            if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword && tc_pass) {
                 let userCredentials  = {
                     name: this.state.name,
                     surname: this.state.surname,
@@ -224,6 +242,7 @@ export default class Login extends Component {
                     age: parseInt(this.state.age),
                     password: this.state.password,
                     userType: this.state.userType,
+                    tckn: this.state.userTckn,
                 };
                 console.log(userCredentials);
 
@@ -241,12 +260,12 @@ export default class Login extends Component {
                     console.log(e.message);
                 }
 
+                await AsyncStorage.setItem("userTckn", this.state.userTckn);
                 if(userCredentials.userType == 'expert') {
                     AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('ExpertDetails'));
                 }
                 else {
                     AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('FirstTest'));
-
                 }
             }
         }
@@ -254,7 +273,37 @@ export default class Login extends Component {
             await this.validateMail(this.state.email);
             await this.validatePasswordForUser(this.state.password);
             if(!this.state.errorBorderForPassword && !this.state.errorBorderForMail) {
-                AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+                try {
+                    const response = await fetch('http://localhost:5000/getUserForLogin/' + this.state.email)
+                    const userObject = await response.json();
+                    let user = userObject[0];
+
+                    console.log(user);
+
+                    if(user.password == this.state.password) {
+                        AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+                    }
+                    else {
+                        Alert.alert(
+                            'Bilgilendirme ',
+                            'Girdiğiniz parola doğru değil, lütfen tekrar deneyin!',
+                            [
+                                {text: 'OK', onPress: () => console.log("closed dialog")},
+                            ],
+                            {cancelable: false},
+                        );
+                    }
+                } catch (e) {
+                    Alert.alert(
+                        'Bilgilendirme ',
+                        'Girdiğiniz bilgiler ile eşleşen bir kullanıcı kaydı bulunamadı!',
+                        [
+                            {text: 'OK', onPress: () => console.log("closed dialog")},
+                        ],
+                        {cancelable: false},
+                    );
+                    console.log(e.message)
+                }
             }
         }
     }
@@ -309,10 +358,9 @@ export default class Login extends Component {
         }
         else {
             return (
-                //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
                     <Header style={{
-                        height: this.state.userExist ? (screen.height * 45) / 100: (screen.height * 70) / 100,
+                        height: this.state.userExist ? (screen.height * 45) / 100: (screen.height * 74) / 100,
                         backgroundColor: 'white',
                         borderBottomWidth: 7,
                         borderBottomColor: '#292929',
@@ -369,6 +417,25 @@ export default class Login extends Component {
                                 }
                             </View>
                             <View>
+                                {
+                                    !this.state.userExist &&
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="T.C. Kimlik Numarası"
+                                        placeholderTextColor="grey"
+                                        textAlign='center'
+                                        keyboardType="number-pad"
+                                        maxLength={11}
+                                        minLength={11}
+                                        autoCorrect={false}
+                                        returnKeyType={'done'}
+                                        onChangeText={(text) => {
+                                            this.setState({imageChoose: text.length, userTckn: text});
+                                        }}
+                                    />
+                                }
+                            </View>
+                            <View>
                                 <TextInput
                                     style={this.state.errorBorderForMail ? styles.inputError: styles.input}
                                     placeholder="E-Mail Adresi"
@@ -393,7 +460,7 @@ export default class Login extends Component {
                                         placeholderTextColor="grey"
                                         textAlign='center'
                                         keyboardType="number-pad"
-                                        maxLength={3}
+                                        maxLength={2}
                                         autoCorrect={false}
                                         returnKeyType={'done'}
                                         onChangeText={(text) => {
@@ -453,11 +520,10 @@ export default class Login extends Component {
                                     >
                                         <View style={styles.buttonUserType}>
                                             <Text style={{
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 color: 'white',
                                                 textAlign: 'center',
                                                 paddingTop: 0,
-                                                fontWeight: 'bold',
                                             }}>
                                                 Üyelik Tipi : {this.state.userType == 'expert' ? 'Uzman' : 'Kullanıcı' }
                                             </Text>
@@ -569,14 +635,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '140%',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: '#383838',
         borderRadius: 10,
-        height: 35,
+        height: 30,
         backgroundColor: '#92a4b0',
         marginTop: 10,
         marginLeft: -screen.width / 10,
-        fontFamily: 'Helvetica-Bold',
+        fontFamily: 'Helvetica',
     },
     image: { //iphone 6 7 8 için
         width: 185,

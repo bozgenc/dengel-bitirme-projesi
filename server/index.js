@@ -62,6 +62,16 @@ app.get("/getPatientScores/:id", async(req,res) => {
     }
 })
 
+app.get("/getUserForLogin/:email", async(req,res) => {
+    try{
+        console.log(req.params);
+        const userDetails = await pool.query("SELECT * FROM public.users WHERE email = '" +  req.params.email + "'")
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
 app.put("/updateUser/:id", async(req,res) => {
     let id = req.params.id;
     try {
@@ -73,7 +83,6 @@ app.put("/updateUser/:id", async(req,res) => {
     } catch (e) {
         console.log(e.message)
     }
-
 })
 
 /*app.get("/gANX/:id", async (req,res) => {
