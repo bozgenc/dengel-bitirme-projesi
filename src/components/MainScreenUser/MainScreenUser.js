@@ -29,7 +29,6 @@ export default class MainScreenUser extends Component {
             PAR: 0.0,
             SOM: 0.0,
             HOS: 0.0,
-            PHOB: 0.0,
             ANX: 0.0,
             DEP: 0.0,
             OKB: 0.0,
@@ -63,38 +62,33 @@ export default class MainScreenUser extends Component {
             }
         ];
 
-        let par = await AsyncStorage.getItem('PAR');
-        let okb = await AsyncStorage.getItem('OKB');
-        let anx = await AsyncStorage.getItem('ANX');
-        let phob = await AsyncStorage.getItem('PHOB');
-        let hos = await AsyncStorage.getItem('HOS');
-        let i_nt = await AsyncStorage.getItem('INT');
-        let dep = await AsyncStorage.getItem('DEP');
-        let som = await AsyncStorage.getItem('SOM');
-        let psy = await AsyncStorage.getItem('PSY');
-
-        this.setState({
-            userName: 'Baran',
-            userSurname: 'Özgenç',
-            meetingsIncoming: meetings,
-            PAR: par,
-            PSY: psy,
-            I_NT: i_nt,
-            DEP: dep,
-            PHOB: phob,
-            OKB: okb,
-            SOM: som,
-            HOS: hos,
-            ANX: anx
-        })
-
+        let id = 22;
         try {
-            const response = await fetch("http://localhost:5000/records");
-            const jsonData = await response.json();
-            console.log(jsonData);
-        }
-        catch (e) {
-            console.log(e.message);
+            const response = await fetch('http://localhost:5000/getUser/' + id).then()
+            const userObject = await response.json();
+
+            const response2 = await fetch ('http://localhost:5000/getPatientScores/' + id)
+            const responseObj = await response2.json();
+
+            let user = userObject[0];
+            let scores = responseObj[0];
+
+            this.setState({
+                userName: user.first_name,
+                userSurname: user.last_name,
+                PAR: scores.par,
+                SOM: scores.som,
+                HOS: scores.hos,
+                ANX: scores.anx,
+                DEP: scores.dep,
+                OKB: scores.okb,
+                PSY: scores.psy,
+                I_NT: scores.int,
+                meetingsIncoming: meetings,
+            })
+
+        } catch (e) {
+            console.log(e.message)
         }
     }
 
@@ -111,7 +105,6 @@ export default class MainScreenUser extends Component {
                 <Text style = {styles.textStyle2ListRed}>Depresyon: {this.state.DEP}</Text>
                 <Text style = {styles.textStyle2ListRed}>Obsesif Bozukluk: {this.state.OKB}</Text>
                 <Text style = {styles.textStyle2ListRed}>Kişiler Arası Duyarlık: {this.state.I_NT}</Text>
-                <Text style = {styles.textStyle2ListRed}>Fobik Anksiyete: {this.state.PHOB}</Text>
                 <Text style = {styles.textStyle2ListRed}>Somatizm: {this.state.SOM}</Text>
             </View>
         }

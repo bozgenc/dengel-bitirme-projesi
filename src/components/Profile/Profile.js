@@ -11,6 +11,7 @@ export default class Profile extends  Component {
     constructor() {
         super();
         this.state = {
+            id: 22,
             name: '',
             surname: '',
             email: '',
@@ -25,16 +26,22 @@ export default class Profile extends  Component {
     }
 
     componentDidMount =  async () => {
-        let  n =  await AsyncStorage.getItem("name") ?? "Baran";
-        let sur = await AsyncStorage.getItem("surname") ?? "Özgenç";
-        let e =   await AsyncStorage.getItem("email") ?? "bozgenc@gmail.com";
+        let id = 22
+        try {
+            const response = await fetch('http://localhost:5000/getUser/' + id).then()
+            const userObject = await response.json();
+            let user = userObject[0];
 
-        this.setState({
-            name: n,
-            surname: sur,
-            email: e,
-            password: 'PASSWORD'
-        })
+            console.log(user);
+            this.setState({
+                name: user.first_name,
+                surname: user.last_name,
+                email: user.email,
+                password: user.password
+            })
+        } catch (e) {
+            console.log(e.message())
+        }
     }
 
     toggleEdit = () => {
@@ -45,26 +52,55 @@ export default class Profile extends  Component {
     }
 
     onSubmit = async () => {
-        await AsyncStorage.setItem("name", this.state.newName);
-        await AsyncStorage.setItem("surname", this.state.newSurname);
-        await AsyncStorage.setItem("email", this.state.newEmail);
-
-        this.setState({
-            name: this.state.newName,
-            surname: this.state.newSurname,
-            email: this.state.newEmail,
-        }, () => {
+        if(this.state.newName == '' || this.state.newSurname == '' ||this.state.newEmail == '') {
             Alert.alert(
                 'Bilgilendirme ',
-                'Değişiklikler Kaydedildi.',
+                'Eksik alanları doldurmadan kayıt yapamazsınız. Lütfen tüm kutucukları doldurun.',
                 [
-                    {text: 'OK', onPress: () => this.props.navigation.navigate('Home')},
+                    {text: 'OK', onPress: () => console.log("closed dialog")},
                 ],
                 {cancelable: false},
             );
-        })
+        }
+        else if (this.state.newPassword != this.state.newPasswordConfirm) {
+            Alert.alert(
+                'Bilgilendirme ',
+                'Girdiğiniz parolalar eşleşmiyor.',
+                [
+                    {text: 'OK', onPress: () => console.log("closed dialog")},
+                ],
+                {cancelable: false},
+            );
+        }
+        else {
+            let userNew = {
+                name: this.state.newName,
+                surname: this.state.newSurname,
+                email: this.state.newEmail,
+                password: this.state.newPassword,
+            }
+            try {
+                const body = userNew
+                const response = fetch("http://localhost:5000/updateUser/" + this.state.id, {
+                    method: 'PUT',
+                    headers: {'Content-Type' : 'application/json' },
+                    body: JSON.stringify(body)
+                })
+                Alert.alert(
+                    'Bilgilendirme ',
+                    'Değişiklikler kaydedildi.',
+                    [
+                        {text: 'OK', onPress: () => this.props.navigation.navigate('Home')},
+                    ],
+                    {cancelable: false},
+                );
 
-        // databasede değişiklikler yapılacak
+            } catch (e) {
+                console.log(e.message);
+            }
+
+            // databasede değişiklikler yapılacak
+        }
     }
 
     render() {
@@ -83,7 +119,7 @@ export default class Profile extends  Component {
                             </TouchableOpacity>
                         </Left>
 
-                        <Text style = {{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Profile</Text>
+                        <Text style = {{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Profil</Text>
 
                         <Right>
                         </Right>
@@ -99,9 +135,7 @@ export default class Profile extends  Component {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={{
-                        alignItems: 'center'
-                    }}>
+                    <View style={styles.cardStyle}>
                         <Text style = {styles.labelStyle}>
                             İsim
                         </Text>
@@ -171,7 +205,8 @@ export default class Profile extends  Component {
                             Parola Onayı
                         </Text>
                     </View>
-                    <View style = {{alignItems: 'center', backgroundColor: 'black', height: 0}}>
+                    <View style = {{alignItems: 'center',  backgroundColor: '#efebeb',  borderRadius: 15, width: screen.width * 96.6 / 100,  marginLeft: 6,
+                    }}>
                         <TextInput
                             style={this.state.editable ? styles. input : styles.passwordConfirmHidden}
                             editable={this.state.editable}
@@ -267,5 +302,17 @@ const styles = StyleSheet.create({
     },
     submitButtonHidden: {
         height: 0
+    },
+    cardStyle: {
+        backgroundColor: '#efebeb',
+        borderRadius: 15,
+        //height: 400,
+        width: screen.width * 96.6 / 100,
+        shadowColor: 'black',
+        shadowOpacity: .2,
+        shadowRadius: 5,
+        marginTop: 20,
+        marginLeft: 6,
+        alignItems: 'center'
     }
 })
