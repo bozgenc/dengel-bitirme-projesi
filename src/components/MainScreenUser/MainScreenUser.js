@@ -62,12 +62,14 @@ export default class MainScreenUser extends Component {
             }
         ];
 
-        let id = 22;
+        let id = 8;
         try {
-            const response = await fetch('http://localhost:5000/getUser/' + id).then()
+            id_s = id.toString();
+            AsyncStorage.setItem('ID', id_s);
+            const response = await fetch('http://10.100.60.20:5000/getUser/' + id).then()
             const userObject = await response.json();
 
-            const response2 = await fetch ('http://localhost:5000/getPatientScores/' + id)
+            const response2 = await fetch ('http://10.100.60.20:5000/getPatientScores/' + id)
             const responseObj = await response2.json();
 
             let user = userObject[0];

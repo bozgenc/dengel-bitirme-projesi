@@ -35,11 +35,14 @@ export default class OKB extends Component{
             button3clicked: false,
             button4clicked: false,
             prevButtonDisabled: true,
-            nextButtonDisabled: false
+            nextButtonDisabled: false,
+            userID: 0
         }
     }
 
     componentDidMount =  async () => {
+        let id = await AsyncStorage.getItem('ID');
+
         let question_s = [];
 
         let q1 = "Zihninizden çıkaramadığınız tekrarlayan ve sizi rahatsız eden düşüncelerin oluşma sıklığı";
@@ -73,7 +76,8 @@ export default class OKB extends Component{
         question_s.push(q10);
 
         this.setState({
-            questions: question_s
+            questions: question_s,
+            userID: id
         })
     }
 
@@ -227,13 +231,41 @@ export default class OKB extends Component{
         let isButton3 = false;
         let isButton4 = false;
         let _answer;
-        if(newIndex==10){
-            console.log("OKB Score: ", this.state.score/10, "\n");
-            var scr = this.state.score / 10;
-            scr = scr.toString();
-            AsyncStorage.setItem('OKB', scr);
-            this.props.navigation.navigate('EndTest');
+
+        if(newIndex == 10){
+            var scr=0;
+            for(i=0; i<10; i++){
+                if(this.state.answers[i] == "button 0")
+                    scr = scr + 0;
+                else if(this.state.answers[i] == "button 1")
+                    scr = scr + 1;
+                else if(this.state.answers[i] == "button 2")
+                    scr = scr + 2;
+                if(this.state.answers[i] == "button 3")
+                    scr = scr + 3;
+                if(this.state.answers[i] == "button 4")
+                    scr = scr + 4;
+            }
+            scr = scr/10;
+            console.log("OKB (OBSESSIVE COMPULSIVE) Score: ", scr, "\n");
+            this.setState({score: scr} , () => {
+                scr = scr.toString();
+                try {
+                        fetch("http://10.100.60.20:5000/uOKB", {
+                        method: 'put',
+                        headers: {'content-type': 'application/json'},
+                        body: JSON.stringify(this.state)
+                    });
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
+                scr = scr.toString();
+                AsyncStorage.setItem('OKB', scr);
+                this.props.navigation.navigate('EndTest');
+            });
         }
+
         else{
             if(this.state.answers[newIndex] != null){
                 _answer = this.state.answers[newIndex];

@@ -77,15 +77,15 @@ function TestTabs(){
         >
         <Drawer.Screen name="Suggestions_" component={Suggestions} options={{unmountOnBlur:true}}/>
         <Drawer.Screen name="StartTest_" component={StartTest} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Anx_" component={ANX} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Dep_" component={DEP} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Som_" component={SOM} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Psy_" component={PSY} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Hos_" component={HOS} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Par_" component={PAR} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Okb_" component={OKB} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Phob_" component={PHOB} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Int_" component={INT} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Anksiyete" component={ANX} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Depresyon" component={DEP} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Somatizm" component={SOM} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Psikotizm" component={PSY} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Hostilite" component={HOS} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Paranoya" component={PAR} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Obsesif Kompulsif Bozukluk" component={OKB} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Fobik Anksiyete" component={PHOB} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Kisiler Arasi" component={INT} options={{unmountOnBlur:true}}/>
         <Drawer.Screen name="EndTest" component={EndTest} options={{unmountOnBlur:true}}/>
         <Drawer.Screen name="Home_" component={Home} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>

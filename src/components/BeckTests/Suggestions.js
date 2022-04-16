@@ -1,34 +1,100 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 import {Header, Left, Right} from "native-base"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+var screen = Dimensions.get('window');
 
 export default class Suggestions extends  Component {
+
+    constructor(){
+        super();
+        this.state={
+            anxiety: false,
+            depression: false,
+            obsessive: false,
+            somatic: false,
+            phobia: false,
+            social: false,
+            paranoid: false,
+            psyco: false,
+            hostilite: false,
+            userID:0
+        }
+    }
+
+    componentDidMount =  async () => {
+        /*
+        let anx = 0;
+        id = parseInt(id);
+        try {
+            anx = await fetch(`http://192.168.1.23:5000/gANX/${id}`);
+            //console.log("JSON DATAxx", anx);
+            const jsonANX = await anx.json();
+            console.log("JSON DATA", jsonANX);
+            console.log("JSON DATA anx ", jsonANX.anx);
+            anx = jsonANX.anx;
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+
+        console.log("axxxx ", anx/2);*/
+        let id = await AsyncStorage.getItem('ID');
+
+        const response2 = await fetch ('http://10.100.60.20:5000/getPatientScores/' + id)
+        const responseObj = await response2.json();
+
+        let scores = responseObj[0];
+        let btn_anx = (scores.anx > 0.75 ) ? true : false;
+        let btn_dep = (scores.dep > 0.9 ) ? true : false;
+        let btn_okb = (scores.okb > 1.02 ) ? true : false;
+        let btn_hos = (scores.hos > 0.97 ) ? true : false;
+        let btn_int = (scores.int > 0.85 ) ? true : false;
+        let btn_par = (scores.par > 1.0 ) ? true : false;
+        let btn_phob = (scores.phob > 0.48 ) ? true : false;
+        let btn_psy = (scores.psy > 0.72 ) ? true : false;
+        let btn_som = (scores.som > 0.55 ) ? true : false;
+        this.setState({
+            paranoid: btn_par,
+            somatic: btn_som,
+            hostilite: btn_hos,
+            anxiety: btn_anx,
+            depression: btn_dep,
+            obsessive: btn_okb,
+            psyco: btn_psy,
+            social: btn_int,
+            phobia: btn_phob,
+            userID: id
+        })
+        
+    }
+    
     ANX = () => {
-        this.props.navigation.navigate('Anx_');
+        this.props.navigation.navigate('Anksiyete');
     }
     DEP = () => {
-        this.props.navigation.navigate('Dep_');
+        this.props.navigation.navigate('Depresyon');
     }
     SOM = () => {
-        this.props.navigation.navigate('Som_');
+        this.props.navigation.navigate('Somatizm');
     }
     PHOB = () => {
-        this.props.navigation.navigate('Phob_');
+        this.props.navigation.navigate('Fobik Anksiyete');
     }
     OKB = () => {
-        this.props.navigation.navigate('Okb_');
+        this.props.navigation.navigate('Obsesif Kompulsif Bozukluk');
     }
     PSY = () => {
-        this.props.navigation.navigate('Psy_');
+        this.props.navigation.navigate('Psikotizm');
     }
     INT = () => {
-        this.props.navigation.navigate('Int_');
+        this.props.navigation.navigate('Kisiler Arasi');
     }
     HOS = () => {
-        this.props.navigation.navigate('Hos_');
+        this.props.navigation.navigate('Hostilite');
     }
     PAR = () => {
-        this.props.navigation.navigate('Par_');
+        this.props.navigation.navigate('Paranoya');
     }
     render() {
         return (
@@ -53,58 +119,65 @@ export default class Suggestions extends  Component {
 
                 <View style = {{backgroundColor: "#faf8f8"}}>
                 <TouchableOpacity onPress={() => this.ANX()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.anxiety ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
                             Anksiyete Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.DEP()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.depression ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
                             Depresyon Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.INT()} >
+                    <View style={this.state.depression ? styles.buttonImportant : styles.buttonNotImportant}>
+                        <Text style={styles.textStyle2}>
+                            Kişiler Arası İlişkiler Testi
+                        </Text>
+                    </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.SOM()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.somatic ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
                             Somatizm Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.PHOB()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.phobia ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
-                            PHOB
+                            Fobik Anksiyete Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.PAR()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.paranoid ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
                             Paranoya Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.HOS()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.hostilite ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
-                            HOS
+                            Hostilite Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.OKB()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.obsessive ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
-                            OKB
+                            Obsesif Kompülsif Bozukluk Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.PSY()} >
-                    <View style={styles.buttonNext}>
+                    <View style={this.state.psyco ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
-                            PSY
+                            Psikotizm Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -175,8 +248,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold'
     },
-    buttonNext: {
-        justifyContent: 'center',
+    buttonNotImportant: {
+        justifyContent: 'flex-start',
         alignItems: 'center',
         width: '90%',
         borderWidth: 2,
@@ -186,6 +259,18 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         height: 35,
         backgroundColor: '#7cfc00'
+    },
+    buttonImportant: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '90%',
+        borderWidth: 2,
+        marginTop: 10,
+        marginLeft: '5%',
+        borderColor: '#ff6347',
+        borderRadius: 100,
+        height: 35,
+        backgroundColor: '#ff6347'
     },
     image: {
         marginTop: '5%',

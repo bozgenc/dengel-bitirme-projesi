@@ -34,11 +34,14 @@ export default class DEP extends Component{
             button3clicked: false,
             button4clicked: false,
             prevButtonDisabled: true,
-            nextButtonDisabled: false
+            nextButtonDisabled: false,
+            userID: 0
         }
     }
 
     componentDidMount =  async () => {
+        let id = await AsyncStorage.getItem('ID');
+
         let question_s = [];
 
         let q1 = "Cinsel istek ve ilgide azalma";
@@ -81,7 +84,8 @@ export default class DEP extends Component{
         question_s.push(q13);
 
         this.setState({
-            questions: question_s
+            questions: question_s,
+            userID: id
         })
     }
 
@@ -235,13 +239,41 @@ export default class DEP extends Component{
         let isButton3 = false;
         let isButton4 = false;
         let _answer;
-        if(newIndex==13){
-            console.log("Depression Score: ", this.state.score/13, "\n");
-            var scr = this.state.score / 13;
-            scr = scr.toString();
-            AsyncStorage.setItem('DEP', scr);
-            this.props.navigation.navigate('EndTest');
+
+        if(newIndex == 13){
+            var scr=0;
+            for(i=0; i<13; i++){
+                if(this.state.answers[i] == "button 0")
+                    scr = scr + 0;
+                else if(this.state.answers[i] == "button 1")
+                    scr = scr + 1;
+                else if(this.state.answers[i] == "button 2")
+                    scr = scr + 2;
+                if(this.state.answers[i] == "button 3")
+                    scr = scr + 3;
+                if(this.state.answers[i] == "button 4")
+                    scr = scr + 4;
+            }
+            scr = scr/13;
+            console.log("DEPression Score: ", scr, "\n");
+            this.setState({score: scr} , () => {
+                scr = scr.toString();
+                try {
+                        fetch("http://10.100.60.20:5000/uDEP", {
+                        method: 'put',
+                        headers: {'content-type': 'application/json'},
+                        body: JSON.stringify(this.state)
+                    });
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
+                scr = scr.toString();
+                AsyncStorage.setItem('DEP', scr);
+                this.props.navigation.navigate('EndTest');
+            }); 
         }
+
         else{
             if(this.state.answers[newIndex] != null){
                 _answer = this.state.answers[newIndex];
