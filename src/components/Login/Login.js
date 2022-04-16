@@ -248,7 +248,7 @@ export default class Login extends Component {
 
                 try {
                     const body = {userCredentials}
-                    const response = fetch("http://localhost:5000/saveUser", {
+                    const response = fetch("http://10.100.60.20:5000/saveUser", {
                         method: 'POST',
                         headers: {'Content-Type' : 'application/json' },
                         body: JSON.stringify(body)
