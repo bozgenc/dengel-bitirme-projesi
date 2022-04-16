@@ -26,9 +26,9 @@ export default class Profile extends  Component {
     }
 
     componentDidMount =  async () => {
-        let id = 22
+        let id = 8
         try {
-            const response = await fetch('http://localhost:5000/getUser/' + id).then()
+            const response = await fetch('http://192.168.1.23:5000/getUser/' + id).then()
             const userObject = await response.json();
             let user = userObject[0];
 
