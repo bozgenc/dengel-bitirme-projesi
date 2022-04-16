@@ -4,7 +4,6 @@ import {Header, Left, Right} from "native-base"
 import DeviceInfo from 'react-native-device-info';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 var screen = Dimensions.get('window');
 var deviceModel = DeviceInfo.getModel();
@@ -13,46 +12,73 @@ export default class ExpertInformationLogin extends Component {
     constructor() {
         super();
         this.state = {
+            expertId: -1,
+            userTckn: '',
             schoolName: '',
             description: '',
             uzmanlikAlani: '',
             religion: '',
+            gender: '',
+            specialties: []
         };
     }
 
     componentDidMount = async() => {
-
+        Alert.alert(
+            'Bilgilendirme ',
+            'Bu sayfada sorulan sorular, sadece kullanıcılarımızın bir uzman tercihi yaparken aradığı kriterle ulaşımını kolaylaştırmak içindir.' +
+            'Dengel ailesi olarak sizin kimliğiniz, ırkınız, cinsiyetiniz ile ilgilenmiyoruz. Cevap vermemeyi dilerseniz boş bırakabilirsiniz.  ',
+            [
+                {text: 'OK', onPress: () => console.log("closed dialog")},
+            ],
+            {cancelable: false},
+        );
     }
 
 
     onSubmit = async () => {
-        // database tamamlanınca burada log-in sign-in durumuna göre user exist ya da değil gibi kontroller yapılacak
-        /*AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('FirstTest'));
-        try {
-            const body = this.state
-            const response = fetch("http://localhost:5000/saveUser", {
-                method: 'POST',
-                headers: {'Content-Type' : 'application/json' },
-                body: JSON.stringify(body)
-            })
+        if(this.state.schoolName == '' || this.state.schoolName.length == 0) {
+            Alert.alert(
+                'Hata ',
+                'Mezun olduğunuz okul bölümü boş olamaz.',
+                [
+                    {text: 'OK', onPress: () => console.log('dialog closed')},
+                ],
+                {cancelable: false},
+            );
+        }
+        else if(this.state.uzmanlikAlani == ''|| this.state.uzmanlikAlani.length == 0) {
+            Alert.alert(
+                'Hata ',
+                'Uzmanlık Alanlarınız boş bırakılamaz.',
+                [
+                    {text: 'OK', onPress: () => console.log('dialog closed')},
+                ],
+                {cancelable: false},
+            );
+        }
+        else {
+            let temp = [];
+            if(this.state.uzmanlikAlani.includes(","))
+                temp = this.state.uzmanlikAlani.split(/[ ,]+/);
+            else
+                temp = this.state.uzmanlikAlani.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
 
-            console.log('Login ekranında response');
-            console.log(response)
-        } catch (e) {
-            console.log(e.message);
-        }*/
+            console.log(temp);
+            this.setState({
+                specialties: temp
+            });
 
-        console.log(this.state)
-        this.props.navigation.navigate('Anasayfa');
-
+            console.log(this.state)
+            this.props.navigation.navigate('Anasayfa');
+        }
     }
 
     render() {
             return (
-                //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
                     <Header style={{
-                        height: this.state.userExist ? (screen.height * 45) / 100: (screen.height * 70) / 100,
+                        height:(screen.height * 70) / 100,
                         backgroundColor: 'white',
                         borderBottomWidth: 7,
                         borderBottomColor: '#292929',
@@ -92,7 +118,7 @@ export default class ExpertInformationLogin extends Component {
                                     placeholder="Uzmanlık Alanlarınız"
                                     placeholderTextColor="grey"
                                     textAlign='center'
-                                    maxLength={15}
+                                    maxLength={40}
                                     autoCorrect={false}
                                     returnKeyType={'done'}
                                     onChangeText={(text) => {
@@ -107,7 +133,7 @@ export default class ExpertInformationLogin extends Component {
                                     placeholder="Birkaç kelime ile kendinizi açıklayın"
                                     placeholderTextColor="grey"
                                     textAlign='center'
-                                    maxLength={15}
+                                    maxLength={40}
                                     autoCorrect={false}
                                     returnKeyType={'done'}
                                     onChangeText={(text) => {
@@ -122,7 +148,7 @@ export default class ExpertInformationLogin extends Component {
                                     placeholder="Dini Görüşünüz"
                                     placeholderTextColor="grey"
                                     textAlign='center'
-                                    maxLength={15}
+                                    maxLength={20}
                                     autoCorrect={false}
                                     returnKeyType={'done'}
                                     onChangeText={(text) => {
@@ -130,6 +156,22 @@ export default class ExpertInformationLogin extends Component {
                                     }}
                                 />
                             </View>
+
+                            <View>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Cinsiyetiniz(E/K/X)"
+                                    placeholderTextColor="grey"
+                                    textAlign='center'
+                                    maxLength={1}
+                                    autoCorrect={false}
+                                    returnKeyType={'done'}
+                                    onChangeText={(text) => {
+                                        this.setState({gender: text});
+                                    }}
+                                />
+                            </View>
+
 
                             <TouchableOpacity
                                 disabled={this.state.signUpButtonDisabled}
@@ -147,12 +189,8 @@ export default class ExpertInformationLogin extends Component {
                                     </Text>
                                 </View>
                             </TouchableOpacity>
-
-
                         </View>
                     </Header>
-
-
                 </View>
             );
     }

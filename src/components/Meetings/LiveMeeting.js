@@ -182,13 +182,13 @@ export default class App extends Component {
             [
                 {text: 'Ayrıl', onPress: async () => {
                         await this.endCall();
-                        this.props.navigation.goBack();
+                        this.props.navigation.navigate('Rating Meeting');
+                        ;
                     }},
                 {text: 'Vazgeç', onPress: () => console.log('Stayed on meeting')},
             ],
             {cancelable: false},
         );
-        this.props.navigation.navigate('Rating Meeting');
     }
 
     render() {

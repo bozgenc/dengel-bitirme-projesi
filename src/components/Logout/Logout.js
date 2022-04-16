@@ -35,7 +35,7 @@ export default class Logout extends Component {
                     AsyncStorage.setItem("isLoggedIn", "false").then(this.props.navigation.navigate('Login'));
             }
         } else {
-            AsyncStorage.setItem("isLoggedIn", "false").then(this.props.navigation.navigate('Login'));
+             AsyncStorage.setItem("isLoggedIn", "false").then(this.props.navigation.navigate('Login'));
         }
     }
 
