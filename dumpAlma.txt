@@ -1,0 +1,10 @@
+1. Databaseye sağ tık yapıp backup'ı seç.
+2. Filename yazıp(sonuna .sql ekleyerek) formatı "plain" olarak seç. (Açılıp komutların manuel seçilebilmesi için) 
+Eğer direkt restore için gerekiyorsa format "custom" olmalı ve .sql yazılmasına gerek yok.
+3. Eğer datasız göndermek gerekirse Data/Objects sekmesinde Only Schema seçeneği işaretmeli.
+4. Backup'a bas ve işlem tamam.
+
+Restore için:
+Dump dosyası, 
+plain formattaysa: İçindeki her şey kopyalanıp query editor'a yapıştırılıp çalıştırılması yeterli(DB3 dosyası bu şekilde).
+Custom formatındaysa: Databaseye sağ tıklayıp restore diyip dosyayı seçmek yeterli. v(Eski db dosyası bu şekilde).
