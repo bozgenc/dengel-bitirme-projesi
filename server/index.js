@@ -23,6 +23,39 @@ app.post("/saveUser", async(req, res) => {
     }
 })
 
+app.get("/getUser/:id", async(req,res) => {
+    try{
+        console.log(req.params);
+        const userDetails = await pool.query("SELECT * FROM public.users WHERE id = " + req.params.id)
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getPatientScores/:id", async(req,res) => {
+    try{
+        console.log(req.params);
+        const patientDetails = await pool.query("SELECT * FROM public.user_patients WHERE patient_id = " + req.params.id)
+        res.json(patientDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.put("/updateUser/:id", async(req,res) => {
+    let id = req.params.id;
+    try {
+        let newUser =  req.body;
+        let sqlQuery = "UPDATE public.users SET first_name = '" + newUser.name + "', last_name = '" + newUser.surname
+            + "', email = '" + newUser.email + "', password = '" + newUser.password + "' WHERE id = " + id;
+        console.log(sqlQuery);
+        await pool.query(sqlQuery);
+    } catch (e) {
+        console.log(e.message)
+    }
+
+})
 // READ
 
 // UPDATE
