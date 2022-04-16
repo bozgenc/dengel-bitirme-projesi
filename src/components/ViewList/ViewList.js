@@ -5,6 +5,8 @@ import {
     Text, TouchableOpacity, View
 } from 'react-native';
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 var screen = Dimensions.get('window');
 var response = [];
 var jsonData = [];
@@ -13,14 +15,22 @@ export default class ViewList extends Component {
     constructor() {
         super();
         this.state = {
-            users: []
+            users: [],
+            body: {
+                session_id: 4,
+                expert_id: 8,
+                session_date: "2022-04-27",
+                clink: ""
+            }
+            
+
         }
     }
 
     componentDidMount =  async () => {
 
         try {
-            response = await fetch("http://10.2.40.148:5000/User_experts");
+            response = await fetch("http://192.168.1.34:5000/User_experts");
             jsonData = await response.json();
             console.log(jsonData);
         }
@@ -31,6 +41,20 @@ export default class ViewList extends Component {
         this.setState({
             users : jsonData
         })
+
+        /*try {
+            const body = this.state.body
+            const response = fetch("http://10.2.40.148:5000/postSession", {
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json' },
+                body: JSON.stringify(body)
+            })
+
+            console.log('Login ekranında response');
+            console.log(response)
+        } catch (e) {
+            console.log(e.message);
+        }*/
 
     }
 
@@ -74,17 +98,15 @@ export default class ViewList extends Component {
                         directionalLockEnabled={true}
                         showsVerticalScrollIndicator={true}
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => item.expert_id}
                         data={this.state.users}
                         renderItem={({item,index}) => (
                             <TouchableOpacity
                             key={index}
-                                onPress={() => {
-                                    this.props.navigation.navigate(
-                                        'Details',
-                                         item 
-                                      );
-                                }}
+                            onPress={ async () => {
+                                await AsyncStorage.setItem("uzmanId", ''+item.expert_id).then(this.props.navigation.navigate('Details'))
+                                
+                            }}
                             >
                                 <View style={styles.arrayItem}>
                                     <Text style={styles.textStyleList}>{"İsim: "} {item.first_name} {" "} {item.last_name} </Text>

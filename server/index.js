@@ -9,6 +9,20 @@ app.use(express.json());
 // ROUTES //
 
 // CREATE
+app.post("/postSession", async (req,res) => {
+    try {
+        let saveObj = req.body;
+        console.log(saveObj)
+        let sqlQuery = "INSERT INTO public.sessions VALUES ('" + saveObj.session_id + "'," + "'" + saveObj.expert_id + "'," + "'" + saveObj.session_date + "'," + "'" + saveObj.clink + "')"
+        console.log(sqlQuery)
+
+
+        await pool.query(sqlQuery)
+        console.log(req.body)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
 
 // READ
 app.get("/Users", async (req,res) => {
@@ -29,13 +43,14 @@ app.get("/User_experts", async (req,res) => {
     }
 })
 
-/**
- *  SELECT foods.tem_name,foods.item_unit,
-    company.company_name, company.company_city
-    FROM foods ,company
-    WHERE  foods.company_id =company.company_id
-    AND company.company_city='London';
- */
+app.get("/Get_session", async (req,res) => {
+    try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
+        const allRecords = await pool.query('SELECT * FROM public.sessions')
+        res.json(allRecords.rows)
+    } catch(err) {
+        console.log(err.message)
+    }
+})
 // UPDATE
 
 // DELETE
