@@ -25,6 +25,7 @@ export default class MainScreenUser extends Component {
         this.state = {
             userName: "",
             userSurname: "",
+            userType: "",
             meetingsIncoming: [],
             PAR: 0.0,
             SOM: 0.0,
@@ -66,27 +67,37 @@ export default class MainScreenUser extends Component {
         try {
             const response = await fetch('http://localhost:5000/getUser/' + id).then()
             const userObject = await response.json();
-
-            const response2 = await fetch ('http://localhost:5000/getPatientScores/' + id)
-            const responseObj = await response2.json();
-
             let user = userObject[0];
-            let scores = responseObj[0];
 
             this.setState({
-                userName: user.first_name,
-                userSurname: user.last_name,
-                PAR: scores.par,
-                SOM: scores.som,
-                HOS: scores.hos,
-                ANX: scores.anx,
-                DEP: scores.dep,
-                OKB: scores.okb,
-                PSY: scores.psy,
-                I_NT: scores.int,
-                meetingsIncoming: meetings,
-            })
+                    userName: user.first_name,
+                    userSurname: user.last_name,
+                    userType: user.user_type,
+                    meetingsIncoming: meetings,
+                })
 
+        }
+            catch (e) {
+            console.log(e.message)
+        }
+
+        try {
+            if(this.state.userType == 'user') {
+                const response2 = await fetch ('http://localhost:5000/getPatientScores/' + id)
+                const responseObj = await response2.json();
+                let scores = responseObj[0];
+
+                this.setState({
+                    PAR: scores.par,
+                    SOM: scores.som,
+                    HOS: scores.hos,
+                    ANX: scores.anx,
+                    DEP: scores.dep,
+                    OKB: scores.okb,
+                    PSY: scores.psy,
+                    I_NT: scores.int,
+                })
+            }
         } catch (e) {
             console.log(e.message)
         }
@@ -94,7 +105,7 @@ export default class MainScreenUser extends Component {
 
     render() {
         let scores;
-        if(true){
+        if(this.state.userType == 'user'){
             scores =
             <View style = {styles.container2}>
                 <Text style = {styles.textStyle2ListBlue}>Puanlar</Text>
@@ -123,10 +134,17 @@ export default class MainScreenUser extends Component {
                             </TouchableOpacity>
                         </Left>
 
-                        <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Home</Text>
+                        <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Anasayfa</Text>
 
                         <Right>
-
+                            <TouchableOpacity
+                                onPress={() => console.log("session create")}
+                                style={{color: "black"}}
+                            >
+                                <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
+                                    +
+                                </Text>
+                            </TouchableOpacity>
                         </Right>
                     </Header>
                 </View>
