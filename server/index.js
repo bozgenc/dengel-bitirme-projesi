@@ -9,7 +9,26 @@ app.use(express.json());
 // ROUTES //
 
 // CREATE
+app.post("/postSession", async (req,res) => {
+    try {
+        let saveObj = req.body;
+        console.log(saveObj)
+        let sqlQuery = "INSERT INTO public.sessions VALUES ('" + saveObj.session_id + "'," + "'" + saveObj.expert_id + "'," + "'" + saveObj.session_date + "'," + "'" + saveObj.clink + "')"
+        console.log(sqlQuery)
 
+
+        await pool.query(sqlQuery)
+        console.log(req.body)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
+// READ
+app.get("/Users", async (req,res) => {
+    try{
+        const allRecords = await pool.query('SELECT * FROM public.users')
+        res.json(allRecords.rows)
 app.post("/saveUser", async(req, res) => {
     try {
         let user = req.body.userCredentials;
@@ -125,7 +144,6 @@ app.get("/gDEP/:id", async (req,res) => {
         console.log(err.message)
     }
 })
-
 app.get("/gHOS/:id", async (req,res) => {
     try{
         const idm = parseInt(req.params.id);
@@ -155,6 +173,16 @@ app.get("/gSOM/:id", async (req,res) => {
         console.log(err.message)
     }
 })
+
+app.get("/Get_session", async (req,res) => {
+    try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
+        const allRecords = await pool.query('SELECT * FROM public.sessions')
+        res.json(allRecords.rows)
+    } catch(err) {
+        console.log(err.message)
+    }
+})
+// UPDATE
 
 app.get("/gPSY/:id", async (req,res) => {
     try{
@@ -201,6 +229,25 @@ app.get("/gINT/:id", async (req,res) => {
     }
 })
 */
+
+app.get("/Get_session", async (req,res) => {
+    try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
+        const allRecords = await pool.query('SELECT * FROM public.sessions')
+        res.json(allRecords.rows)
+    } catch(err) {
+        console.log(err.message)
+    }
+})
+
+app.get("/User_experts", async (req,res) => {
+    try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
+        const allRecords = await pool.query('SELECT * FROM public.users, public.user_experts WHERE id = expert_id')
+        res.json(allRecords.rows)
+    } catch(err) {
+        console.log(err.message)
+    }
+})
+
 app.put("/uANX", async (req,res) => {
     console.log("*******");
     try {

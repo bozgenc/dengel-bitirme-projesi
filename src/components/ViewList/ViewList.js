@@ -5,51 +5,57 @@ import {
     Text, TouchableOpacity, View
 } from 'react-native';
 
-var screen = Dimensions.get('window');
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+var screen = Dimensions.get('window');
+var response = [];
+var jsonData = [];
 
 export default class ViewList extends Component {
     constructor() {
         super();
         this.state = {
-            meetingsIncoming: []
+            users: [],
+            body: {
+                session_id: 4,
+                expert_id: 8,
+                session_date: "2022-04-27",
+                clink: ""
+            }
+            
+
         }
     }
 
     componentDidMount =  async () => {
-        let meetings = [
-            {
-                id: 0,
-                name: 'Baran Özgenç',
-                profession: 'Duygusal Sağlık',
-                price: '2,100.00'
-            },
-            {
-                id: 1,
-                name: 'Elif Afşar',
-                profession: 'Anksiyete',
-                price: '3,000.00'
-            },
-            {
-                id:2,
-                name: 'Can Koçyiğitoğlu',
-                profession: 'Şizofreni',
-                price: '1,100.00'
-            }
-        ];
-
-        this.setState({
-            meetingsIncoming: meetings
-        })
 
         try {
-            const response = await fetch("http://localhost:5000/records");
-            const jsonData = await response.json();
+            response = await fetch("http://192.168.1.34:5000/User_experts");
+            jsonData = await response.json();
             console.log(jsonData);
         }
         catch (e) {
             console.log(e.message);
         }
+
+        this.setState({
+            users : jsonData
+        })
+
+        /*try {
+            const body = this.state.body
+            const response = fetch("http://10.2.40.148:5000/postSession", {
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json' },
+                body: JSON.stringify(body)
+            })
+
+            console.log('Login ekranında response');
+            console.log(response)
+        } catch (e) {
+            console.log(e.message);
+        }*/
+
     }
 
     render() {
@@ -92,22 +98,20 @@ export default class ViewList extends Component {
                         directionalLockEnabled={true}
                         showsVerticalScrollIndicator={true}
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item) => item.id}
-                        data={this.state.meetingsIncoming}
+                        keyExtractor={(item) => item.expert_id}
+                        data={this.state.users}
                         renderItem={({item,index}) => (
                             <TouchableOpacity
                             key={index}
-                                onPress={() => {
-                                    this.props.navigation.navigate(
-                                        'Details',
-                                         item 
-                                      );
-                                }}
+                            onPress={ async () => {
+                                await AsyncStorage.setItem("uzmanId", ''+item.expert_id).then(this.props.navigation.navigate('Details'))
+                                
+                            }}
                             >
                                 <View style={styles.arrayItem}>
-                                    <Text style={styles.textStyleList}>{"İsim: "} {item.name} </Text>
-                                    <Text style={styles.textStyleList}>{"Alanı: "} {item.profession} </Text>
-                                    <Text style={styles.textStyleList}>{"Ücret: "} {item.price} </Text>
+                                    <Text style={styles.textStyleList}>{"İsim: "} {item.first_name} {" "} {item.last_name} </Text>
+                                    <Text style={styles.textStyleList}>{"Alanı: "} {item.specialties[0]} </Text>
+                                    <Text style={styles.textStyleList}>{"Açıklama: "} {item.description} </Text>
                                 </View>
                             </TouchableOpacity>
                         )}/>
