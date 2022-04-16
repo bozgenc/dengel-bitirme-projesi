@@ -39,6 +39,7 @@ import Suggestions from "../BeckTests/Suggestions";
 import Diary from "../Diary/Diary";
 import EndTest from "../BeckTests/EndTest";
 import Patients from "../ExpertPages/Patients/Patients";
+import ExpertInformationLogin from "../ExpertInformationLogin/ExpertInformationLogin";
 
 function Home() {
     return (
@@ -54,15 +55,12 @@ function Home() {
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Professional Meetings" component={ViewList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name='Rating Test' component={RatingTest}/>
-            <Drawer.Screen name="First Login Test" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Professional Meetings" component={UzmanStack} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
-            <Drawer.Screen name="Suggestions" component={TestTabs} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Definition" component={Definition} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name='Ana Sayfa_x' component={MainScreenUser}/>
+            <Drawer.Screen name="Test Önerileri" component={TestTabs} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Mental Rahatsızlık Bilgileri" component={Definition} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
 }
@@ -79,15 +77,15 @@ function TestTabs(){
         >
         <Drawer.Screen name="Suggestions_" component={Suggestions} options={{unmountOnBlur:true}}/>
         <Drawer.Screen name="StartTest_" component={StartTest} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Anx_" component={ANX} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Dep_" component={DEP} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Som_" component={SOM} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Psy_" component={PSY} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Hos_" component={HOS} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Par_" component={PAR} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Okb_" component={OKB} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Phob_" component={PHOB} options={{unmountOnBlur:true}}/>
-        <Drawer.Screen name="Int_" component={INT} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Anksiyete" component={ANX} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Depresyon" component={DEP} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Somatizm" component={SOM} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Psikotizm" component={PSY} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Hostilite" component={HOS} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Paranoya" component={PAR} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Obsesif Kompulsif Bozukluk" component={OKB} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Fobik Anksiyete" component={PHOB} options={{unmountOnBlur:true}}/>
+        <Drawer.Screen name="Kisiler Arasi" component={INT} options={{unmountOnBlur:true}}/>
         <Drawer.Screen name="EndTest" component={EndTest} options={{unmountOnBlur:true}}/>
         <Drawer.Screen name="Home_" component={Home} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
@@ -136,6 +134,20 @@ function MainScreenStack() {
     )
 }
 
+function UzmanStack() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name='Uzman Görüntüleme' component={ViewList}/>
+            <Stack.Screen name='Detaylar' component={Details}/>
+        </Stack.Navigator>
+    )
+}
+
 function NotificationTab() {
     return (
         <Stack.Navigator
@@ -161,6 +173,8 @@ export default class Routes extends Component {
                         headerShown: false
                     }} >
                     <Stack.Screen name="Login" component={Login} options={{unmountOnBlur:true}}/>
+                    <Stack.Screen name="FirstTest" component={FirstLoginTest} options={{unmountOnBlur:true}}/>
+                    <Stack.Screen name="ExpertDetails" component={ExpertInformationLogin} options={{unmountOnBlur:true}}/>
                     <Stack.Screen name="Anasayfa" component={Home} options={{unmountOnBlur:true}}/>
                 </Stack.Navigator>
             </NavigationContainer>

@@ -18,6 +18,7 @@ import DeviceInfo from "react-native-device-info";
 import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
+const screen = Dimensions.get('window');
 
 export default class ANX extends Component{
     constructor(){
@@ -27,18 +28,20 @@ export default class ANX extends Component{
             answers: [],
             index: 0,
             score: 0,
-            num_of_questions: 10,
             button0clicked: false,
             button1clicked: false,
             button2clicked: false,
             button3clicked: false,
             button4clicked: false,
             prevButtonDisabled: true,
-            nextButtonDisabled: false
+            nextButtonDisabled: false,
+            userID: 0
         }
     }
 
     componentDidMount =  async () => {
+        let id = await AsyncStorage.getItem('ID');
+
         let question_s = [];
 
         let q1 = "Sinirlilik veya sinire bağlı içinin titremesi durumu";
@@ -72,7 +75,8 @@ export default class ANX extends Component{
         question_s.push(q10);
 
         this.setState({
-            questions: question_s
+            questions: question_s,
+            userID: id
         })
     }
 
@@ -227,14 +231,41 @@ export default class ANX extends Component{
         let isButton4 = false;
         let _answer;
 
-        if(newIndex==10){
-            console.log("ANX (Kaygı) Score: ", this.state.score/10, "\n");
-            var scr = this.state.score / 10;
-            scr = scr.toString();
-            AsyncStorage.setItem('ANX', scr);
-            this.props.navigation.navigate('EndTest');
-        
+
+        if(newIndex == 10){
+            var scr=0;
+            for(i=0; i<10; i++){
+                if(this.state.answers[i] == "button 0")
+                    scr = scr + 0;
+                else if(this.state.answers[i] == "button 1")
+                    scr = scr + 1;
+                else if(this.state.answers[i] == "button 2")
+                    scr = scr + 2;
+                if(this.state.answers[i] == "button 3")
+                    scr = scr + 3;
+                if(this.state.answers[i] == "button 4")
+                    scr = scr + 4;
+            }
+            scr = scr/10;
+            console.log("ANX (Kaygı) Score: ", scr, "\n");
+            this.setState({score: scr} , () => {
+                scr = scr.toString();
+                try {
+                        fetch("http://10.100.60.20:5000/uANX", {
+                        method: 'put',
+                        headers: {'content-type': 'application/json'},
+                        body: JSON.stringify(this.state)
+                    });
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
+                scr = scr.toString();
+                AsyncStorage.setItem('ANX', scr);
+                this.props.navigation.navigate('EndTest');
+            }); 
         }
+
         else{
             if(this.state.answers[newIndex] != null){
                 _answer = this.state.answers[newIndex];
@@ -244,7 +275,7 @@ export default class ANX extends Component{
                     isButton2 = false;
                     isButton3 = false;
                     isButton4 = true;
-                } 
+                }
                 else if(_answer == "button 3"){
                     isButton0 = false;
                     isButton1 = false;
@@ -272,7 +303,7 @@ export default class ANX extends Component{
                     isButton2 = false;
                     isButton3 = false;
                     isButton4 = false;
-                } 
+                }
             }
             this.setState({
                 index: newIndex,
@@ -288,103 +319,121 @@ export default class ANX extends Component{
     render () {
         let btn_prev;
         if(this.state.index!=0){
-            btn_prev = 
-            <View style={{flex:1}}>
+            btn_prev =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goPreviousQuestion()}>
                     <View style={styles.buttonPrev}>
                         <Text style={styles.textStyle2}>
                             Önceki
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
-        
+
         return(
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                <Card style={styles.gCard}>
-                
-                    <Avatar
-                        size={64}
-                        rounded
-                        icon={{
-                        name: 'hand-heart-outline',
-                        type: 'material-community',
-                        color: '#cdde20'
-                        }}
-                        containerStyle={{
-                        borderColor: '#cdde20',
-                        borderStyle: 'solid',
-                        borderWidth: 1,
-                        alignSelf: "center"
-                        }}
-                    />
-
-                    <Text style={styles.textStyle}>
-                        {this.state.questions[this.state.index]}
-                    </Text>
-
-                    <TouchableOpacity onPress={() => this.button0Clicked_f()}>
-                        <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                0
+            <View style = {styles.container}>
+                <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
+                    <Left>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.openDrawer()}
+                            style={{color: "black"}}
+                        >
+                            <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
+                                ≡
                             </Text>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </Left>
 
-                    <TouchableOpacity onPress={() => this.button1Clicked_f()}>
-                        <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                1
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                    <Text style={{marginTop: 16, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Anksiyete</Text>
 
-
-                    <TouchableOpacity onPress={() => this.button2Clicked_f()}>
-                        <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                2
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-
-                    <TouchableOpacity onPress={() => this.button3Clicked_f()}>
-                        <View style={this.state.button3clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                3
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this.button4Clicked_f()}>
-                        <View style={this.state.button4clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                4
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </Card>
+                    <Right>
+                    </Right>
+                </Header>
 
                 <View>
-                    <View style={{ marginTop: windowHeight-windowHeight*0.63, marginLeft: '5%', flexDirection:"row"}}>
+                    <Card style={styles.gCard}>
+                        <Avatar
+                            size={64}
+                            rounded
+                            icon={{
+                                name: 'hand-heart-outline',
+                                type: 'material-community',
+                                color: '#cdde20'
+                            }}
+                            containerStyle={{
+                                borderColor: '#cdde20',
+                                borderStyle: 'solid',
+                                borderWidth: 1,
+                                alignSelf: "center"
+                            }}
+                        />
 
-                        {btn_prev}
+                        <Text style={styles.textStyle}>
+                            {this.state.questions[this.state.index]}
+                        </Text>
 
-                        <View style={{flex:1}}>
-                            <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
-                                <View style={styles.buttonNext}>
-                                    <Text style={styles.textStyle2}>
-                                        Sonraki
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>  
+                        <TouchableOpacity onPress={() => this.button0Clicked_f()}>
+                            <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    0
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.button1Clicked_f()}>
+                            <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    1
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+
+                        <TouchableOpacity onPress={() => this.button2Clicked_f()}>
+                            <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    2
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+
+                        <TouchableOpacity onPress={() => this.button3Clicked_f()}>
+                            <View style={this.state.button3clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    3
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.button4Clicked_f()}>
+                            <View style={this.state.button4clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    4
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </Card>
+
+                    <View style={{marginTop: 10}}>
+                        <View>
+
+                            {btn_prev}
+
+                            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center',}}>
+                                <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
+                                    <View style={styles.buttonNext}>
+                                        <Text style={styles.textStyle2}>
+                                            Sonraki
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
-
-            </ScrollView>
+            </View>
         );
     }
 }
@@ -393,12 +442,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
     },
     container2: {
         flex: 2,
         flexDirection: 'row',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#faf8f8',
         marginTop: '90%',
         paddingVertical : 2,
         paddingHorizontal : 20
@@ -434,20 +483,18 @@ const styles = StyleSheet.create({
         marginLeft: 2,
         fontSize: 20,
         fontWeight: "bold",
-        fontFamily: "sans-serif-light"
+        textAlign : 'center',
     },
     textStyle2: {
         marginTop: 2,
         marginLeft: 2,
         fontSize: 14,
-        fontFamily: "sans-serif-light",
         fontWeight: "bold"
     },
     textStyle3: {
         fontSize: 15,
         color: 'black',
         textAlign: 'center',
-        fontFamily: "sans-serif-light",
         paddingTop: 0
     },
     button: {
@@ -493,8 +540,7 @@ const styles = StyleSheet.create({
     buttonNext: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#7cfc00',
         borderRadius: 100,
@@ -504,8 +550,7 @@ const styles = StyleSheet.create({
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '85%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#ff6347',
         borderRadius: 100,

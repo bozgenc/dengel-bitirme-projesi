@@ -22,6 +22,8 @@ export default class Login extends Component {
             password: '',
             passwordConfirmFieldEnabled: false,
             passwordConfirm: '',
+            age: 0,
+            userType: 'user',
             signUpButtonDisabled: true,
             errorBorderForMail: false,
             errorBorderForPassword: false,
@@ -211,7 +213,6 @@ export default class Login extends Component {
     }
 
     onSubmit = async () => {
-        // database tamamlanınca burada log-in sign-in durumuna göre user exist ya da değil gibi kontroller yapılacak
         if(!this.state.userExist) {
             this.validateMail(this.state.email);
             this.validatePassword(this.state.passwordConfirm)
@@ -220,10 +221,33 @@ export default class Login extends Component {
                     name: this.state.name,
                     surname: this.state.surname,
                     email: this.state.email,
-                    passwordHashed: "",
+                    age: parseInt(this.state.age),
+                    password: this.state.password,
+                    userType: this.state.userType,
                 };
                 console.log(userCredentials);
-                AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+
+                try {
+                    const body = {userCredentials}
+                    const response = fetch("http://10.100.60.20:5000/saveUser", {
+                        method: 'POST',
+                        headers: {'Content-Type' : 'application/json' },
+                        body: JSON.stringify(body)
+                    })
+
+                    console.log('Login ekranında response');
+                    console.log(response)
+                } catch (e) {
+                    console.log(e.message);
+                }
+
+                if(userCredentials.userType == 'expert') {
+                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('ExpertDetails'));
+                }
+                else {
+                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('FirstTest'));
+
+                }
             }
         }
         else if(this.state.userExist) {
@@ -232,13 +256,6 @@ export default class Login extends Component {
             if(!this.state.errorBorderForPassword && !this.state.errorBorderForMail) {
                 AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
             }
-        }
-    }
-
-    saveUser() {
-        if(this.state.passAuth1 && this.state.passAuth2) {
-            // bcrypt password hashing ?
-            // save user credentials to db
         }
     }
 
@@ -254,6 +271,20 @@ export default class Login extends Component {
             this.setState({userExist: !current})
         }
     }
+
+    toggleUserType() {
+        if(this.state.userType == 'user') {
+            this.setState({
+                userType: 'expert'
+            })
+        }
+        else {
+            this.setState({
+                userType: 'user'
+            })
+        }
+    }
+
 
     render() {
         let area;
@@ -281,7 +312,7 @@ export default class Login extends Component {
                 //<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
                     <Header style={{
-                        height: this.state.userExist ? (screen.height * 45) / 100: (screen.height * 60) / 100,
+                        height: this.state.userExist ? (screen.height * 45) / 100: (screen.height * 70) / 100,
                         backgroundColor: 'white',
                         borderBottomWidth: 7,
                         borderBottomColor: '#292929',
@@ -353,6 +384,26 @@ export default class Login extends Component {
                                 />
                             </View>
                             <View>
+                                {
+                                    !this.state.userExist
+                                    &&
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Yaş"
+                                        placeholderTextColor="grey"
+                                        textAlign='center'
+                                        keyboardType="number-pad"
+                                        maxLength={3}
+                                        autoCorrect={false}
+                                        returnKeyType={'done'}
+                                        onChangeText={(text) => {
+                                            this.setState({imageChoose: text.length, age: text});
+                                        }}
+                                    />
+                                }
+                            </View>
+
+                            <View>
                                 <TextInput
                                     style={this.state.errorBorderForPassword ? styles.inputError: styles.input}
                                     placeholder="Parola"
@@ -394,6 +445,26 @@ export default class Login extends Component {
                                 }
                             </View>
 
+                            <View>
+                                {
+                                    !this.state.userExist &&
+                                    <TouchableOpacity
+                                        onPress={() => this.toggleUserType()}
+                                    >
+                                        <View style={styles.buttonUserType}>
+                                            <Text style={{
+                                                fontSize: 18,
+                                                color: 'white',
+                                                textAlign: 'center',
+                                                paddingTop: 0,
+                                                fontWeight: 'bold',
+                                            }}>
+                                                Üyelik Tipi : {this.state.userType == 'expert' ? 'Uzman' : 'Kullanıcı' }
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                }
+                            </View>
                             <TouchableOpacity
                                 disabled={this.state.signUpButtonDisabled}
                                 onPress={() => this.onSubmit()}
@@ -490,6 +561,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: 35,
         backgroundColor: '#4d738d',
+        marginTop: 10,
+        marginLeft: -screen.width / 10,
+        fontFamily: 'Helvetica-Bold',
+    },
+    buttonUserType: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '140%',
+        borderWidth: 2,
+        borderColor: '#383838',
+        borderRadius: 10,
+        height: 35,
+        backgroundColor: '#92a4b0',
         marginTop: 10,
         marginLeft: -screen.width / 10,
         fontFamily: 'Helvetica-Bold',

@@ -20,6 +20,7 @@ import BackHandler from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 
 const windowHeight = Dimensions.get('window').height;
+var screen = Dimensions.get('window');
 
 export default class ANX extends Component{
     constructor(){
@@ -238,7 +239,7 @@ export default class ANX extends Component{
                 button2clicked: true
             });
         }
-        
+
     }
 
     goPreviousQuestion = () => {
@@ -370,7 +371,7 @@ export default class ANX extends Component{
                 prevButtonDisabled: goPrevDisabled
             });
         }
-        
+
     }
 
     goNextQuestion = () => {
@@ -411,7 +412,7 @@ export default class ANX extends Component{
                     isButton1 = false;
                     isButton2 = true;
                 }
-                
+
             }
             this.setState({
                 index: newIndex,
@@ -525,9 +526,9 @@ export default class ANX extends Component{
             for(var i=0; i<7; i++){
                 console.log(i, ". ", this.state.answers[i]);
             }
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Anasayfa');
         }
-        
+
     }
 
     goExit = () => {
@@ -538,83 +539,83 @@ export default class ANX extends Component{
     render () {
         let btn_prev;
         if(this.state.index !=0 && this.state.index != 1){
-            btn_prev = 
-            <View style={{flex:1}}>
+            btn_prev =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goPreviousQuestion()}>
                     <View style={styles.buttonPrev}>
                         <Text style={styles.textStyle2}>
                             Önceki
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
         else  if(this.state.index == 1){
-            btn_prev = 
-            <View style={{flex:1}}>
+            btn_prev =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goExit()}>
                     <View style={styles.buttonPrev}>
                         <Text style={styles.textStyle2}>
                             Çıkış
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
         let btn_next;
         if(this.state.index == 0 ){
-            btn_next = 
-            <View style={{flex:1}}>
+            btn_next =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goNextQuestion()}>
                     <View style={styles.buttonNext}>
                         <Text style={styles.textStyle2}>
                             Sonraki
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
         else if(this.state.index != 1){
-            btn_next = 
-            <View style={{flex:1}}>
+            btn_next =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
                     <View style={styles.buttonNext}>
                         <Text style={styles.textStyle2}>
                             Sonraki
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
         else if(this.state.index == 1){
-            btn_next = 
-            <View style={{flex:1}}>
+            btn_next =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goNextQuestion()}>
                     <View style={styles.buttonNext}>
                         <Text style={styles.textStyle2}>
                             Devam Et
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
         else if(this.state.index == 6){
-            btn_next = 
-            <View style={{flex:1}}>
+            btn_next =
+            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center'}}>
                 <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
                     <View style={styles.buttonNext}>
                         <Text style={styles.textStyle2}>
                             Bitir
                         </Text>
                     </View>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         }
 
         let btn0;
         if(this.state.index != 0 && this.state.index != 1){
             if(this.state.index == 2 || this.state.index == 3){
-                btn0 = 
+                btn0 =
                 <TouchableOpacity onPress={() => this.button0Clicked_f()}>
                     <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -624,7 +625,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 4){
-                btn0 = 
+                btn0 =
                 <TouchableOpacity onPress={() => this.button0Clicked_f()}>
                     <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -634,7 +635,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 5){
-                btn0 = 
+                btn0 =
                 <TouchableOpacity onPress={() => this.button0Clicked_f()}>
                     <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -644,7 +645,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 6){
-                btn0 = 
+                btn0 =
                 <TouchableOpacity onPress={() => this.button0Clicked_f()}>
                     <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -653,13 +654,13 @@ export default class ANX extends Component{
                     </View>
                 </TouchableOpacity>
             }
-            
+
         }
-        
+
         let btn1;
         if(this.state.index != 0 && this.state.index != 1){
             if(this.state.index == 2 || this.state.index == 3){
-                btn1 = 
+                btn1 =
                 <TouchableOpacity onPress={() => this.button1Clicked_f()}>
                     <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -669,7 +670,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 4){
-                btn1 = 
+                btn1 =
                 <TouchableOpacity onPress={() => this.button1Clicked_f()}>
                     <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -679,7 +680,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 5){
-                btn1 = 
+                btn1 =
                 <TouchableOpacity onPress={() => this.button1Clicked_f()}>
                     <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -689,7 +690,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 6){
-                btn1 = 
+                btn1 =
                 <TouchableOpacity onPress={() => this.button1Clicked_f()}>
                     <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -703,7 +704,7 @@ export default class ANX extends Component{
         let btn2;
         if(this.state.index != 0 && this.state.index != 1 && this.state.index != 6 && this.state.index != 5){
             if(this.state.index == 2){
-                btn2 = 
+                btn2 =
                 <TouchableOpacity onPress={() => this.button2Clicked_f()}>
                     <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -713,7 +714,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 3){
-                btn2 = 
+                btn2 =
                 <TouchableOpacity onPress={() => this.button2Clicked_f()}>
                     <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -723,7 +724,7 @@ export default class ANX extends Component{
                 </TouchableOpacity>
             }
             else if(this.state.index == 4){
-                btn2 = 
+                btn2 =
                 <TouchableOpacity onPress={() => this.button2Clicked_f()}>
                     <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
                         <Text style={styles.textStyle3}>
@@ -740,7 +741,7 @@ export default class ANX extends Component{
             <View>
                 <TextInput
                     style={this.state.errorBorderForMail ? styles.inputError: styles.input}
-                    placeholder="name"
+                    placeholder="İsim"
                     ref={input => { this.textInput = input }}
                     textAlign='center'
                     maxLength={25}
@@ -753,46 +754,57 @@ export default class ANX extends Component{
             </View>
         }
         return(
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                <Card style={styles.gCard}>
-                
-                    <Avatar
-                        size={64}
-                        rounded
-                        icon={{
-                        name: 'hand-heart-outline',
-                        type: 'material-community',
-                        color: '#cdde20'
-                        }}
-                        containerStyle={{
-                        borderColor: '#cdde20',
-                        borderStyle: 'solid',
-                        borderWidth: 1,
-                        alignSelf: "center"
-                        }}
-                    />
+            <View style={styles.container}>
+                <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
+                    <Left>
+                    </Left>
 
-                    <Text style={styles.textStyle}>
-                        {this.state.questions[this.state.index]}
-                    </Text>
+                    <Text style={{marginTop: 10, fontSize: 20, fontFamily: "Helvetica-Bold"}}>Sizi Tanıyalım</Text>
 
-                    {text_area}
-                    {btn0}
-                    {btn1}
-                    {btn2}
-
-                </Card>
+                    <Right>
+                    </Right>
+                </Header>
 
                 <View>
-                    <View style={{ marginTop: windowHeight-windowHeight*0.63, marginLeft: '5%', flexDirection:"row"}}>
+                    <Card style={styles.gCard}>
+                        <Avatar
+                            size={64}
+                            rounded
+                            icon={{
+                                name: 'hand-heart-outline',
+                                type: 'material-community',
+                                color: '#cdde20'
+                            }}
+                            containerStyle={{
+                                borderColor: '#cdde20',
+                                borderStyle: 'solid',
+                                borderWidth: 1,
+                                alignSelf: "center"
+                            }}
+                        />
 
-                        {btn_prev}
-                        {btn_next}
+                        <Text style={styles.textStyle}>
+                            {this.state.questions[this.state.index]}
+                        </Text>
 
+                        {text_area}
+                        {btn0}
+                        {btn1}
+                        {btn2}
+
+                    </Card>
+
+                    <View style = {{marginTop: 10}}>
+                        <View>
+
+                            {btn_prev}
+                            {btn_next}
+
+                        </View>
                     </View>
-                </View>
 
-            </ScrollView>
+                </View>
+            </View>
         );
     }
 }
@@ -801,12 +813,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#efebeb',
     },
     container2: {
         flex: 2,
         flexDirection: 'row',
-        backgroundColor: '#fff0f5',
+        backgroundColor: '#efebeb',
         marginTop: '90%',
         paddingVertical : 2,
         paddingHorizontal : 20
@@ -842,20 +854,18 @@ const styles = StyleSheet.create({
         marginLeft: 2,
         fontSize: 20,
         fontWeight: "bold",
-        fontFamily: "sans-serif-light"
+        textAlign: 'center',
     },
     textStyle2: {
         marginTop: 2,
         marginLeft: 2,
         fontSize: 14,
-        fontFamily: "sans-serif-light",
         fontWeight: "bold"
     },
     textStyle3: {
         fontSize: 15,
         color: 'black',
         textAlign: 'center',
-        fontFamily: "sans-serif-light",
         paddingTop: 0
     },
     button: {
@@ -901,8 +911,7 @@ const styles = StyleSheet.create({
     buttonNext: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#7cfc00',
         borderRadius: 100,
@@ -912,8 +921,7 @@ const styles = StyleSheet.create({
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '85%',
+        width: screen.width - 100,
         borderWidth: 2,
         borderColor: '#ff6347',
         borderRadius: 100,
