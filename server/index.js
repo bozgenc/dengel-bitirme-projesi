@@ -16,6 +16,32 @@ app.post("/postSession", async (req,res) => {
         let sqlQuery = "INSERT INTO public.sessions VALUES ('" + saveObj.session_id + "'," + "'" + saveObj.expert_id + "'," + "'" + saveObj.session_date + "'," + "'" + saveObj.clink + "')"
         console.log(sqlQuery)
 
+        await pool.query(sqlQuery)
+        console.log(req.body)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
+app.post("/saveUser", async(req, res) => {
+    try {
+        let user = req.body.userCredentials;
+        let sqlQuery = "INSERT INTO public.users (first_name, last_name, password, email, age, user_type, sex, tckn) VALUES ("
+            + "'" + user.name + "'" +  "," + "'" + user.surname + "'" + "," + "'" + user.password + "'" + "," + "'" +
+            user.email + "'"+ ","   + "'" + user.age + "'" + ","  + "'" + user.userType + "'"+   ",'X'"  + ",'" + user.tckn + "' )";
+        console.log(sqlQuery)
+        await pool.query(sqlQuery);
+    } catch (e) {
+        console.log(e.message);
+    }
+})
+
+app.post("/savePatient", async (req,res) => {
+    try {
+        let saveObj = req.body;
+        console.log(saveObj)
+        let sqlQuery = "INSERT INTO public.user_patients (tckn, patient_id) VALUES ('" + saveObj.tckn + "' , '" + saveObj.id+ "')"
+        console.log(sqlQuery)
 
         await pool.query(sqlQuery)
         console.log(req.body)
@@ -24,28 +50,28 @@ app.post("/postSession", async (req,res) => {
     }
 })
 
-// READ
-app.get("/Users", async (req,res) => {
-    try{
-        const allRecords = await pool.query('SELECT * FROM public.users')
-        res.json(allRecords.rows)
-app.post("/saveUser", async(req, res) => {
+
+app.post("/saveExpert", async(req, res) => {
     try {
-        let user = req.body.userCredentials;
-        let sqlQuery = "INSERT INTO public.users (first_name, last_name, password, email, age, user_type, sex) VALUES ("
-            + "'" + user.name + "'" +  "," + "'" + user.surname + "'" + "," + "'" + user.password + "'" + "," + "'" +
-            user.email + "'"+ ","   + "'" + user.age + "'" + ","  + "'" + user.userType + "'"+   ", 'X')";
+        let user = req.body;
+        console.log(user);
+        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, graduate_school, tckn) VALUES ('"
+            + user.expert_id + "','" + user.religion + "'" +  "," + "'" + user.description + "'" + "," + "'" +
+            user.graduateSchool + "'"+ ","   + "'" + user.tckn + "' )";
         console.log(sqlQuery)
-        await pool.query(sqlQuery);
-    } catch (e) {
-        console.log(e.message);
+        await pool.query(sqlQuery)
+        console.log(req.body)
+    } catch (error) {
+        console.log(error.message)
     }
 })
 
-app.get("/getUser/:id", async(req,res) => {
+
+
+app.get("/getUser/:tckn", async(req,res) => {
     try{
-        console.log(req.params);
-        const userDetails = await pool.query("SELECT * FROM public.users WHERE id = " + req.params.id)
+        console.log((req.params.tckn));
+        const userDetails = await pool.query("SELECT * FROM public.users WHERE tckn = '" +  req.params.tckn + "'");
         res.json(userDetails.rows)
     } catch(e) {
         console.log(e.message);
@@ -248,8 +274,10 @@ app.get("/User_experts", async (req,res) => {
     }
 })
 
+
 app.put("/uANX", async (req,res) => {
     console.log("*******");
+    console.log("ANX");
     try {
         const { userID, score } = req.body;
         console.log(userID, score);
@@ -257,9 +285,9 @@ app.put("/uANX", async (req,res) => {
           "UPDATE public.user_patients SET anx = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("ANX UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -274,9 +302,9 @@ app.put("/uDEP", async (req,res) => {
           "UPDATE public.user_patients SET dep = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("DEP UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -291,9 +319,9 @@ app.put("/uOKB", async (req,res) => {
           "UPDATE public.user_patients SET okb = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("OKB UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -308,9 +336,9 @@ app.put("/uINT", async (req,res) => {
           "UPDATE public.user_patients SET int = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("INT UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -326,9 +354,9 @@ app.put("/uPAR", async (req,res) => {
           "UPDATE public.user_patients SET par = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("PAR UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -343,9 +371,9 @@ app.put("/uPHOB", async (req,res) => {
           "UPDATE public.user_patients SET phob = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("PHOB UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -360,9 +388,9 @@ app.put("/uPSY", async (req,res) => {
           "UPDATE public.user_patients SET PSY = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("PSY UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -377,9 +405,9 @@ app.put("/uSOM", async (req,res) => {
           "UPDATE public.user_patients SET som = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("SOM UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -394,9 +422,9 @@ app.put("/uHOS", async (req,res) => {
           "UPDATE public.user_patients SET HOS = $1 WHERE patient_id = $2",
           [score, userID]
         );
-    
+
         console.log("HOS UPDATED");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }

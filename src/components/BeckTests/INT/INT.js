@@ -19,6 +19,7 @@ import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
 var screen = Dimensions.get('window');
+var url = "http://localhost:5000/"
 
 
 export default class INT extends Component{
@@ -41,7 +42,7 @@ export default class INT extends Component{
     }
 
     componentDidMount =  async () => {
-        let id = await AsyncStorage.getItem('ID');
+        let id = await AsyncStorage.getItem('userId');
 
         let question_s = [];
 
@@ -249,7 +250,7 @@ export default class INT extends Component{
                 scr = scr.toString();
                 //AsyncStorage.setItem('HOS', scr);
                 try {
-                        fetch("http://10.100.60.20:5000/uINT", {
+                        fetch(url + "uINT", {
                         method: 'put',
                         headers: {'content-type': 'application/json'},
                         body: JSON.stringify(this.state)
@@ -261,9 +262,9 @@ export default class INT extends Component{
                 scr = scr.toString();
                 AsyncStorage.setItem('INT', scr);
                 this.props.navigation.navigate('EndTest');
- 
+
             });
-            
+
         }
 
         else{

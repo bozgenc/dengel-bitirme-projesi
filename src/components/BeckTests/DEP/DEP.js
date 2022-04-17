@@ -19,6 +19,8 @@ import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
 var screen = Dimensions.get('window');
+var url = "http://localhost:5000/"
+
 
 export default class DEP extends Component{
     constructor(){
@@ -40,7 +42,7 @@ export default class DEP extends Component{
     }
 
     componentDidMount =  async () => {
-        let id = await AsyncStorage.getItem('ID');
+        let id = await AsyncStorage.getItem('userId');
 
         let question_s = [];
 
@@ -259,7 +261,7 @@ export default class DEP extends Component{
             this.setState({score: scr} , () => {
                 scr = scr.toString();
                 try {
-                        fetch("http://10.100.60.20:5000/uDEP", {
+                        fetch(url + "uDEP", {
                         method: 'put',
                         headers: {'content-type': 'application/json'},
                         body: JSON.stringify(this.state)
@@ -271,7 +273,7 @@ export default class DEP extends Component{
                 scr = scr.toString();
                 AsyncStorage.setItem('DEP', scr);
                 this.props.navigation.navigate('EndTest');
-            }); 
+            });
         }
 
         else{

@@ -19,6 +19,7 @@ import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
 var screen = Dimensions.get('window');
+var url = "http://localhost:5000/"
 
 
 export default class PHOB extends Component{
@@ -42,7 +43,7 @@ export default class PHOB extends Component{
     }
 
     componentDidMount =  async () => {
-        let id = await AsyncStorage.getItem('ID');
+        let id = await AsyncStorage.getItem('userId');
         let question_s = [];
 
         let q1 = "Caddele, sokak, AVM vb. halka açık alanlarda korku hissi";
@@ -247,7 +248,7 @@ export default class PHOB extends Component{
             this.setState({score: scr} , () => {
                 scr = scr.toString();
                 try {
-                        fetch("http://10.100.60.20:5000/uPHOB", {
+                        fetch(url + "uPHOB", {
                         method: 'put',
                         headers: {'content-type': 'application/json'},
                         body: JSON.stringify(this.state)
@@ -259,7 +260,7 @@ export default class PHOB extends Component{
                 scr = scr.toString();
                 AsyncStorage.setItem('PHOB', scr);
                 this.props.navigation.navigate('EndTest');
- 
+
             });
         }
 

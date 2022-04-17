@@ -7,6 +7,7 @@ import MainScreenUser from "../MainScreenUser/MainScreenUser";
 
 var screen = Dimensions.get('window');
 var deviceModel = DeviceInfo.getModel();
+var url = "http://localhost:5000/"
 
 export default class ExpertInformationLogin extends Component {
     constructor() {
@@ -15,15 +16,32 @@ export default class ExpertInformationLogin extends Component {
             expertId: -1,
             userTckn: '',
             schoolName: '',
-            description: '',
+            description: 'X',
             uzmanlikAlani: '',
-            religion: '',
-            gender: '',
-            specialties: []
+            religion: 'E',
+            gender: 'X',
+            specialties: [],
+            user: {},
         };
     }
 
     componentDidMount = async() => {
+        let tckn = await AsyncStorage.getItem("userTckn") + "";
+        console.log("inside login:: " + tckn);
+        let userObj = {};
+        try {
+            const response = await fetch(url +'getUser/' + tckn).then()
+            const userObject = await response.json();
+            userObj = userObject[0];
+            console.log(userObj)
+            this.setState({
+                expertId: userObj.id,
+                userTckn: tckn
+            })
+        }
+        catch (e) {
+            console.log(e.message)
+        }
         Alert.alert(
             'Bilgilendirme ',
             'Bu sayfada sorulan sorular, sadece kullanıcılarımızın bir uzman tercihi yaparken aradığı kriterle ulaşımını kolaylaştırmak içindir.' +
@@ -69,8 +87,29 @@ export default class ExpertInformationLogin extends Component {
                 specialties: temp
             });
 
-            console.log(this.state)
-            this.props.navigation.navigate('Anasayfa');
+            let expertObj = {
+                religion: this.state.religion == 'H' ? false : true,
+                expert_id: this.state.expertId,
+                //specialties: temp,
+                graduateSchool: this.state.schoolName,
+                description:this.state.description,
+                tckn: this.state.userTckn,
+            };
+
+            try {
+                const body = expertObj
+                const response = fetch( url + "saveExpert", {
+                    method: 'POST',
+                    headers: {'Content-Type' : 'application/json' },
+                    body: JSON.stringify(body)
+                })
+                console.log('expert detail login screen');
+                console.log(response)
+
+                this.props.navigation.navigate('Anasayfa');
+            } catch (e) {
+                console.log(e.message);
+            }
         }
     }
 
@@ -145,10 +184,10 @@ export default class ExpertInformationLogin extends Component {
                             <View>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="Dini Görüşünüz"
+                                    placeholder="Dindar mısınız? (E/H)"
                                     placeholderTextColor="grey"
                                     textAlign='center'
-                                    maxLength={20}
+                                    maxLength={1}
                                     autoCorrect={false}
                                     returnKeyType={'done'}
                                     onChangeText={(text) => {

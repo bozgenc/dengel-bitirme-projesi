@@ -6,12 +6,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 var screen = Dimensions.get('window');
+var url = "http://localhost:5000/"
 
 export default class Profile extends  Component {
     constructor() {
         super();
         this.state = {
-            id: 22,
+            id: -1,
             name: '',
             surname: '',
             email: '',
@@ -22,13 +23,16 @@ export default class Profile extends  Component {
             newEmail: '',
             newPassword: '',
             newPasswordConfirm: '',
+            userTckn: "",
         }
     }
 
     componentDidMount =  async () => {
-        let id = 8
+        let id = await AsyncStorage.getItem("userId");
+        let tckn = await AsyncStorage.getItem("userTckn") + "";
+
         try {
-            const response = await fetch('http://192.168.1.23:5000/getUser/' + id).then()
+            const response = await fetch(url + 'getUser/' + tckn).then()
             const userObject = await response.json();
             let user = userObject[0];
 
@@ -37,8 +41,11 @@ export default class Profile extends  Component {
                 name: user.first_name,
                 surname: user.last_name,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                id: user.id,
+                userTckn: tckn,
             })
+
         } catch (e) {
             console.log(e.message())
         }
@@ -81,7 +88,7 @@ export default class Profile extends  Component {
             }
             try {
                 const body = userNew
-                const response = fetch("http://localhost:5000/updateUser/" + this.state.id, {
+                const response = fetch(url + "updateUser/" + this.state.id, {
                     method: 'PUT',
                     headers: {'Content-Type' : 'application/json' },
                     body: JSON.stringify(body)
