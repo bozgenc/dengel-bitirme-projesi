@@ -20,7 +20,6 @@ export default class ExpertInformationLogin extends Component {
             uzmanlikAlani: '',
             religion: 'E',
             gender: 'X',
-            specialties: [],
             user: {},
         };
     }
@@ -76,21 +75,11 @@ export default class ExpertInformationLogin extends Component {
             );
         }
         else {
-            let temp = [];
-            if(this.state.uzmanlikAlani.includes(","))
-                temp = this.state.uzmanlikAlani.split(/[ ,]+/);
-            else
-                temp = this.state.uzmanlikAlani.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
-
-            console.log(temp);
-            this.setState({
-                specialties: temp
-            });
 
             let expertObj = {
                 religion: this.state.religion == 'H' ? false : true,
                 expert_id: this.state.expertId,
-                //specialties: temp,
+                specialties: this.state.uzmanlikAlani,
                 graduateSchool: this.state.schoolName,
                 description:this.state.description,
                 tckn: this.state.userTckn,

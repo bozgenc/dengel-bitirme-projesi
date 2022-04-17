@@ -163,11 +163,11 @@ export default class MainScreenUser extends Component {
 
                         <Right>
                             <TouchableOpacity
-                                onPress={() => console.log("session create")}
+                                onPress={() => this.props.navigation.navigate("Terapi Oluştur")}
                                 style={{color: "black"}}
                             >
-                                <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
-                                    +
+                                <Text style={{marginLeft: 5, fontSize: 18, color: '#B00D23'}}>
+                                    Oluştur
                                 </Text>
                             </TouchableOpacity>
                         </Right>

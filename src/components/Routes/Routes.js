@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 import Login from "../Login/Login";
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
 import MeetingSearch from "../MeetingSearch/MeetingSearch";
-import SignInList from "../SignInList/SignInList";
+import SessionCreate from "../SessionCreate/SessionCreate";
 import ViewList from "../ViewList/ViewList";
 import Settings from "../Settings/Settings";
 import Profile from "../Profile/Profile";
@@ -54,7 +54,6 @@ function Home() {
             <Drawer.Screen name="Home" component={MainScreenTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Professional Meetings" component={UzmanStack} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
             <Drawer.Screen name="Test Önerileri" component={TestTabs} options={{unmountOnBlur:true}}/>
@@ -123,10 +122,11 @@ function MainScreenStack() {
         <Stack.Navigator
             lazy = {true}
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}
         >
             <Stack.Screen name='Ana sayfa' component={MainScreenUser}/>
+            <Drawer.Screen name="Terapi Oluştur" component={SessionCreate} options={{unmountOnBlur:true}} />
             <Stack.Screen name='Live Meeting' component={LiveMeeting}/>
             <Stack.Screen name='Rating Meeting' component={RatingTest}/>
             <Stack.Screen name='Ana Sayfa_x' component={MainScreenUser}/>

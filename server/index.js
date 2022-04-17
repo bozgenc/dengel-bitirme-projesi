@@ -13,7 +13,9 @@ app.post("/postSession", async (req,res) => {
     try {
         let saveObj = req.body;
         console.log(saveObj)
-        let sqlQuery = "INSERT INTO public.sessions VALUES ('" + saveObj.session_id + "'," + "'" + saveObj.expert_id + "'," + "'" + saveObj.session_date + "'," + "'" + saveObj.clink + "')"
+        let sqlQuery = "INSERT INTO public.sessions (expert_id, clink, session_title, re_interval, session_time, isprivate, price, patient_ids) " +
+            "VALUES ('" + saveObj.expertId + "'," + "'" + saveObj.sessionLink + "'," + "'" + saveObj.title + "'," + "'" + saveObj.recurring + "', '" +
+         saveObj.timeDate.toString() + "','" + saveObj.isPrivateType  + "', '"+ saveObj.price + "' , '0')";
         console.log(sqlQuery)
 
         await pool.query(sqlQuery)
@@ -55,9 +57,9 @@ app.post("/saveExpert", async(req, res) => {
     try {
         let user = req.body;
         console.log(user);
-        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, graduate_school, tckn) VALUES ('"
+        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, specialties, graduate_school, tckn) VALUES ('"
             + user.expert_id + "','" + user.religion + "'" +  "," + "'" + user.description + "'" + "," + "'" +
-            user.graduateSchool + "'"+ ","   + "'" + user.tckn + "' )";
+            user.specialties + "', '" +  user.graduateSchool + "'"+ ","   + "'" + user.tckn + "' )";
         console.log(sqlQuery)
         await pool.query(sqlQuery)
         console.log(req.body)
