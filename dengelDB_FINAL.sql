@@ -442,8 +442,6 @@ ALTER TABLE ONLY public.posts
 -- Name: requests requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.requests
-    ADD CONSTRAINT requests_pkey PRIMARY KEY (patient_id, expert_id);
 
 
 --
@@ -568,26 +566,17 @@ ALTER TABLE ONLY public.posts
 -- Name: requests requests_expert_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.requests
-    ADD CONSTRAINT requests_expert_id_fkey FOREIGN KEY (expert_id) REFERENCES public.user_experts(expert_id);
-
 
 --
 -- TOC entry 3505 (class 2606 OID 65627)
 -- Name: requests requests_patient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.requests
-    ADD CONSTRAINT requests_patient_id_fkey FOREIGN KEY (patient_id) REFERENCES public.user_patients(patient_id);
-
 
 --
 -- TOC entry 3506 (class 2606 OID 98400)
 -- Name: requests requests_session_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
-
-ALTER TABLE ONLY public.requests
-    ADD CONSTRAINT requests_session_id_fkey FOREIGN KEY (session_id) REFERENCES public.sessions(session_id);
 
 
 --
