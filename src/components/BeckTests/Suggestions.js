@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, TouchableOpacity, Image, Alert} from 'react-native';
 import {Header, Left, Right} from "native-base"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 var screen = Dimensions.get('window');
+var url = "http://localhost:5000/"
 
 export default class Suggestions extends  Component {
 
@@ -23,52 +25,42 @@ export default class Suggestions extends  Component {
     }
 
     componentDidMount =  async () => {
-        /*
-        let anx = 0;
-        id = parseInt(id);
+        let id = await AsyncStorage.getItem('userId');
+        console.log("in suggestions");
+        console.log(id);
         try {
-            anx = await fetch(`http://192.168.1.23:5000/gANX/${id}`);
-            //console.log("JSON DATAxx", anx);
-            const jsonANX = await anx.json();
-            console.log("JSON DATA", jsonANX);
-            console.log("JSON DATA anx ", jsonANX.anx);
-            anx = jsonANX.anx;
+            const response2 = await fetch (url + 'getPatientScores/' + id)
+            const responseObj = await response2.json();
+
+            console.log(responseObj);
+            let scores = responseObj[0];
+            let btn_anx = (scores.anx > 0.75 ) ? true : false;
+            let btn_dep = (scores.dep > 0.9 ) ? true : false;
+            let btn_okb = (scores.okb > 1.02 ) ? true : false;
+            let btn_hos = (scores.hos > 0.97 ) ? true : false;
+            let btn_int = (scores.int > 0.85 ) ? true : false;
+            let btn_par = (scores.par > 1.0 ) ? true : false;
+            let btn_phob = (scores.phob > 0.48 ) ? true : false;
+            let btn_psy = (scores.psy > 0.72 ) ? true : false;
+            let btn_som = (scores.som > 0.55 ) ? true : false;
+
+            this.setState({
+                paranoid: btn_par,
+                somatic: btn_som,
+                hostilite: btn_hos,
+                anxiety: btn_anx,
+                depression: btn_dep,
+                obsessive: btn_okb,
+                psyco: btn_psy,
+                social: btn_int,
+                phobia: btn_phob,
+                userID: id
+            })
+        } catch (e) {
+            console.log(e.message)
         }
-        catch (e) {
-            console.log(e.message);
-        }
-
-        console.log("axxxx ", anx/2);*/
-        let id = await AsyncStorage.getItem('ID');
-
-        const response2 = await fetch ('http://10.100.60.20:5000/getPatientScores/' + id)
-        const responseObj = await response2.json();
-
-        let scores = responseObj[0];
-        let btn_anx = (scores.anx > 0.75 ) ? true : false;
-        let btn_dep = (scores.dep > 0.9 ) ? true : false;
-        let btn_okb = (scores.okb > 1.02 ) ? true : false;
-        let btn_hos = (scores.hos > 0.97 ) ? true : false;
-        let btn_int = (scores.int > 0.85 ) ? true : false;
-        let btn_par = (scores.par > 1.0 ) ? true : false;
-        let btn_phob = (scores.phob > 0.48 ) ? true : false;
-        let btn_psy = (scores.psy > 0.72 ) ? true : false;
-        let btn_som = (scores.som > 0.55 ) ? true : false;
-        this.setState({
-            paranoid: btn_par,
-            somatic: btn_som,
-            hostilite: btn_hos,
-            anxiety: btn_anx,
-            depression: btn_dep,
-            obsessive: btn_okb,
-            psyco: btn_psy,
-            social: btn_int,
-            phobia: btn_phob,
-            userID: id
-        })
-        
     }
-    
+
     ANX = () => {
         this.props.navigation.navigate('Anksiyete');
     }

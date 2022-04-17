@@ -9,6 +9,8 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-goog
 
 var screen = Dimensions.get('window');
 var deviceModel = DeviceInfo.getModel();
+var url = "http://localhost:5000/"
+
 
 export default class Login extends Component {
     constructor() {
@@ -248,7 +250,7 @@ export default class Login extends Component {
 
                 try {
                     const body = {userCredentials}
-                    const response = fetch("http://10.100.60.20:5000/saveUser", {
+                    const response = fetch( url + "saveUser", {
                         method: 'POST',
                         headers: {'Content-Type' : 'application/json' },
                         body: JSON.stringify(body)
@@ -262,10 +264,12 @@ export default class Login extends Component {
 
                 await AsyncStorage.setItem("userTckn", this.state.userTckn);
                 if(userCredentials.userType == 'expert') {
+                    await AsyncStorage.setItem("expertFirst", "true")
                     AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('ExpertDetails'));
                 }
                 else {
-                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('FirstTest'));
+                    await AsyncStorage.setItem("patientFirst", "true")
+                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
                 }
             }
         }
@@ -274,11 +278,11 @@ export default class Login extends Component {
             await this.validatePasswordForUser(this.state.password);
             if(!this.state.errorBorderForPassword && !this.state.errorBorderForMail) {
                 try {
-                    const response = await fetch('http://localhost:5000/getUserForLogin/' + this.state.email)
+                    const response = await fetch(url + 'getUserForLogin/' + this.state.email)
                     const userObject = await response.json();
                     let user = userObject[0];
-
                     console.log(user);
+                    await AsyncStorage.setItem("userTckn", user.tckn);
 
                     if(user.password == this.state.password) {
                         AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));

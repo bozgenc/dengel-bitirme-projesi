@@ -20,6 +20,8 @@ import { Card, Icon, Avatar} from 'react-native-elements';
 const windowHeight = Dimensions.get('window').height;
 const screen = Dimensions.get('window');
 
+var url = "http://localhost:5000/"
+
 export default class ANX extends Component{
     constructor(){
         super();
@@ -40,7 +42,7 @@ export default class ANX extends Component{
     }
 
     componentDidMount =  async () => {
-        let id = await AsyncStorage.getItem('ID');
+        let id = await AsyncStorage.getItem('userId');
 
         let question_s = [];
 
@@ -251,7 +253,7 @@ export default class ANX extends Component{
             this.setState({score: scr} , () => {
                 scr = scr.toString();
                 try {
-                        fetch("http://10.100.60.20:5000/uANX", {
+                        fetch(url + "uANX", {
                         method: 'put',
                         headers: {'content-type': 'application/json'},
                         body: JSON.stringify(this.state)
@@ -263,7 +265,7 @@ export default class ANX extends Component{
                 scr = scr.toString();
                 AsyncStorage.setItem('ANX', scr);
                 this.props.navigation.navigate('EndTest');
-            }); 
+            });
         }
 
         else{

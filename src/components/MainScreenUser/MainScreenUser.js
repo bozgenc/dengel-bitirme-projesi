@@ -17,13 +17,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 
 var screen = Dimensions.get('window');
-
+var url = "http://localhost:5000/"
 
 export default class MainScreenUser extends Component {
     constructor() {
         super();
         this.state = {
             userName: "",
+            userId: -1,
             userSurname: "",
             userType: "",
             meetingsIncoming: [],
@@ -39,6 +40,7 @@ export default class MainScreenUser extends Component {
     }
 
     componentDidMount =  async () => {
+        let tckn = await AsyncStorage.getItem("userTckn") + "";
         let meetings = [
             {
                 id: 0,
@@ -63,19 +65,20 @@ export default class MainScreenUser extends Component {
             }
         ];
 
-        let id = 8;
+        let user = {};
         try {
-            id_s = id.toString();
-            AsyncStorage.setItem('ID', id_s);
-            const response = await fetch('http://10.100.60.20:5000/getUser/' + id).then()
+            const response = await fetch(url +'getUser/' + tckn).then()
             const userObject = await response.json();
-            let user = userObject[0];
+            user = userObject[0];
 
+            await AsyncStorage.setItem("userId", user.id.toString() + "").then(console.log("user id set"));
+            console.log(user);
             this.setState({
                     userName: user.first_name,
                     userSurname: user.last_name,
                     userType: user.user_type,
                     meetingsIncoming: meetings,
+                    userId: user.id
                 })
 
         }
@@ -85,7 +88,7 @@ export default class MainScreenUser extends Component {
 
         try {
             if(this.state.userType == 'user') {
-                const response2 = await fetch ('http://localhost:5000/getPatientScores/' + id)
+                const response2 = await fetch (url + 'getPatientScores/' + user.id)
                 const responseObj = await response2.json();
                 let scores = responseObj[0];
 
@@ -102,6 +105,26 @@ export default class MainScreenUser extends Component {
             }
         } catch (e) {
             console.log(e.message)
+        }
+
+        if(this.state.userType == 'user') {
+            let check = await AsyncStorage.getItem("patientFirst");
+            if(check) {
+                try {
+                    const body = user
+                    const response = await fetch( url + "savePatient", {
+                        method: 'POST',
+                        headers: {'Content-Type' : 'application/json' },
+                        body: JSON.stringify(body)
+                    })
+
+                    console.log('main screen id save patient ');
+                    console.log(response)
+                } catch (e) {
+                    console.log(e.message);
+                }
+                AsyncStorage.setItem("patientFirst", "false").then(console.log("..."));
+            }
         }
     }
 
