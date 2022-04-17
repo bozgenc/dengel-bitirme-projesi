@@ -19,6 +19,7 @@ import { Card, Icon, Avatar} from 'react-native-elements';
 
 const windowHeight = Dimensions.get('window').height;
 const screen = Dimensions.get('window');
+var url = "http://192.168.1.23:5000/"
 
 export default class HOS extends Component{
     constructor(){
@@ -28,18 +29,21 @@ export default class HOS extends Component{
             answers: [],
             index: 0,
             score: 0,
-            prev_score:0,
             button0clicked: false,
             button1clicked: false,
             button2clicked: false,
             button3clicked: false,
             button4clicked: false,
             prevButtonDisabled: true,
-            nextButtonDisabled: false
+            nextButtonDisabled: false,
+            expertID: 0,
+            score_old: 0,
+            num_of_votes: 0
         }
     }
 
     componentDidMount =  async () => {
+       
         let question_s = [];
 
         let q1 = "Terapi süresince söylediklerimin dinlendiğini, durumumun anlaşıldığını ve bana saygı duyulduğunu hissediyorum.";
@@ -55,25 +59,37 @@ export default class HOS extends Component{
 
         question_s.push(q4);
 
+         /*let id = await AsyncStorage.getItem('sessionExpertId');
+        id = parseInt(id);*/
+        let id = 10;
         let old_score = 0;
-
-
-
-       /* try {
-            const response = await fetch("http://10.2.34.231:5000/getPSY");
-            const jsonData = await response.json().then(score_data => {
-                old_score = score_data;
-            });
-            console.log(jsonData);
+       
+        try {
+            const response = await fetch(url + "getOldScore/" + id).then()
+            old_score = await response.json();
+            console.log("OLD SCORE: ", old_score.totalrating, "\n");
+            this.setState({
+                    questions: question_s,
+                    expertID: id,
+                    score_old: old_score.totalrating,
+                })
         }
         catch (e) {
             console.log(e.message);
-        }*/
+        }
 
-        this.setState({
-            questions: question_s,
-            prev_score: old_score
-        })
+        let nof_votes = 0;
+        try {
+            const response = await fetch(url + "getNOV/" + id)
+            nof_votes = await response.json();
+            console.log("number of votes: ",nof_votes.numofvotes, "\n");
+            this.setState({
+                num_of_votes: nof_votes.numofvotes
+            })
+        }
+        catch (e) {
+            console.log(e.message);
+        }
 
     }
 
@@ -220,22 +236,33 @@ export default class HOS extends Component{
     }
 
     updateRate = async e => {
-        var val = this.state.score/4;
-        e.preventDefault();
-        try {
-          const body = { val };
-          const response = await fetch(
-            `http://10.2.34.231:5000/uRate/${psikolog.id}`,
-            {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body)
+        let scr = this.state.score/4;
+        scr = scr + (this.state.num_of_votes * this.state.score_old);
+        scr = scr / this.state.num_of_votes + 1;
+        let nov_new = this.state.num_of_votes + 1;
+        this.setState({score: scr, nof_votes: nov_new} , () => {
+            try {
+                fetch(url + "uScore", {
+                method: 'put',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(this.state)
+            });
             }
-          );
-        }
-        catch (err) {
-          console.error(err.message);
-        }
+            catch (e) {
+                console.log(e.message);
+            }
+
+            try {
+                fetch(url + "uNOV", {
+                method: 'put',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(this.state)
+            });
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
     };
 
     goNextQuestion = () => {
@@ -246,11 +273,9 @@ export default class HOS extends Component{
         let isButton3 = false;
         let isButton4 = false;
         let _answer;
-
+        console.log(this.state.questions[this.state.index]);
         if(newIndex == 4){
             console.log("Psikolog Score: ", this.state.score/4, "\n");
-            var scr = this.state.score / 4;
-            scr = scr.toString();
             this.updateRate();
             this.props.navigation.navigate('Ana Sayfa_x');
         }

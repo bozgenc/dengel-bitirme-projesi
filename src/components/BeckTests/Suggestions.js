@@ -4,7 +4,7 @@ import {Header, Left, Right} from "native-base"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var screen = Dimensions.get('window');
-var url = "http://localhost:5000/"
+var url = "http://192.168.1.23:5000/"
 
 export default class Suggestions extends  Component {
 
@@ -26,8 +26,7 @@ export default class Suggestions extends  Component {
 
     componentDidMount =  async () => {
         let id = await AsyncStorage.getItem('userId');
-        console.log("in suggestions");
-        console.log(id);
+        console.log("in suggestions id: ", id);
         try {
             const response2 = await fetch (url + 'getPatientScores/' + id)
             const responseObj = await response2.json();
@@ -125,7 +124,7 @@ export default class Suggestions extends  Component {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.INT()} >
-                    <View style={this.state.depression ? styles.buttonImportant : styles.buttonNotImportant}>
+                    <View style={this.state.int ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
                             Kişiler Arası İlişkiler Testi
                         </Text>
