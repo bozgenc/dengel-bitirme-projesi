@@ -50,9 +50,9 @@ app.post("/savePatient", async (req,res) => {
     }
 })
 
-
 app.post("/saveExpert", async(req, res) => {
     try {
+        console.log("geldi mi???")
         let user = req.body;
         console.log(user);
         let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, graduate_school, tckn) VALUES ('"
@@ -70,7 +70,7 @@ app.post("/saveExpert", async(req, res) => {
 
 app.get("/getUser/:tckn", async(req,res) => {
     try{
-        console.log((req.params.tckn));
+        console.log("tck no: ", (req.params.tckn));
         const userDetails = await pool.query("SELECT * FROM public.users WHERE tckn = '" +  req.params.tckn + "'");
         res.json(userDetails.rows)
     } catch(e) {
@@ -80,7 +80,7 @@ app.get("/getUser/:tckn", async(req,res) => {
 
 app.get("/getPatientScores/:id", async(req,res) => {
     try{
-        console.log(req.params);
+        console.log("getPatientScores id: ", req.params, "\n");
         const patientDetails = await pool.query("SELECT * FROM public.user_patients WHERE patient_id = " + req.params.id)
         res.json(patientDetails.rows)
     } catch(e) {
@@ -125,136 +125,59 @@ app.put("/updateUser/:id", async(req,res) => {
         console.log(err.message)
     }
 })
-
-app.get("/gPHOB/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :phob");
-        const dataa = await pool.query("SELECT phob FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-
-app.get("/gOKB/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :okb");
-        const dataa = await pool.query("SELECT okb FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-
-app.get("/gDEP/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :dep");
-        const dataa = await pool.query("SELECT dep FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-app.get("/gHOS/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :hos");
-        const dataa = await pool.query("SELECT hos FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-
-app.get("/gSOM/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :som");
-        const dataa = await pool.query("SELECT som FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-
-app.get("/Get_session", async (req,res) => {
-    try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
-        const allRecords = await pool.query('SELECT * FROM public.sessions')
-        res.json(allRecords.rows)
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-// UPDATE
-
-app.get("/gPSY/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :psy");
-        const dataa = await pool.query("SELECT psy FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-
-app.get("/gPAR/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :par");
-        const dataa = await pool.query("SELECT par FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
-
-app.get("/gINT/:id", async (req,res) => {
-    try{
-        const idm = parseInt(req.params.id);
-        console.log(idm, " :int");
-        const dataa = await pool.query("SELECT anx FROM user_patients WHERE patient_id = $1", [
-          idm
-        ]);
-        console.log(dataa.rows[0]);
-        //res = dataa.rows[0];
-        res.json(dataa.rows[0]);
-    } catch(err) {
-        console.log(err.message)
-    }
-})
 */
+
+//////////////////////////////////////NEW////////////////////////////////////////
+app.get("/getOldScore/:id", async(req,res) => {
+    try{
+        console.log("id of expert: ", req.params.id);
+        const userDetails = await pool.query("SELECT totalrating FROM public.user_experts WHERE id = " + req.params.id);
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getNOV/:id", async(req,res) => {
+    try{
+        console.log("id of expert: ", req.params.id);
+        const userDetails = await pool.query("SELECT numOfVotes FROM public.user_experts WHERE id = " + req.params.id);
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.put("/uNOV", async (req,res) => {
+    try {
+        const { expertID, nof_votes } = req.body;
+        const updateVoteNum = await pool.query(
+          "UPDATE public.user_experts SET numOfVotes = $1 WHERE expert_id = $2",
+          [nof_votes, expertID]
+        );
+    
+        console.log("vote num updated to ", nof_votes, "\n");
+    } 
+    catch (err) {
+        console.error(err.message);
+    }
+})
+
+app.put("/uScore", async (req,res) => {
+    try {
+        const { expertID, score } = req.body;
+        const updateScore = await pool.query(
+          "UPDATE public.user_experts SET totalrating = $1 WHERE expert_id = $2",
+          [score, expertID]
+        );
+    
+        console.log("score updated to ", score, "\n");
+    } 
+    catch (err) {
+        console.error(err.message);
+    }
+})
+///////////////////////////////////////////////NEW/////////////////////////////////
 
 app.get("/Get_session", async (req,res) => {
     try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id

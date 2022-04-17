@@ -20,7 +20,7 @@ import { Card, Icon, Avatar} from 'react-native-elements';
 const windowHeight = Dimensions.get('window').height;
 const screen = Dimensions.get('window');
 
-var url = "http://localhost:5000/"
+var url = "http://192.168.1.23:5000/"
 
 export default class ANX extends Component{
     constructor(){

@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 
 var screen = Dimensions.get('window');
-var url = "http://localhost:5000/"
+var url = "http://192.168.1.23:5000/"
 
 export default class MainScreenUser extends Component {
     constructor() {
@@ -83,7 +83,7 @@ export default class MainScreenUser extends Component {
 
         }
             catch (e) {
-            console.log(e.message)
+            console.log("message 1: ", e.message)
         }
 
         try {
@@ -104,7 +104,7 @@ export default class MainScreenUser extends Component {
                 })
             }
         } catch (e) {
-            console.log(e.message)
+            console.log("message 2: ",e.message)
         }
 
         if(this.state.userType == 'user') {
@@ -121,7 +121,7 @@ export default class MainScreenUser extends Component {
                     console.log('main screen id save patient ');
                     console.log(response)
                 } catch (e) {
-                    console.log(e.message);
+                    console.log("message 3: ", e.message);
                 }
                 AsyncStorage.setItem("patientFirst", "false").then(console.log("..."));
             }
