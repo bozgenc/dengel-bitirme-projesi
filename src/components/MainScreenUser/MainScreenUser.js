@@ -41,30 +41,6 @@ export default class MainScreenUser extends Component {
 
     componentDidMount =  async () => {
         let tckn = await AsyncStorage.getItem("userTckn") + "";
-        let meetings = [
-            {
-                id: 0,
-                name: 'Depresyon',
-                details: 'Week 1',
-                time: '01.01.2021',
-                date: '20.30'
-            },
-            {
-                id: 1,
-                name: 'Yas',
-                details: 'Week 2',
-                time: '01.01.2021',
-                date: '20.30'
-            },
-            {
-                id: 2,
-                name: 'Korku',
-                details: 'Week 1',
-                time: '01.01.2021',
-                date: '20.30'
-            }
-        ];
-
         let user = {};
         try {
             const response = await fetch(url +'getUser/' + tckn).then()
@@ -77,15 +53,12 @@ export default class MainScreenUser extends Component {
                     userName: user.first_name,
                     userSurname: user.last_name,
                     userType: user.user_type,
-                    meetingsIncoming: meetings,
                     userId: user.id
                 })
-
         }
             catch (e) {
             console.log(e.message)
         }
-
         try {
             if(this.state.userType == 'user') {
                 const response2 = await fetch (url + 'getPatientScores/' + user.id)
@@ -125,6 +98,78 @@ export default class MainScreenUser extends Component {
                 }
                 AsyncStorage.setItem("patientFirst", "false").then(console.log("..."));
             }
+
+            let meetings = [];
+            try {
+                const response = await fetch(url +'getRequestById/' + this.state.userId).then()
+                const requests = await response.json();
+
+                for(let i = 0; i < requests.length; i++) {
+                    let request = requests[i];
+
+                    const responseX = await fetch(url +'getUserById/' + request.expert_id).then()
+                    const userX = await responseX.json();
+                    let userObjX = userX[0];
+
+                    const response2 = await fetch(url +'getSessionById/' + request.session_id).then()
+                    const session = await response2.json();
+                    let sessionObj = session[0];
+
+                    let temp = {
+                        id: sessionObj.session_id,
+                        meetingTitle: sessionObj.session_title,
+                        time: sessionObj.session_time,
+                        expertName: userObjX.first_name,
+                        expertLastName: userObjX.last_name,
+                        link: sessionObj.clink,
+                        expertIdForRating: request.expert_id
+                    }
+                    meetings.push(temp)
+                }
+
+                this.setState({
+                    meetingsIncoming: meetings
+                })
+
+            } catch (e) {
+                console.log(e.message)
+            }
+        }
+        else {
+            let meetings = [];
+            try {
+                const response = await fetch(url +'getRequestByExpertId/' + this.state.userId).then()
+                const requests = await response.json();
+
+                for(let i = 0; i < requests.length; i++) {
+                    let request = requests[i];
+
+                    const responseX = await fetch(url +'getUserById/' + request.expert_id).then()
+                    const userX = await responseX.json();
+                    let userObjX = userX[0];
+
+                    const response2 = await fetch(url +'getSessionById/' + request.session_id).then()
+                    const session = await response2.json();
+                    let sessionObj = session[0];
+
+
+                    let temp = {
+                        id: sessionObj.session_id,
+                        meetingTitle: sessionObj.session_title,
+                        time: sessionObj.session_time,
+                        expertName: userObjX.first_name,
+                        expertLastName: userObjX.last_name
+                    }
+                    meetings.push(temp)
+                }
+
+                this.setState({
+                    meetingsIncoming: meetings
+                })
+
+            } catch (e) {
+                console.log(e.message)
+            }
         }
     }
 
@@ -133,8 +178,22 @@ export default class MainScreenUser extends Component {
         if(this.state.userType == 'user'){
             scores =
             <View style = {styles.container2}>
-                <Text style = {styles.textStyle2ListBlue}>Puanlar</Text>
-                <Text style = {styles.textStyle2ListRed}>Anksiyete: {this.state.ANX}</Text>
+                <Text style = {styles.textStyle2ListBlue}>Puanlarım</Text>
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '0-1 arası iyidir. 1-2 eh işte',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Anksiyete: {this.state.ANX}</Text>
+
+                </TouchableOpacity>
                 <Text style = {styles.textStyle2ListRed}>Paranoya: {this.state.PAR}</Text>
                 <Text style = {styles.textStyle2ListRed}>Psikotizm: {this.state.PSY}</Text>
                 <Text style = {styles.textStyle2ListRed}>Öfke ve Düşmanlık: {this.state.HOS}</Text>
@@ -162,14 +221,17 @@ export default class MainScreenUser extends Component {
                         <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Anasayfa</Text>
 
                         <Right>
-                            <TouchableOpacity
-                                onPress={() => console.log("session create")}
-                                style={{color: "black"}}
-                            >
-                                <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
-                                    +
-                                </Text>
-                            </TouchableOpacity>
+                            {
+                                this.state.userType != 'user' &&
+                                <TouchableOpacity
+                                    onPress={() => this.props.navigation.navigate("Terapi Oluştur")}
+                                    style={{color: "black"}}
+                                >
+                                    <Text style={{marginLeft: 5, fontSize: 18, color: '#B00D23'}}>
+                                        Oluştur
+                                    </Text>
+                                </TouchableOpacity>
+                            }
                         </Right>
                     </Header>
                 </View>
@@ -185,7 +247,7 @@ export default class MainScreenUser extends Component {
 
                 <View style={{marginTop: 30, height: 20, marginBottom: 20}}>
                     <Text style={{fontSize: 18, color: '#B00D23', textAlign: 'center', fontWeight: 'bold'}}>
-                        Yaklaşan Toplantılar
+                        {this.state.userType == 'user' ? "Katıldığım Terapiler" : "Oluşturduğum Terapilerim"}
                     </Text>
                 </View>
 
@@ -209,19 +271,19 @@ export default class MainScreenUser extends Component {
                         data={this.state.meetingsIncoming}
                         renderItem={({item}) => (
                             <TouchableOpacity
-                                onPress={() => {
-                                    console.log("Redirecting to meeting");
-                                    this.props.navigation.navigate('Live Meeting');
+                                onPress={ () => {
+                                    AsyncStorage.setItem("expertIdForMeeting", item.expertIdForRating + "").then(
+                                        this.props.navigation.navigate('Live Meeting')
+                                )
                                 }}
                             >
                                 <View style={styles.arrayItem}>
-                                    <Text style={styles.textStyleList}>{item.name}, {item.details} </Text>
-                                    <Text style={styles.textStyle2List}>{item.time} , {item.date} </Text>
+                                    <Text style={styles.textStyleList}>{item.meetingTitle} </Text>
+                                    <Text style={styles.textStyle2List}>{item.expertName} {item.expertLastName} , {item.time} </Text>
                                 </View>
                             </TouchableOpacity>
                         )}/>
                 </View>
-
                 {scores}
             </View>
         );

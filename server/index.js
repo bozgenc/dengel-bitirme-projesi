@@ -13,7 +13,9 @@ app.post("/postSession", async (req,res) => {
     try {
         let saveObj = req.body;
         console.log(saveObj)
-        let sqlQuery = "INSERT INTO public.sessions VALUES ('" + saveObj.session_id + "'," + "'" + saveObj.expert_id + "'," + "'" + saveObj.session_date + "'," + "'" + saveObj.clink + "')"
+        let sqlQuery = "INSERT INTO public.sessions (expert_id, clink, session_title, re_interval, session_time, isprivate, price, patient_ids) " +
+            "VALUES ('" + saveObj.expertId + "'," + "'" + saveObj.sessionLink + "'," + "'" + saveObj.title + "'," + "'" + saveObj.recurring + "', '" +
+         saveObj.timeDate.toString() + "','" + saveObj.isPrivateType  + "', '"+ saveObj.price + "' , '0')";
         console.log(sqlQuery)
 
         await pool.query(sqlQuery)
@@ -22,6 +24,52 @@ app.post("/postSession", async (req,res) => {
         console.log(error.message)
     }
 })
+
+app.get("/getFreeSessions", async(req,res) => {
+    try{
+        const userDetails = await pool.query("SELECT * FROM public.sessions WHERE isprivate = 'false' ");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getPrivateSessions", async(req,res) => {
+    try{
+        const userDetails = await pool.query("SELECT * FROM public.sessions WHERE isprivate = 'true' ");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getSessionById/:id", async(req,res) => {
+    try{
+        const userDetails = await pool.query("SELECT * FROM public.sessions WHERE session_id = " + req.params.id + "");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getRequestById/:id", async(req,res) => {
+    try{
+        const userDetails = await pool.query("SELECT * FROM public.requests WHERE patient_id = " + req.params.id + "");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getRequestByExpertId/:id", async(req,res) => {
+    try{
+        const userDetails = await pool.query("SELECT * FROM public.requests WHERE expert_id = " + req.params.id + "");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
 
 app.post("/saveUser", async(req, res) => {
     try {
@@ -55,9 +103,24 @@ app.post("/saveExpert", async(req, res) => {
     try {
         let user = req.body;
         console.log(user);
-        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, graduate_school, tckn) VALUES ('"
+        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, specialties, graduate_school, tckn) VALUES ('"
             + user.expert_id + "','" + user.religion + "'" +  "," + "'" + user.description + "'" + "," + "'" +
-            user.graduateSchool + "'"+ ","   + "'" + user.tckn + "' )";
+            user.specialties + "', '" +  user.graduateSchool + "'"+ ","   + "'" + user.tckn + "' )";
+        console.log(sqlQuery)
+        await pool.query(sqlQuery)
+        console.log(req.body)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
+app.post("/saveRequest", async(req, res) => {
+    try {
+        let user = req.body;
+        console.log(user);
+        let sqlQuery = "INSERT INTO public.requests (patient_id, expert_id, isapproved, session_id) VALUES ('"
+            + user.patientId + "','" + user.expertId + "'" +  "," + "'" + user.isApproved + "'" + "," + "'" +
+            user.sessionId + "' )";
         console.log(sqlQuery)
         await pool.query(sqlQuery)
         console.log(req.body)
@@ -67,11 +130,30 @@ app.post("/saveExpert", async(req, res) => {
 })
 
 
-
 app.get("/getUser/:tckn", async(req,res) => {
     try{
         console.log((req.params.tckn));
         const userDetails = await pool.query("SELECT * FROM public.users WHERE tckn = '" +  req.params.tckn + "'");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getUserById/:id", async(req,res) => {
+    try{
+        console.log((req.params.id));
+        const userDetails = await pool.query("SELECT * FROM public.users WHERE id = '" +  req.params.id + "'");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getExpertById/:id", async(req,res) => {
+    try{
+        console.log((req.params.id));
+        const userDetails = await pool.query("SELECT * FROM public.user_experts WHERE expert_id = '" +  req.params.id + "'");
         res.json(userDetails.rows)
     } catch(e) {
         console.log(e.message);

@@ -12,10 +12,8 @@ const Tab = createBottomTabNavigator();
 
 import Login from "../Login/Login";
 import MainScreenUser from "../MainScreenUser/MainScreenUser";
-import MeetingSearch from "../MeetingSearch/MeetingSearch";
-import SignInList from "../SignInList/SignInList";
-import ViewList from "../ViewList/ViewList";
-import Settings from "../Settings/Settings";
+import FreeMeetingSearch from "../FreeMeetingSearch/FreeMeetingSearch";
+import SessionCreate from "../SessionCreate/SessionCreate";
 import Profile from "../Profile/Profile";
 import Logout from "../Logout/Logout";
 import Notifications from "../Notifications/Notifications";
@@ -23,7 +21,6 @@ import NotificationDetail from "../Notifications/NotificationDetail"
 import LiveMeeting from "../Meetings/LiveMeeting";
 import RatingTest from "../Rating/Rating";
 import FirstLoginTest from "../FirstLoginTest/FirstLoginTest";
-import Details from "../DetailPage/Detailpage";
 import OKB from "../BeckTests/OKB/OKB";
 import SOM from "../BeckTests/SOM/SOM";
 import DEP from "../BeckTests/DEP/DEP";
@@ -40,6 +37,8 @@ import Diary from "../Diary/Diary";
 import EndTest from "../BeckTests/EndTest";
 import Patients from "../ExpertPages/Patients/Patients";
 import ExpertInformationLogin from "../ExpertInformationLogin/ExpertInformationLogin";
+import PrivateMeetingSearch from "../PrivateMeetingSearch/PrivateMeetingSearch";
+import SessionDetails from "../SessionDetails/SessionDetails";
 
 function Home() {
     return (
@@ -48,15 +47,13 @@ function Home() {
                 headerShown: false,
                 lazy: true,
                 inactiveTintColor: 'black',
-                activeTintColor: '#d0c6c6'
+                activeTintColor: '#d0cfcf'
             }}
         >
             <Drawer.Screen name="Home" component={MainScreenTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Profile" component={Profile} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Search For Meetings" component={MeetingSearch} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Expert Meeting Create" component={SignInList} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Professional Meetings" component={UzmanStack} options={{unmountOnBlur:true}}/>
-            <Drawer.Screen name="Details" component={Details} options={{unmountOnBlur:true, drawerItemStyle: { height: 0 }}}/>
+            <Drawer.Screen name="Ücretsiz Terapi" component={FreeMeetingStack} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Birebir Terapi" component={PrivateMeetingStack} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Test Önerileri" component={TestTabs} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Mental Rahatsızlık Bilgileri" component={Definition} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
@@ -64,6 +61,35 @@ function Home() {
         </Drawer.Navigator>
     );
 }
+
+function FreeMeetingStack() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name='Ücretsiz Terapi_' component={FreeMeetingSearch}/>
+            <Stack.Screen name='ÜcretsizTerapiDetails' component={SessionDetails}/>
+        </Stack.Navigator>
+    )
+}
+
+function PrivateMeetingStack() {
+    return (
+        <Stack.Navigator
+            lazy = {true}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name='Ücretli Terapi_' component={PrivateMeetingSearch}/>
+            <Stack.Screen name='ÜcretliTerapiDetails' component={SessionDetails}/>
+        </Stack.Navigator>
+    )
+}
+
 
 function TestTabs(){
     return(
@@ -123,10 +149,11 @@ function MainScreenStack() {
         <Stack.Navigator
             lazy = {true}
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}
         >
             <Stack.Screen name='Ana sayfa' component={MainScreenUser}/>
+            <Drawer.Screen name="Terapi Oluştur" component={SessionCreate} options={{unmountOnBlur:true}} />
             <Stack.Screen name='Live Meeting' component={LiveMeeting}/>
             <Stack.Screen name='Rating Meeting' component={RatingTest}/>
             <Stack.Screen name='Ana Sayfa_x' component={MainScreenUser}/>
@@ -134,19 +161,6 @@ function MainScreenStack() {
     )
 }
 
-function UzmanStack() {
-    return (
-        <Stack.Navigator
-            lazy = {true}
-            screenOptions={{
-                headerShown: false
-            }}
-        >
-            <Stack.Screen name='Uzman Görüntüleme' component={ViewList}/>
-            <Stack.Screen name='Detaylar' component={Details}/>
-        </Stack.Navigator>
-    )
-}
 
 function NotificationTab() {
     return (
