@@ -66,6 +66,35 @@ export default class Login extends Component {
             const userInfo = await GoogleSignin.signIn();
             console.log("-----------------", userInfo, "--------------------");
             console.log("Welcome", userInfo.user.name);
+            //////////////////////////////////NEW ADDED/////////////////////////////
+            let userCredentials  = {
+                name: userInfo.user.name,
+                surname: "",
+                email: userInfo.user.email,
+                age: 0,
+                password: "",
+                userType: 'user',
+                tckn: userInfo.user.id,
+            };
+            console.log(userCredentials);
+
+            try {
+                const body = {userCredentials}
+                const response = fetch( url + "saveUser", {
+                    method: 'POST',
+                    headers: {'Content-Type' : 'application/json' },
+                    body: JSON.stringify(body)
+                })
+
+                console.log('Login ekranında response');
+                console.log(response)
+            } catch (e) {
+                console.log(e.message);
+            }
+
+            await AsyncStorage.setItem("userTckn", userInfo.user.id);
+            await AsyncStorage.setItem("patientFirst", "true");
+            /////////////////////////////////END///////////////////////////////////
             this.setState({ userInfo: userInfo, loggedIn: true });
         } catch (error) {
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
