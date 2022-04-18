@@ -5,9 +5,9 @@ import requestCameraAndAudioPermission from './Permissions';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 import RtcEngine, {RtcLocalView, RtcRemoteView, VideoRenderMode, ClientRole, ChannelProfile,} from 'react-native-agora';
-const token = "0060aef85eb049745c994888624682d07d4IABMLVOHjGPH44j2fARbghQWfcvS2qRa6iN72i7UyQpZCHcYP08AAAAAEADR1hyrj5RAYgEAAQCOlEBi";
+const token = "0060aef85eb049745c994888624682d07d4IABuFsCvTiOqqLyhd/WjqQdLz+Avq2x9zYL/G7SGc3nExlJjzfUAAAAAEAAQvmMDswJfYgEAAQCzAl9i";
 const appId = '0aef85eb049745c994888624682d07d4';
-const channelName = 'sprint2';
+const channelName = 'dengelDemo';
 
 var screen = Dimensions.get('window');
 
