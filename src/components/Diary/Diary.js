@@ -81,7 +81,6 @@ export default class Diary extends Component {
     }
 
     render() {
-
         let area;
         if(this.state.index==1){
             area = <View>
@@ -103,7 +102,7 @@ export default class Diary extends Component {
                         }}
                     />
                     <Text style={styles.textStyle}>
-                        I am ...
+                        Ben...
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -121,7 +120,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        Others Describe me as ...
+                        Başkaları beni şöyle tanımlar...
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -139,7 +138,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        I am sometimes too…
+                        Ben Bazen...
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -157,7 +156,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        I most value…
+                        En çok değer verdiğim...
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -175,7 +174,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        My biggest weakness is…
+                        En büyük zayıflığım...
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -279,7 +278,7 @@ export default class Diary extends Component {
                             paddingTop: 0,
                             fontWeight: 'bold',
                         }}>
-                            Yeniden Düzenle
+                            Düzenle
                         </Text>
                     </View>
                 </TouchableOpacity>

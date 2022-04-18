@@ -189,7 +189,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Anksiyete: {this.state.ANX}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Anksiyete: {this.state.ANX == null ? 0 : this.state.ANX}</Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -204,7 +204,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Paranoya: {this.state.PAR}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Paranoya: {this.state.PAR == null ? 0 : this.state.PAR}</Text>
 
                 </TouchableOpacity>
 
@@ -220,7 +220,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Psikotizm: {this.state.PSY}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Psikotizm: {this.state.PSY == null ? 0 : this.state.PSY}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -235,7 +235,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Öfke ve Düşmanlık: {this.state.HOS}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Öfke ve Düşmanlık: {this.state.HOS == null ? 0 : this.state.HOS}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -250,7 +250,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Depresyon: {this.state.DEP}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Depresyon: {this.state.DEP == null ? 0 : this.state.DEP}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -265,7 +265,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Obsesif Bozukluk: {this.state.OKB}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Obsesif Bozukluk: {this.state.OKB == null ? 0 : this.state.OKB}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -280,7 +280,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Kişiler Arası Duyarlık: {this.state.I_NT}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Kişiler Arası Duyarlık: {this.state.I_NT == null ? 0 : this.state.I_NT}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -295,7 +295,7 @@ export default class MainScreenUser extends Component {
                      );
                  }}
                 >
-                    <Text style = {styles.textStyle2ListRed}>Somatizm: {this.state.SOM}</Text>
+                    <Text style = {styles.textStyle2ListRed}>Somatizm: {this.state.SOM == null ? 0 : this.state.SOM}</Text>
                 </TouchableOpacity>
 
             </View>

@@ -405,6 +405,7 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'center',
         paddingTop: 0,
+        fontWeight: 'bold'
     },
     button: {
         alignItems: 'center',
