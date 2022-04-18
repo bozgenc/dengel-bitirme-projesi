@@ -61,13 +61,12 @@ export default class HOS extends Component{
 
          /*let id = await AsyncStorage.getItem('sessionExpertId');
         id = parseInt(id);*/
-        let id = 10;
+        let id = 28;
         let old_score = 0;
        
         try {
             const response = await fetch(url + "getOldScore/" + id).then()
             old_score = await response.json();
-            console.log("OLD SCORE: ", old_score.totalrating, "\n");
             this.setState({
                     questions: question_s,
                     expertID: id,
@@ -82,7 +81,6 @@ export default class HOS extends Component{
         try {
             const response = await fetch(url + "getNOV/" + id)
             nof_votes = await response.json();
-            console.log("number of votes: ",nof_votes.numofvotes, "\n");
             this.setState({
                 num_of_votes: nof_votes.numofvotes
             })
@@ -238,22 +236,12 @@ export default class HOS extends Component{
     updateRate = async e => {
         let scr = this.state.score/4;
         scr = scr + (this.state.num_of_votes * this.state.score_old);
-        scr = scr / this.state.num_of_votes + 1;
+        scr = scr / (this.state.num_of_votes + 1);
         let nov_new = this.state.num_of_votes + 1;
-        this.setState({score: scr, nof_votes: nov_new} , () => {
+        console.log("score_old: ",this.state.score_old, " new one: ", scr)
+        this.setState({score: scr, num_of_votes: nov_new} , () => {
             try {
                 fetch(url + "uScore", {
-                method: 'put',
-                headers: {'content-type': 'application/json'},
-                body: JSON.stringify(this.state)
-            });
-            }
-            catch (e) {
-                console.log(e.message);
-            }
-
-            try {
-                fetch(url + "uNOV", {
                 method: 'put',
                 headers: {'content-type': 'application/json'},
                 body: JSON.stringify(this.state)
@@ -265,7 +253,8 @@ export default class HOS extends Component{
         });
     };
 
-    goNextQuestion = () => {
+
+    goNextQuestion = async () => {
         let newIndex = this.state.index + 1;
         let isButton0 = false;
         let isButton1 = false;
@@ -273,10 +262,18 @@ export default class HOS extends Component{
         let isButton3 = false;
         let isButton4 = false;
         let _answer;
-        console.log(this.state.questions[this.state.index]);
         if(newIndex == 4){
-            console.log("Psikolog Score: ", this.state.score/4, "\n");
-            this.updateRate();
+            await this.updateRate();
+            try {
+                await fetch(url + "uNOV", {
+                method: 'put',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(this.state)
+            });
+            }
+            catch (e) {
+                console.log(e.message);
+            }
             this.props.navigation.navigate('Ana Sayfa_x');
         }
 

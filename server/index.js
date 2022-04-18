@@ -102,10 +102,10 @@ app.post("/savePatient", async (req,res) => {
 app.post("/saveExpert", async(req, res) => {
     try {
         let user = req.body;
-        console.log(user);
-        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, description, specialties, graduate_school, tckn) VALUES ('"
-            + user.expert_id + "','" + user.religion + "'" +  "," + "'" + user.description + "'" + "," + "'" +
-            user.specialties + "', '" +  user.graduateSchool + "'"+ ","   + "'" + user.tckn + "' )";
+        console.log(user.expert_id, " ", user.religion, " ", user.graduateSchool, " ", user.specialties, " ",user.tckn);
+        let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, totalrating, description, specialties, graduate_school, tckn, numofvotes) VALUES ('"
+            + user.expert_id + "','" + user.religion + "'" +  "," + 0 + "," + "'" + user.description + "'" + "," + "'" +
+            user.specialties + "', '" +  user.graduateSchool + "'"+ ","   + "'" + user.tckn + "'" + "," + 0 +" )";
         console.log(sqlQuery)
         await pool.query(sqlQuery)
         console.log(req.body)
@@ -209,13 +209,12 @@ app.put("/updateUser/:id", async(req,res) => {
 })
 */
 
-//////////////////////////////////////NEW////////////////////////////////////////
+//////////////////////////////////////Rating Page////////////////////////////////////////
 app.get("/getOldScore/:id", async(req,res) => {
     try{
         /*console.log("geldi mi???", req.params);
         console.log("id of expert: ", req.params.id);*/
         const old_score = await pool.query("SELECT totalrating FROM public.user_experts WHERE expert_id = " + req.params.id);
-        console.log(old_score.rows[0]);
         res.json(old_score.rows[0])
     } catch(e) {
         console.log("getOldScore error: ", e.message);
@@ -226,7 +225,6 @@ app.get("/getNOV/:id", async(req,res) => {
     try{
         //console.log("id of expert22: ", req.params.id);
         const oln_num = await pool.query("SELECT numOfVotes FROM public.user_experts WHERE expert_id = " + req.params.id);
-        console.log(oln_num.rows[0]);
         res.json(oln_num.rows[0])
     } catch(e) {
         console.log("getNOV error: ", e.message);
@@ -235,13 +233,13 @@ app.get("/getNOV/:id", async(req,res) => {
 
 app.put("/uNOV", async (req,res) => {
     try {
-        const { expertID, nof_votes } = req.body;
+        const { expertID, num_of_votes } = req.body;
         const updateVoteNum = await pool.query(
           "UPDATE public.user_experts SET numOfVotes = $1 WHERE expert_id = $2",
-          [nof_votes, expertID]
+          [num_of_votes, expertID]
         );
     
-        console.log("vote num updated to ", nof_votes, "\n");
+        console.log("vote num updated to ", num_of_votes, "\n");
     } 
     catch (err) {
         console.error(err.message);
@@ -262,8 +260,8 @@ app.put("/uScore", async (req,res) => {
         console.error(err.message);
     }
 })
-///////////////////////////////////////////////NEW/////////////////////////////////
-
+///////////////////////////////////////////////Rating Page End/////////////////////////////////
+///////////////////////////////////////////////Beck Tests//////////////////////////////////////
 app.get("/Get_session", async (req,res) => {
     try{ //SELECT * FROM public.user_patients, public.users WHERE public.user_patients.patient_id == public.users.patient_id
         const allRecords = await pool.query('SELECT * FROM public.sessions')
@@ -288,7 +286,6 @@ app.put("/uANX", async (req,res) => {
     console.log("ANX");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET anx = $1 WHERE patient_id = $2",
           [score, userID]
@@ -302,10 +299,8 @@ app.put("/uANX", async (req,res) => {
 })
 
 app.put("/uDEP", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET dep = $1 WHERE patient_id = $2",
           [score, userID]
@@ -319,10 +314,8 @@ app.put("/uDEP", async (req,res) => {
 })
 
 app.put("/uOKB", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET okb = $1 WHERE patient_id = $2",
           [score, userID]
@@ -336,10 +329,8 @@ app.put("/uOKB", async (req,res) => {
 })
 
 app.put("/uINT", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET int = $1 WHERE patient_id = $2",
           [score, userID]
@@ -353,11 +344,8 @@ app.put("/uINT", async (req,res) => {
 })
 
 app.put("/uPAR", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log("score: ", score);
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET par = $1 WHERE patient_id = $2",
           [score, userID]
@@ -371,10 +359,8 @@ app.put("/uPAR", async (req,res) => {
 })
 
 app.put("/uPHOB", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET phob = $1 WHERE patient_id = $2",
           [score, userID]
@@ -388,10 +374,8 @@ app.put("/uPHOB", async (req,res) => {
 })
 
 app.put("/uPSY", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET PSY = $1 WHERE patient_id = $2",
           [score, userID]
@@ -405,10 +389,8 @@ app.put("/uPSY", async (req,res) => {
 })
 
 app.put("/uSOM", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET som = $1 WHERE patient_id = $2",
           [score, userID]
@@ -422,10 +404,8 @@ app.put("/uSOM", async (req,res) => {
 })
 
 app.put("/uHOS", async (req,res) => {
-    console.log("*******");
     try {
         const { userID, score } = req.body;
-        console.log(userID, score);
         const updateHOS = await pool.query(
           "UPDATE public.user_patients SET HOS = $1 WHERE patient_id = $2",
           [score, userID]
@@ -437,6 +417,8 @@ app.put("/uHOS", async (req,res) => {
         console.error(err.message);
     }
 })
+
+///////////////////////////////////////////////Beck Tests End/////////////////////////////////
 
 app.listen(5000, () => {
     console.log("server started on port 5000");

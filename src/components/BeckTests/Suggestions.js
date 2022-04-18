@@ -124,7 +124,7 @@ export default class Suggestions extends  Component {
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.INT()} >
-                    <View style={this.state.int ? styles.buttonImportant : styles.buttonNotImportant}>
+                    <View style={this.state.social ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={styles.textStyle2}>
                             Kişiler Arası İlişkiler Testi
                         </Text>

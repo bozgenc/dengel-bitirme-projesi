@@ -55,8 +55,10 @@ function Home() {
             <Drawer.Screen name="Ücretsiz Terapi" component={FreeMeetingStack} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Birebir Terapi" component={PrivateMeetingStack} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Test Önerileri" component={TestTabs} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Günlük" component={Diary} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Mental Rahatsızlık Bilgileri" component={Definition} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Patients" component={Patients} options={{unmountOnBlur:true}}/>
+            <Drawer.Screen name="Rating" component={RatingTest} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Log out" component={Logout} options={{unmountOnBlur:true}}/>
         </Drawer.Navigator>
     );
