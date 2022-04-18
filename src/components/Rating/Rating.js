@@ -16,10 +16,10 @@ import {Header, Left, Right} from "native-base"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 import { Card, Icon, Avatar} from 'react-native-elements';
-
 const windowHeight = Dimensions.get('window').height;
+
 const screen = Dimensions.get('window');
-var url = "http://192.168.1.23:5000/"
+var url = "http://localhost:5000/"
 
 export default class HOS extends Component{
     constructor(){
@@ -43,7 +43,7 @@ export default class HOS extends Component{
     }
 
     componentDidMount =  async () => {
-       
+
         let question_s = [];
 
         let q1 = "Terapi süresince söylediklerimin dinlendiğini, durumumun anlaşıldığını ve bana saygı duyulduğunu hissediyorum.";
@@ -55,15 +55,14 @@ export default class HOS extends Component{
         let q3 = "Danışmanımın yaklaşım açısı bana uyumluydu.";
         question_s.push(q3);
 
-        let q4 = "Genel olarak bugünkü tearpi benim için olması gerektiği gibi geçti";
+        let q4 = "Genel olarak bugünkü terapi benim için olması gerektiği gibi geçti";
 
         question_s.push(q4);
 
-         /*let id = await AsyncStorage.getItem('sessionExpertId');
-        id = parseInt(id);*/
-        let id = 28;
+        let id = await AsyncStorage.getItem('expertIdForMeeting');
+        id = parseInt(id);
         let old_score = 0;
-       
+
         try {
             const response = await fetch(url + "getOldScore/" + id).then()
             old_score = await response.json();
@@ -265,7 +264,7 @@ export default class HOS extends Component{
         if(newIndex == 4){
             await this.updateRate();
             try {
-                await fetch(url + "uNOV", {
+                fetch(url + "uNOV", {
                 method: 'put',
                 headers: {'content-type': 'application/json'},
                 body: JSON.stringify(this.state)
@@ -274,7 +273,7 @@ export default class HOS extends Component{
             catch (e) {
                 console.log(e.message);
             }
-            this.props.navigation.navigate('Ana Sayfa_x');
+            this.props.navigation.navigate('Ana sayfa');
         }
 
         else{
@@ -550,19 +549,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: screen.width - 100,
         borderWidth: 2,
-        borderColor: '#7cfc00',
+        borderColor: '#9fba83',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#7cfc00',
+        backgroundColor: '#9fba83',
     },
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: screen.width - 100,
         borderWidth: 2,
-        borderColor: '#ff6347',
+        borderColor: '#e36e7e',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#ff6347'
+        backgroundColor: '#e36e7e'
     }
 });

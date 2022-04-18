@@ -97,7 +97,7 @@ export default class Profile extends  Component {
                     'Bilgilendirme ',
                     'Değişiklikler kaydedildi.',
                     [
-                        {text: 'OK', onPress: () => this.props.navigation.navigate('Home')},
+                        {text: 'OK', onPress: () => this.props.navigation.navigate('Anasayfa  ')},
                     ],
                     {cancelable: false},
                 );

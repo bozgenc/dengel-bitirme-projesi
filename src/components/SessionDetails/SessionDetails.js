@@ -24,6 +24,7 @@ export default class SessionDetails extends  Component {
             userId: -1,
             sessionId: -1,
             expertId: -1,
+            expRating: 0,
         };
     }
 
@@ -66,6 +67,7 @@ export default class SessionDetails extends  Component {
                 expDescription : userObjX.description,
                 expSpecialties: userObjX.specialties,
                 expSchool:  userObjX.graduate_school,
+                expRating: userObjX.totalrating,
                 frequency: temp,
                 userId: parseInt(idOfUser),
                 expertId: parseInt(expertId),
@@ -205,6 +207,12 @@ export default class SessionDetails extends  Component {
                             <Text style={styles.textStyle}>
                                 {this.state.expName} {"\n"}
                                 {this.state.expSurname}
+                            </Text>
+                            <Text style={styles.textStyle2}>
+                                Puan
+                            </Text>
+                            <Text style={styles.textStyle}>
+                                {this.state.expRating.toFixed(2)}
                             </Text>
                             <Text style={styles.textStyle2}>
                                 Mezun Olduğu Okul

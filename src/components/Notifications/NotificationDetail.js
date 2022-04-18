@@ -3,6 +3,8 @@ import {StyleSheet, Text, View, Dimensions, ScrollView, TextInput, Button, Touch
 import {Header, Left, Right} from "native-base"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+var url = "http://localhost:5000/"
+
 export default class NotificationDetails extends Component {
     constructor() {
         super();
@@ -12,19 +14,23 @@ export default class NotificationDetails extends Component {
     }
 
     componentDidMount = async () => {
-        let id = await AsyncStorage.getItem("notificationId").then();
-        let message = "";
+        let post_id = await AsyncStorage.getItem("postIdNotification").then();
 
-        if(id == "0")
-            message = "Depresyon meetinginden gelen mesaj...";
-        if(id == "1")
-            message = "Yas meetinginden gelen mesaj...";
-        if(id == "2")
-            message = "Korku meetinginden gelen mesaj...";
+        try {
+            const response = await fetch(url +'getPostsByPostId/' + parseInt(post_id))
+            const posts = await response.json();
 
-        this.setState({
-            notificationDetail: message
-        })
+            console.log(response);
+            let post = posts[0];
+
+            console.log(posts);
+            this.setState({
+                notificationDetail: post.title
+            })
+        }
+        catch (e) {
+            console.log(e.message);
+        }
     }
 
     render() {

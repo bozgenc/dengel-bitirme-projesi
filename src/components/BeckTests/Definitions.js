@@ -231,7 +231,7 @@ export default class Definition extends Component{
                     }
                 }
             }
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Anasayfa  ');
         }
 
         else{

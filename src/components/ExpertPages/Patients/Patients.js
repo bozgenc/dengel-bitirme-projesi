@@ -233,7 +233,7 @@ export default class Patients extends Component {
     }
 
     BackToMP = () => {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Anasayfa  ');
     }
 
     render() {

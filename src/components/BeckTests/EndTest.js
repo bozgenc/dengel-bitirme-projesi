@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: screen.width - 100,
         borderWidth: 2,
-        borderColor: '#ff6347',
+        borderColor: '#e36e7e',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#ff6347',
+        backgroundColor: '#e36e7e',
         fontFamily: 'Helvetica-Bold',
     },
     image: {

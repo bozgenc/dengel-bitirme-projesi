@@ -126,7 +126,7 @@ export default class Suggestions extends  Component {
                 hostilite_diary: hos_sel,
                 userID: id
             })
-        } 
+        }
         catch (e) {
             console.log(e.message)
         }
@@ -165,11 +165,11 @@ export default class Suggestions extends  Component {
                 <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
                     <Left>
                         <TouchableOpacity
-                            onPress={() => this.props.navigation.openDrawer()}
+                            onPress={() => this.props.navigation.goBack()}
                             style={{color: "black"}}
                         >
                             <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
-                                ≡
+                                {"<"}
                             </Text>
                         </TouchableOpacity>
                     </Left>
@@ -180,9 +180,9 @@ export default class Suggestions extends  Component {
                     </Right>
                 </Header>
 
-                <View style = {{backgroundColor: "#faf8f8"}}>
-                <Text style={ styles.textStyle3}>Aşağıda kırmızı ile belirtilmiş testler önceki test sonuçlarınız doğrultusunda haftada bir çözmeniz geren testlerdir.</Text>
-                <Text style={ styles.textStyle3}>Mavi yazı ile belirtilmiş testler ise duygu durum bozukluğu tanım sayfasında yaptığınız tercihlere göre seçilmiştir.</Text>
+                <View style = {{backgroundColor: "#faf8f8", marginTop: 20}}>
+                <Text style={ styles.textStyle3}>Aşağıda kırmızı ile belirtilmiş testler önceki test sonuçlarınız doğrultusunda haftada bir çözmeniz gereken testlerdir.</Text>
+                <Text style={ styles.textStyle3}>Mavi yazı ile belirtilmiş testler ise duygu durum bozukluğu tanım sayfasında yaptığınız tercihlere göre seçilmiştir. {"\n"}</Text>
                 <TouchableOpacity onPress={() => this.ANX()} >
                     <View style={this.state.anxiety ? styles.buttonImportant : styles.buttonNotImportant}>
                         <Text style={ this.state.anxiety_diary ? styles.textStyleSEL : styles.textStyle2}>
@@ -328,10 +328,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         marginTop: 10,
         marginLeft: '5%',
-        borderColor: '#7cfc00',
+        borderColor: '#9fba83',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#7cfc00'
+        backgroundColor: '#9fba83'
     },
     buttonImportant: {
         justifyContent: 'flex-start',
@@ -340,10 +340,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         marginTop: 10,
         marginLeft: '5%',
-        borderColor: '#ff6347',
+        borderColor: '#e36e7e',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#ff6347'
+        backgroundColor: '#e36e7e'
     },
     image: {
         marginTop: '5%',
