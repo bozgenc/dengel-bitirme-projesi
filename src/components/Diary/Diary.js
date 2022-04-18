@@ -22,6 +22,7 @@ export default class Diary extends Component {
     constructor() {
         super();
         this.state = {
+            index: 0,
             iAm: "",
             iAmSometimesToo: "",
             othersDesribeMeAs: "",
@@ -48,6 +49,17 @@ export default class Diary extends Component {
         }
     }
 
+    editAnswers = async () => {
+        let newIndex = this.state.index + 1;
+        this.setState({
+            index: newIndex
+        })
+    }
+
+    exitPage() {
+        this.props.navigation.navigate('Home');
+    }
+
     onSubmit() {
         
         console.log("i am: ", this.state.iAm)
@@ -70,7 +82,7 @@ export default class Diary extends Component {
     render() {
         
         let area;
-        if(true){       
+        if(this.state.index==1){       
             area = <View>
                 
                 <Card style={styles.gCard}>
@@ -94,9 +106,10 @@ export default class Diary extends Component {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={this.state.iAm != null ? this.state.iAm : "describe yourself"}
+                        placeholder={"describe yourself"}
                         textAlign='center'
                         maxLength={300}
+                        multiline={true}
                         autoCorrect={false}
                         returnKeyType={'done'}
                         onChangeText={(text) => {
@@ -111,9 +124,10 @@ export default class Diary extends Component {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={this.state.othersDesribeMeAs != null ? this.state.othersDesribeMeAs : "what others think about you"}
+                        placeholder={ "what others think about you"}
                         textAlign='center'
                         maxLength={300}
+                        multiline={true}
                         autoCorrect={false}
                         returnKeyType={'done'}
                         onChangeText={(text) => {
@@ -128,9 +142,10 @@ export default class Diary extends Component {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={this.state.iAmSometimesToo != null ? this.state.iAmSometimesToo : "..."}
+                        placeholder={ "..."}
                         textAlign='center'
                         maxLength={300}
+                        multiline={true}
                         autoCorrect={false}
                         returnKeyType={'done'}
                         onChangeText={(text) => {
@@ -145,9 +160,10 @@ export default class Diary extends Component {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={this.state.iMostValue != null ? this.state.iMostValue : "What is valuable for you"}
+                        placeholder={"What is valuable for you"}
                         textAlign='center'
                         maxLength={300}
+                        multiline={true}
                         autoCorrect={false}
                         returnKeyType={'done'}
                         onChangeText={(text) => {
@@ -162,9 +178,10 @@ export default class Diary extends Component {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={this.state.myBiggestWeaknessIs != null ? this.state.myBiggestWeaknessIs : "..."}
+                        placeholder={"..."}
                         textAlign='center'
                         maxLength={300}
+                        multiline={true}
                         autoCorrect={false}
                         returnKeyType={'done'}
                         onChangeText={(text) => {
@@ -172,11 +189,6 @@ export default class Diary extends Component {
                         }}
                     />
                 </Card>
-            </View>
-        }
-        return (
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                {area}
                 <TouchableOpacity
                     onPress={() => this.onSubmit()}
                 >
@@ -188,10 +200,113 @@ export default class Diary extends Component {
                             paddingTop: 0,
                             fontWeight: 'bold',
                         }}>
-                            Submit
+                            Tamamla
                         </Text>
                     </View>
                 </TouchableOpacity>
+            </View>
+        }
+        else {
+            area = <View>
+                <Card style={styles.gCard}>
+                    <Avatar
+                        size={64}
+                        rounded
+                        icon={{
+                        name: 'human-greeting-variant',
+                        type: 'material-community',
+                        color: '#cdde20'
+                        }}
+                        containerStyle={{
+                        borderColor: '#cdde20',
+                        borderStyle: 'solid',
+                        borderWidth: 1,
+                        alignSelf: "center"
+                        }}
+                    />
+                    <Text style={styles.textStyle}>
+                        I am ...
+                    </Text>
+                    <Text style={styles.textStyle2}>
+                        {this.state.iAm}
+                    </Text>
+                </Card>
+
+                <Card style={styles.gCard}>
+                    <Text style={styles.textStyle}>
+                        Others Describe me as ... 
+                    </Text>
+                    <Text style={styles.textStyle2}>
+                        {this.state.othersDesribeMeAs} 
+                    </Text>
+                </Card>
+
+                <Card style={styles.gCard}>
+                    <Text style={styles.textStyle}>
+                        I am sometimes too… 
+                    </Text>
+                    <Text style={styles.textStyle2}>
+                        {this.state.iAmSometimesToo} 
+                    </Text>
+                </Card>
+
+                <Card style={styles.gCard}>
+                    <Text style={styles.textStyle}>
+                        I most value… 
+                    </Text>
+                    <Text style={styles.textStyle2}>
+                        {this.state.iMostValue} 
+                    </Text>
+                </Card>
+
+                <Card style={styles.gCard}>
+                    <Text style={styles.textStyle}>
+                        My biggest weakness is… 
+                    </Text>
+                    <Text style={styles.textStyle2}>
+                        {this.state.myBiggestWeaknessIs} 
+                    </Text>
+                </Card>
+                <TouchableOpacity
+                    onPress={() => this.editAnswers()}
+                >
+                    <View style={styles.button}>
+                        <Text style={{
+                            fontSize: 18,
+                            color: 'white',
+                            textAlign: 'center',
+                            paddingTop: 0,
+                            fontWeight: 'bold',
+                        }}>
+                            Yeniden Düzenle
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => this.exitPage()}
+                >
+                    <View style={styles.button1}>
+                        <Text style={{
+                            fontSize: 18,
+                            color: 'white',
+                            textAlign: 'center',
+                            paddingTop: 0,
+                            fontWeight: 'bold',
+                        }}>
+                            Çıkış
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+        </View>
+
+
+            
+        }
+
+        return (
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+                {area}
+                
             </ScrollView>
         );
     }
@@ -254,30 +369,17 @@ const styles = StyleSheet.create({
         marginLeft: '10%',
         fontFamily: 'Helvetica-Bold',
     },
-    buttonUnclicked: {
+    button1: {
         alignItems: 'center',
         justifyContent: 'center',
         width: '80%',
         borderWidth: 2,
-        borderColor: '#c0c0c0',
-        borderRadius: 100,
+        borderColor: '#87cefa',
+        borderRadius: 10,
         height: 35,
-        backgroundColor: '#c0c0c0',
+        backgroundColor: '#87cefa',
         marginTop: 10,
         marginLeft: '10%',
         fontFamily: 'Helvetica-Bold',
-    },
-    buttonClicked: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-        borderWidth: 2,
-        borderColor: '#87ceeb',
-        borderRadius: 100,
-        height: 35,
-        backgroundColor: '#87ceeb',
-        marginTop: 10,
-        marginLeft: '10%',
-        fontFamily: 'Helvetica-Bold'
     }
 });

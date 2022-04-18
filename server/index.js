@@ -12,14 +12,11 @@ app.use(express.json());
 app.post("/postSession", async (req,res) => {
     try {
         let saveObj = req.body;
-        console.log(saveObj)
         let sqlQuery = "INSERT INTO public.sessions (expert_id, clink, session_title, re_interval, session_time, isprivate, price, patient_ids) " +
             "VALUES ('" + saveObj.expertId + "'," + "'" + saveObj.sessionLink + "'," + "'" + saveObj.title + "'," + "'" + saveObj.recurring + "', '" +
          saveObj.timeDate.toString() + "','" + saveObj.isPrivateType  + "', '"+ saveObj.price + "' , '0')";
-        console.log(sqlQuery)
 
         await pool.query(sqlQuery)
-        console.log(req.body)
     } catch (error) {
         console.log(error.message)
     }
@@ -77,7 +74,7 @@ app.post("/saveUser", async(req, res) => {
         let sqlQuery = "INSERT INTO public.users (first_name, last_name, password, email, age, user_type, sex, tckn) VALUES ("
             + "'" + user.name + "'" +  "," + "'" + user.surname + "'" + "," + "'" + user.password + "'" + "," + "'" +
             user.email + "'"+ ","   + "'" + user.age + "'" + ","  + "'" + user.userType + "'"+   ",'X'"  + ",'" + user.tckn + "' )";
-        console.log(sqlQuery)
+        //console.log(sqlQuery)
         await pool.query(sqlQuery);
     } catch (e) {
         console.log(e.message);
@@ -87,12 +84,10 @@ app.post("/saveUser", async(req, res) => {
 app.post("/savePatient", async (req,res) => {
     try {
         let saveObj = req.body;
-        console.log(saveObj)
         let sqlQuery = "INSERT INTO public.user_patients (tckn, patient_id) VALUES ('" + saveObj.tckn + "' , '" + saveObj.id+ "')"
         console.log(sqlQuery)
 
         await pool.query(sqlQuery)
-        console.log(req.body)
     } catch (error) {
         console.log(error.message)
     }
@@ -102,13 +97,12 @@ app.post("/savePatient", async (req,res) => {
 app.post("/saveExpert", async(req, res) => {
     try {
         let user = req.body;
-        console.log(user.expert_id, " ", user.religion, " ", user.graduateSchool, " ", user.specialties, " ",user.tckn);
+        //console.log(user.expert_id, " ", user.religion, " ", user.graduateSchool, " ", user.specialties, " ",user.tckn);
         let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, totalrating, description, specialties, graduate_school, tckn, numofvotes) VALUES ('"
             + user.expert_id + "','" + user.religion + "'" +  "," + 0 + "," + "'" + user.description + "'" + "," + "'" +
             user.specialties + "', '" +  user.graduateSchool + "'"+ ","   + "'" + user.tckn + "'" + "," + 0 +" )";
-        console.log(sqlQuery)
+        
         await pool.query(sqlQuery)
-        console.log(req.body)
     } catch (error) {
         console.log(error.message)
     }
@@ -117,13 +111,10 @@ app.post("/saveExpert", async(req, res) => {
 app.post("/saveRequest", async(req, res) => {
     try {
         let user = req.body;
-        console.log(user);
         let sqlQuery = "INSERT INTO public.requests (patient_id, expert_id, isapproved, session_id) VALUES ('"
             + user.patientId + "','" + user.expertId + "'" +  "," + "'" + user.isApproved + "'" + "," + "'" +
             user.sessionId + "' )";
-        console.log(sqlQuery)
         await pool.query(sqlQuery)
-        console.log(req.body)
     } catch (error) {
         console.log(error.message)
     }
@@ -132,7 +123,6 @@ app.post("/saveRequest", async(req, res) => {
 
 app.get("/getUser/:tckn", async(req,res) => {
     try{
-        console.log((req.params.tckn));
         const userDetails = await pool.query("SELECT * FROM public.users WHERE tckn = '" +  req.params.tckn + "'");
         res.json(userDetails.rows)
     } catch(e) {
@@ -142,7 +132,6 @@ app.get("/getUser/:tckn", async(req,res) => {
 
 app.get("/getUserById/:id", async(req,res) => {
     try{
-        console.log((req.params.id));
         const userDetails = await pool.query("SELECT * FROM public.users WHERE id = '" +  req.params.id + "'");
         res.json(userDetails.rows)
     } catch(e) {
@@ -152,7 +141,6 @@ app.get("/getUserById/:id", async(req,res) => {
 
 app.get("/getExpertById/:id", async(req,res) => {
     try{
-        console.log((req.params.id));
         const userDetails = await pool.query("SELECT * FROM public.user_experts WHERE expert_id = '" +  req.params.id + "'");
         res.json(userDetails.rows)
     } catch(e) {
@@ -162,7 +150,6 @@ app.get("/getExpertById/:id", async(req,res) => {
 
 app.get("/getPatientScores/:id", async(req,res) => {
     try{
-        console.log(req.params);
         const patientDetails = await pool.query("SELECT * FROM public.user_patients WHERE patient_id = " + req.params.id)
         res.json(patientDetails.rows)
     } catch(e) {
@@ -172,7 +159,6 @@ app.get("/getPatientScores/:id", async(req,res) => {
 
 app.get("/getUserForLogin/:email", async(req,res) => {
     try{
-        console.log(req.params);
         const userDetails = await pool.query("SELECT * FROM public.users WHERE email = '" +  req.params.email + "'")
         res.json(userDetails.rows)
     } catch(e) {
@@ -186,7 +172,6 @@ app.put("/updateUser/:id", async(req,res) => {
         let newUser =  req.body;
         let sqlQuery = "UPDATE public.users SET first_name = '" + newUser.name + "', last_name = '" + newUser.surname
             + "', email = '" + newUser.email + "', password = '" + newUser.password + "' WHERE id = " + id;
-        console.log(sqlQuery);
         await pool.query(sqlQuery);
     } catch (e) {
         console.log(e.message)
@@ -212,8 +197,6 @@ app.put("/updateUser/:id", async(req,res) => {
 //////////////////////////////////////Rating Page////////////////////////////////////////
 app.get("/getOldScore/:id", async(req,res) => {
     try{
-        /*console.log("geldi mi???", req.params);
-        console.log("id of expert: ", req.params.id);*/
         const old_score = await pool.query("SELECT totalrating FROM public.user_experts WHERE expert_id = " + req.params.id);
         res.json(old_score.rows[0])
     } catch(e) {
@@ -223,7 +206,6 @@ app.get("/getOldScore/:id", async(req,res) => {
 
 app.get("/getNOV/:id", async(req,res) => {
     try{
-        //console.log("id of expert22: ", req.params.id);
         const oln_num = await pool.query("SELECT numOfVotes FROM public.user_experts WHERE expert_id = " + req.params.id);
         res.json(oln_num.rows[0])
     } catch(e) {

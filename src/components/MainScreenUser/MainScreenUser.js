@@ -183,7 +183,7 @@ export default class MainScreenUser extends Component {
                  onPress={() => {
                      Alert.alert(
                          'Bilgilendirme ',
-                         '0-1 arası iyidir. 1-2 eh işte',
+                         '0.75 puan üstü olmanız anksiyete yaşıyor olma ihtimalinizi yüksek kılar.',
                          [
                              {text: 'OK', onPress: () => console.log("closed dialog")},
                          ],
@@ -194,13 +194,112 @@ export default class MainScreenUser extends Component {
                     <Text style = {styles.textStyle2ListRed}>Anksiyete: {this.state.ANX}</Text>
 
                 </TouchableOpacity>
-                <Text style = {styles.textStyle2ListRed}>Paranoya: {this.state.PAR}</Text>
-                <Text style = {styles.textStyle2ListRed}>Psikotizm: {this.state.PSY}</Text>
-                <Text style = {styles.textStyle2ListRed}>Öfke ve Düşmanlık: {this.state.HOS}</Text>
-                <Text style = {styles.textStyle2ListRed}>Depresyon: {this.state.DEP}</Text>
-                <Text style = {styles.textStyle2ListRed}>Obsesif Bozukluk: {this.state.OKB}</Text>
-                <Text style = {styles.textStyle2ListRed}>Kişiler Arası Duyarlık: {this.state.I_NT}</Text>
-                <Text style = {styles.textStyle2ListRed}>Somatizm: {this.state.SOM}</Text>
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '1.0 puan üstü olmanız paranoya yaşıyor olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Paranoya: {this.state.PAR}</Text>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '0.72 puan üstü olmanız psikotizm yaşıyor olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Psikotizm: {this.state.PSY}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '0.97 puan üstü olmanız öfke ve düşmanlık yaşıyor olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Öfke ve Düşmanlık: {this.state.HOS}</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '0.9 puan üstü olmanız depresyonda olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Depresyon: {this.state.DEP}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '1.02 puan üstü olmanız obsesif kompülsif bozukluk yaşıyor olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Obsesif Bozukluk: {this.state.OKB}</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '0.85 puan üstü olmanız kişiler arası duyarlılık yaşıyor olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Kişiler Arası Duyarlık: {this.state.I_NT}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                 onPress={() => {
+                     Alert.alert(
+                         'Bilgilendirme ',
+                         '0.55 puan üstü olmanız somatizm yaşıyor olma ihtimalinizi yüksek kılar.',
+                         [
+                             {text: 'OK', onPress: () => console.log("closed dialog")},
+                         ],
+                         {cancelable: false},
+                     );
+                 }}
+                >
+                    <Text style = {styles.textStyle2ListRed}>Somatizm: {this.state.SOM}</Text>
+                </TouchableOpacity>
+               
             </View>
         }
         return (

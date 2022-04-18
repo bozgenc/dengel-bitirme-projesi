@@ -163,16 +163,73 @@ export default class Definition extends Component{
         });
     }
 
-    goNextDef = () => {
+    goNextDef = async() => {
         let newIndex = this.state.index + 1;
         let is_selected_before = false;
 
         if(newIndex == 9){
             console.log("End of the definition part \n");
             console.log("------Selected List------ \n");
-            for(var i =0; i<8; i++){
-                if(this.state.selectedList[i] != null)
+            for(var i =0; i<=8; i++){
+                if(this.state.selectedList[i] != null){
                     console.log("------", this.state.selectedList[i], "-------\n");
+                    if(i == 0){
+                        await AsyncStorage.setItem("anx_selected", "yes");
+                    }
+                    else if(i == 1){
+                        await AsyncStorage.setItem("dep_selected", "yes");
+                    }
+                    else if(i == 2){
+                        await AsyncStorage.setItem("hos_selected", "yes");
+                    }
+                    else if(i == 3){
+                        await AsyncStorage.setItem("int_selected", "yes");
+                    }
+                    else if(i == 4){
+                        await AsyncStorage.setItem("okb_selected", "yes");
+                    }
+                    else if(i == 5){
+                        await AsyncStorage.setItem("par_selected", "yes");
+                    }
+                    else if(i == 6){
+                        await AsyncStorage.setItem("phob_selected", "yes");
+                    }
+                    else if(i == 7){
+                        await AsyncStorage.setItem("psy_selected", "yes");
+                    }
+                    else if(i == 8){
+                        await AsyncStorage.setItem("som_selected", "yes");
+                    }
+                }
+                else{
+                    if(i == 0){
+                        await AsyncStorage.setItem("anx_selected", "no");
+                    }
+                    else if(i == 1){
+                        await AsyncStorage.setItem("dep_selected", "no");
+                    }
+                    else if(i == 2){
+                        await AsyncStorage.setItem("hos_selected", "no");
+                    }
+                    else if(i == 3){
+                        await AsyncStorage.setItem("int_selected", "no");
+                    }
+                    else if(i == 4){
+                        await AsyncStorage.setItem("okb_selected", "no");
+                    }
+                    else if(i == 5){
+                        await AsyncStorage.setItem("par_selected", "no");
+                    }
+                    else if(i == 6){
+                        await AsyncStorage.setItem("phob_selected", "no");
+                    }
+                    else if(i == 7){
+                        await AsyncStorage.setItem("psy_selected", "no");
+                    }
+                    else if(i == 8){
+                        await AsyncStorage.setItem("som_selected", "no");
+                    }
+                }
             }
             this.props.navigation.navigate('Home');
         }

@@ -20,13 +20,75 @@ export default class Suggestions extends  Component {
             paranoid: false,
             psyco: false,
             hostilite: false,
+            anxiety_diary: false,
+            depression_diary: false,
+            obsessive_diary: false,
+            somatic_diary: false,
+            phobia_diary: false,
+            social_diary: false,
+            paranoid_diary: false,
+            psyco_diary: false,
+            hostilite_diary: false,
             userID:0
         }
     }
 
     componentDidMount =  async () => {
         let id = await AsyncStorage.getItem('userId');
-        console.log("in suggestions id: ", id);
+        let anx_sel = false;
+        let dep_sel = false;
+        let hos_sel = false;
+        let int_sel = false;
+        let okb_sel = false;
+        let par_sel = false;
+        let phob_sel = false;
+        let psy_sel = false;
+        let som_sel = false;
+        var p = await AsyncStorage.getItem("anx_selected");
+        if(p == "yes"){
+            anx_sel = true;
+            console.log("anx_selected");
+        }
+        p = await AsyncStorage.getItem("dep_selected");
+        if(p == "yes"){
+            dep_sel = true;
+            console.log("dep_selected");
+        }
+        p = await AsyncStorage.getItem("hos_selected");
+        if(p == "yes"){
+            hos_sel = true;
+            console.log("hos_selected");
+        }
+        p = await AsyncStorage.getItem("int_selected");
+        if(p == "yes"){
+            int_sel = true;
+            console.log("int_selected");
+        }
+        p = await AsyncStorage.getItem("okb_selected");
+        if(p == "yes"){
+            okb_sel = true;
+            console.log("okb_selected");
+        }
+        p = await AsyncStorage.getItem("par_selected");
+        if(p == "yes"){
+            par_sel = true;
+            console.log("par_selected");
+        }
+        p = await AsyncStorage.getItem("phob_selected");
+        if(p == "yes"){
+            phob_sel = true;
+            console.log("phob_selected");
+        }
+        p = await AsyncStorage.getItem("psy_selected");
+        if(p == "yes"){
+            psy_sel = true;
+            console.log("psy_selected");
+        }
+        p = await AsyncStorage.getItem("som_selected");
+        if(p == "yes"){
+            som_sel = true;
+            console.log("som_selected");
+        }
         try {
             const response2 = await fetch (url + 'getPatientScores/' + id)
             const responseObj = await response2.json();
@@ -53,9 +115,19 @@ export default class Suggestions extends  Component {
                 psyco: btn_psy,
                 social: btn_int,
                 phobia: btn_phob,
+                anxiety_diary: anx_sel,
+                depression_diary: dep_sel,
+                obsessive_diary: okb_sel,
+                somatic_diary: som_sel,
+                phobia_diary: phob_sel,
+                social_diary: int_sel,
+                paranoid_diary: par_sel,
+                psyco_diary: psy_sel,
+                hostilite_diary: hos_sel,
                 userID: id
             })
-        } catch (e) {
+        } 
+        catch (e) {
             console.log(e.message)
         }
     }
@@ -109,65 +181,67 @@ export default class Suggestions extends  Component {
                 </Header>
 
                 <View style = {{backgroundColor: "#faf8f8"}}>
+                <Text style={ styles.textStyle3}>Aşağıda kırmızı ile belirtilmiş testler önceki test sonuçlarınız doğrultusunda haftada bir çözmeniz geren testlerdir.</Text>
+                <Text style={ styles.textStyle3}>Mavi yazı ile belirtilmiş testler ise duygu durum bozukluğu tanım sayfasında yaptığınız tercihlere göre seçilmiştir.</Text>
                 <TouchableOpacity onPress={() => this.ANX()} >
                     <View style={this.state.anxiety ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.anxiety_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Anksiyete Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.DEP()} >
                     <View style={this.state.depression ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.depression_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Depresyon Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.INT()} >
                     <View style={this.state.social ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.social_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Kişiler Arası İlişkiler Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.SOM()} >
                     <View style={this.state.somatic ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.somatic_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Somatizm Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.PHOB()} >
                     <View style={this.state.phobia ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.phobia_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Fobik Anksiyete Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.PAR()} >
                     <View style={this.state.paranoid ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.paranoid_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Paranoya Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.HOS()} >
                     <View style={this.state.hostilite ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.hostilite_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Hostilite Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.OKB()} >
                     <View style={this.state.obsessive ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.obsessive_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Obsesif Kompülsif Bozukluk Testi
                         </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.PSY()} >
                     <View style={this.state.psyco ? styles.buttonImportant : styles.buttonNotImportant}>
-                        <Text style={styles.textStyle2}>
+                        <Text style={ this.state.psyco_diary ? styles.textStyleSEL : styles.textStyle2}>
                             Psikotizm Testi
                         </Text>
                     </View>
@@ -227,10 +301,18 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold"
     },
+    textStyleSEL: {
+        marginTop: 2,
+        marginLeft: 2,
+        fontSize: 14,
+        fontWeight: "bold",
+        color: 'blue'
+    },
     textStyle3: {
         fontSize: 15,
         color: 'black',
         textAlign: 'center',
+        fontWeight: "bold",
         paddingTop: 0
     },
     textStyleButton: {
