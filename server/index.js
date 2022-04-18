@@ -40,10 +40,41 @@ app.get("/getPrivateSessions", async(req,res) => {
     }
 })
 
+app.get("/getSessionsByExpertId/:id", async(req,res) => {
+    try{
+        const userDetails = await pool.query("SELECT * FROM public.sessions WHERE expert_id = '" + req.params.id + "'");
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
 app.get("/getSessionById/:id", async(req,res) => {
     try{
         const userDetails = await pool.query("SELECT * FROM public.sessions WHERE session_id = " + req.params.id + "");
         res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getPostsBySessionId/:sessionId", async(req,res) => {
+    try{
+        let q = "SELECT * FROM public.posts WHERE session_id = " + req.params.sessionId;
+        console.log(q);
+        const userDetails = await pool.query("SELECT * FROM public.posts WHERE session_id = " + req.params.sessionId);
+        res.json(userDetails.rows)
+    } catch(e) {
+        console.log(e.message);
+    }
+})
+
+app.get("/getPostsByPostId/:id", async(req,res) => {
+    try{
+        let q = "SELECT * FROM public.posts WHERE post_id = " + req.params.id;
+        console.log(q);
+        const postReturned = await pool.query("SELECT * FROM public.posts WHERE post_id = " + req.params.id);
+        res.json(postReturned.rows)
     } catch(e) {
         console.log(e.message);
     }
@@ -93,6 +124,17 @@ app.post("/savePatient", async (req,res) => {
     }
 })
 
+app.post("/savePost", async (req,res) => {
+    try {
+        let saveObj = req.body;
+        let sqlQuery = "INSERT INTO public.posts (expert_id, session_id, title) VALUES ('" + saveObj.expertId + "' , '" + saveObj.sessionId+ "', '" + saveObj.message +  "')"
+        console.log(sqlQuery)
+        await pool.query(sqlQuery)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
 
 app.post("/saveExpert", async(req, res) => {
     try {
@@ -101,7 +143,7 @@ app.post("/saveExpert", async(req, res) => {
         let sqlQuery = "INSERT INTO public.user_experts (expert_id, religion, totalrating, description, specialties, graduate_school, tckn, numofvotes) VALUES ('"
             + user.expert_id + "','" + user.religion + "'" +  "," + 0 + "," + "'" + user.description + "'" + "," + "'" +
             user.specialties + "', '" +  user.graduateSchool + "'"+ ","   + "'" + user.tckn + "'" + "," + 0 +" )";
-        
+
         await pool.query(sqlQuery)
     } catch (error) {
         console.log(error.message)
@@ -220,9 +262,9 @@ app.put("/uNOV", async (req,res) => {
           "UPDATE public.user_experts SET numOfVotes = $1 WHERE expert_id = $2",
           [num_of_votes, expertID]
         );
-    
+
         console.log("vote num updated to ", num_of_votes, "\n");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }
@@ -235,9 +277,9 @@ app.put("/uScore", async (req,res) => {
           "UPDATE public.user_experts SET totalrating = $1 WHERE expert_id = $2",
           [score, expertID]
         );
-    
+
         console.log("score updated to ", score, "\n");
-    } 
+    }
     catch (err) {
         console.error(err.message);
     }

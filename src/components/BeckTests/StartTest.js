@@ -23,14 +23,14 @@ export default class StartTest extends Component {
     constructor(props) {
         super();
         this.state = {
-            
+
         }
     }
 
     componentDidMount =  async () => {
 
         this.setState({
-            
+
         })
 
     }
@@ -70,16 +70,16 @@ export default class StartTest extends Component {
 
                     <View style={styles.container3}>
                         <Text style={styles.textStyle3}>
-                            Test süresince sizlere zaman zaman herkeste olabilecek yakınmaların ve sorunlar belirtilecektir. 
-                            Bu yakınma ve sorunların son zamanlarda sizi ne derece rahatsız ettiğini 0 en düşük, 4 en yüksek 
+                            Test süresince sizlere zaman zaman herkeste olabilecek yakınmaların ve sorunlar belirtilecektir.
+                            Bu yakınma ve sorunların son zamanlarda sizi ne derece rahatsız ettiğini 0 en düşük, 4 en yüksek
                             derece belirteci olacak şekilde butonları kullanarak oylayınız.
                         </Text>
                         <Text style={styles.textStyle}>
-                            Soruları dikkatlice okuyunuz. 
+                            Soruları dikkatlice okuyunuz.
                         </Text>
                     </View>
                 </View>
-                
+
                 <TouchableOpacity onPress={() => this.StartTest()}>
                     <View style={styles.buttonStart}>
                         <Text style={styles.textStyleButton}>
@@ -130,12 +130,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '90%',
         borderWidth: 2,
-        borderColor: '#ff6347',
+        borderColor: '#e36e7e',
         borderRadius: 100,
         height: 35,
         marginLeft: '5%',
         marginTop: '70%',
-        backgroundColor: '#ff6347',
+        backgroundColor: '#e36e7e',
         fontFamily: 'Helvetica-Bold',
     },
     image: {

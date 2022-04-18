@@ -9,7 +9,7 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-goog
 
 var screen = Dimensions.get('window');
 var deviceModel = DeviceInfo.getModel();
-var url = "http://192.168.1.23:5000/"
+var url = "http://localhost:5000/"
 
 
 export default class Login extends Component {

@@ -14,11 +14,12 @@ import {
 } from 'react-native';
 import { Card, Icon, Avatar, Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Header, Left, Right} from "native-base";
 
 var screen = Dimensions.get('window');
 
 export default class Diary extends Component {
-    
+
     constructor() {
         super();
         this.state = {
@@ -57,11 +58,11 @@ export default class Diary extends Component {
     }
 
     exitPage() {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Anasayfa  ');
     }
 
     onSubmit() {
-        
+
         console.log("i am: ", this.state.iAm)
         console.log('\n');
         console.log("i Am Sometimes Too: ", this.state.iAmSometimesToo)
@@ -76,15 +77,15 @@ export default class Diary extends Component {
         AsyncStorage.setItem("iMostValue", this.state.iMostValue);
         AsyncStorage.setItem("myBiggestWeaknessIs", this.state.myBiggestWeaknessIs);
 
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Anasayfa  ');
     }
 
     render() {
-        
+
         let area;
-        if(this.state.index==1){       
+        if(this.state.index==1){
             area = <View>
-                
+
                 <Card style={styles.gCard}>
                 <Avatar
                         size={64}
@@ -120,7 +121,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        Others Describe me as ... 
+                        Others Describe me as ...
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -138,7 +139,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        I am sometimes too… 
+                        I am sometimes too…
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -156,7 +157,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        I most value… 
+                        I most value…
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -174,7 +175,7 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        My biggest weakness is… 
+                        My biggest weakness is…
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -210,7 +211,7 @@ export default class Diary extends Component {
             area = <View>
                 <Card style={styles.gCard}>
                     <Avatar
-                        size={64}
+                        size={48}
                         rounded
                         icon={{
                         name: 'human-greeting-variant',
@@ -225,7 +226,7 @@ export default class Diary extends Component {
                         }}
                     />
                     <Text style={styles.textStyle}>
-                        I am ...
+                       Ben ...
                     </Text>
                     <Text style={styles.textStyle2}>
                         {this.state.iAm}
@@ -234,37 +235,37 @@ export default class Diary extends Component {
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        Others Describe me as ... 
+                       Başkaları beni şöyle tanımlar...
                     </Text>
                     <Text style={styles.textStyle2}>
-                        {this.state.othersDesribeMeAs} 
+                        {this.state.othersDesribeMeAs}
                     </Text>
                 </Card>
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        I am sometimes too… 
+                        Ben bazen...
                     </Text>
                     <Text style={styles.textStyle2}>
-                        {this.state.iAmSometimesToo} 
+                        {this.state.iAmSometimesToo}
                     </Text>
                 </Card>
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        I most value… 
+                        En çok değer verdiğim...
                     </Text>
                     <Text style={styles.textStyle2}>
-                        {this.state.iMostValue} 
+                        {this.state.iMostValue}
                     </Text>
                 </Card>
 
                 <Card style={styles.gCard}>
                     <Text style={styles.textStyle}>
-                        My biggest weakness is… 
+                        En büyük zayıflığım...
                     </Text>
                     <Text style={styles.textStyle2}>
-                        {this.state.myBiggestWeaknessIs} 
+                        {this.state.myBiggestWeaknessIs}
                     </Text>
                 </Card>
                 <TouchableOpacity
@@ -300,14 +301,34 @@ export default class Diary extends Component {
         </View>
 
 
-            
+
         }
 
         return (
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                {area}
-                
-            </ScrollView>
+            <View>
+                <Header style = {{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}} >
+                    <Left>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.openDrawer()}
+                            style={{color: "black" }}
+                        >
+                            <Text style = {{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
+                                ≡
+                            </Text>
+                        </TouchableOpacity>
+                    </Left>
+
+                    <Text style = {{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Günlük</Text>
+
+                    <Right>
+                    </Right>
+                </Header>
+
+                <ScrollView showsVerticalScrollIndicator={true}>
+                    {area}
+                </ScrollView>
+            </View>
+
         );
     }
 }

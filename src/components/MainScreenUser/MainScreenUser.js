@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 
 var screen = Dimensions.get('window');
-var url = "http://192.168.1.23:5000/"
+var url = "http://localhost:5000/"
 
 export default class MainScreenUser extends Component {
     constructor() {
@@ -48,6 +48,7 @@ export default class MainScreenUser extends Component {
             user = userObject[0];
 
             await AsyncStorage.setItem("userId", user.id.toString() + "").then(console.log("user id set"));
+            await AsyncStorage.setItem("userType_", user.user_type.toString() + "").then(console.log("usertype set"));
             console.log(user);
             this.setState({
                     userName: user.first_name,
@@ -138,29 +139,26 @@ export default class MainScreenUser extends Component {
         else {
             let meetings = [];
             try {
-                const response = await fetch(url +'getRequestByExpertId/' + this.state.userId).then()
-                const requests = await response.json();
+                const response = await fetch(url +'getSessionsByExpertId/' + this.state.userId).then()
+                const sessionsOfExp = await response.json();
 
-                for(let i = 0; i < requests.length; i++) {
-                    let request = requests[i];
+                for(let i = 0; i < sessionsOfExp.length; i++) {
+                    let session = sessionsOfExp[i];
 
-                    const responseX = await fetch(url +'getUserById/' + request.expert_id).then()
+                    const responseX = await fetch(url +'getUserById/' + this.state.userId).then()
                     const userX = await responseX.json();
                     let userObjX = userX[0];
 
-                    const response2 = await fetch(url +'getSessionById/' + request.session_id).then()
-                    const session = await response2.json();
-                    let sessionObj = session[0];
-
-
                     let temp = {
-                        id: sessionObj.session_id,
-                        meetingTitle: sessionObj.session_title,
-                        time: sessionObj.session_time,
+                        id: session.session_id,
+                        meetingTitle: session.session_title,
+                        time: session.session_time,
                         expertName: userObjX.first_name,
                         expertLastName: userObjX.last_name
                     }
-                    meetings.push(temp)
+                    if(session.isprivate == false) {
+                        meetings.push(temp)
+                    }
                 }
 
                 this.setState({
@@ -239,7 +237,7 @@ export default class MainScreenUser extends Component {
                 >
                     <Text style = {styles.textStyle2ListRed}>Öfke ve Düşmanlık: {this.state.HOS}</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                  onPress={() => {
                      Alert.alert(
@@ -269,7 +267,7 @@ export default class MainScreenUser extends Component {
                 >
                     <Text style = {styles.textStyle2ListRed}>Obsesif Bozukluk: {this.state.OKB}</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                  onPress={() => {
                      Alert.alert(
@@ -299,7 +297,7 @@ export default class MainScreenUser extends Component {
                 >
                     <Text style = {styles.textStyle2ListRed}>Somatizm: {this.state.SOM}</Text>
                 </TouchableOpacity>
-               
+
             </View>
         }
         return (
@@ -361,8 +359,8 @@ export default class MainScreenUser extends Component {
                     backgroundColor: '#faf8f8'
                 }}>
                     <FlatList
-                        style = {{flex: 0}}
-                        initialNumToRender={3}
+                        style = {{flex: 1}}
+                        //initialNumToRender={5}
                         directionalLockEnabled={true}
                         showsVerticalScrollIndicator={true}
                         showsHorizontalScrollIndicator={false}

@@ -40,7 +40,7 @@ export default class Logout extends Component {
     }
 
     cancelLogOut = async() => {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Anasayfa  ');
     }
 
     render() {

@@ -46,7 +46,7 @@ export default class INT extends Component{
 
         let question_s = [];
 
-        let q1 = "Başkarının sizi eleştirdiği düşüncesi - hissi";
+        let q1 = "Başkalarının sizi eleştirdiği düşüncesi - hissi";
         question_s.push(q1);
 
         let q2 = "Karşı cinse karşı utangaçlık veya rahatsızlık hissi";
@@ -232,7 +232,7 @@ export default class INT extends Component{
 
         if(newIndex == 9){
             var scr=0;
-            for(i=0; i<9; i++){
+            for(let i=0; i<9; i++){
                 if(this.state.answers[i] == "button 0")
                     scr = scr + 0;
                 else if(this.state.answers[i] == "button 1")
@@ -333,90 +333,107 @@ export default class INT extends Component{
         }
 
         return(
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                <Card style={styles.gCard}>
-
-                    <Avatar
-                        size={64}
-                        rounded
-                        icon={{
-                        name: 'hand-heart-outline',
-                        type: 'material-community',
-                        color: '#cdde20'
-                        }}
-                        containerStyle={{
-                        borderColor: '#cdde20',
-                        borderStyle: 'solid',
-                        borderWidth: 1,
-                        alignSelf: "center"
-                        }}
-                    />
-
-                    <Text style={styles.textStyle}>
-                        {this.state.questions[this.state.index]}
-                    </Text>
-
-                    <TouchableOpacity onPress={() => this.button0Clicked_f()}>
-                        <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                0
+            <View style = {styles.container}>
+                <Header style={{backgroundColor: 'white', borderBottomWidth: 2, borderBottomColor: '#f18a21'}}>
+                    <Left>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.openDrawer()}
+                            style={{color: "black"}}
+                        >
+                            <Text style={{marginLeft: 10, fontSize: 30, color: '#B00D23'}}>
+                                ≡
                             </Text>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </Left>
 
-                    <TouchableOpacity onPress={() => this.button1Clicked_f()}>
-                        <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                1
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                    <Text style={{marginTop: 16, fontSize: 20, fontFamily: "Helvetica-Bold"}}>INT</Text>
+
+                    <Right>
+                    </Right>
+                </Header>
+                <View>
+                    <Card style={styles.gCard}>
+                        <Avatar
+                            size={64}
+                            rounded
+                            icon={{
+                                name: 'hand-heart-outline',
+                                type: 'material-community',
+                                color: '#cdde20'
+                            }}
+                            containerStyle={{
+                                borderColor: '#cdde20',
+                                borderStyle: 'solid',
+                                borderWidth: 1,
+                                alignSelf: "center"
+                            }}
+                        />
+
+                        <Text style={styles.textStyle}>
+                            {this.state.questions[this.state.index]}
+                        </Text>
+
+                        <TouchableOpacity onPress={() => this.button0Clicked_f()}>
+                            <View style={this.state.button0clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    0
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.button1Clicked_f()}>
+                            <View style={this.state.button1clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    1
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
 
-                    <TouchableOpacity onPress={() => this.button2Clicked_f()}>
-                        <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                2
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.button2Clicked_f()}>
+                            <View style={this.state.button2clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    2
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
 
-                    <TouchableOpacity onPress={() => this.button3Clicked_f()}>
-                        <View style={this.state.button3clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                3
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.button3Clicked_f()}>
+                            <View style={this.state.button3clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    3
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.button4Clicked_f()}>
-                        <View style={this.state.button4clicked ? styles.buttonUnclicked : styles.buttonClicked}>
-                            <Text style={styles.textStyle3}>
-                                4
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </Card>
+                        <TouchableOpacity onPress={() => this.button4Clicked_f()}>
+                            <View style={this.state.button4clicked ? styles.buttonUnclicked : styles.buttonClicked}>
+                                <Text style={styles.textStyle3}>
+                                    4
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </Card>
 
-                <View style = {{marginTop: 10}}>
-                    <View>
+                    <View style = {{marginTop: 10}}>
+                        <View>
 
-                        {btn_prev}
+                            {btn_prev}
 
-                        <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center',}}>
-                            <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
-                                <View style={styles.buttonNext}>
-                                    <Text style={styles.textStyle2}>
-                                        Sonraki
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
+                            <View style = {{marginTop: 10, marginBottom: 4, alignItems:'center',}}>
+                                <TouchableOpacity onPress={() => this.goNextQuestion()} disabled = {this.state.answers[this.state.index]==null?true:false}>
+                                    <View style={styles.buttonNext}>
+                                        <Text style={styles.textStyle2}>
+                                            Sonraki
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
-
-            </ScrollView>
+            </View>
         );
     }
 }
@@ -525,19 +542,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: screen.width -100,
         borderWidth: 2,
-        borderColor: '#7cfc00',
+        borderColor: '#9fba83',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#7cfc00'
+        backgroundColor: '#9fba83'
     },
     buttonPrev: {
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: screen.width -100,
         borderWidth: 2,
-        borderColor: '#ff6347',
+        borderColor: '#e36e7e',
         borderRadius: 100,
         height: 35,
-        backgroundColor: '#ff6347'
+        backgroundColor: '#e36e7e'
     }
 });

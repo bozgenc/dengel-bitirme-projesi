@@ -231,7 +231,7 @@ export default class PHOB extends Component{
 
         if(newIndex == 6){
             var scr=0;
-            for(i=0; i<6; i++){
+            for(let i=0; i<6; i++){
                 if(this.state.answers[i] == "button 0")
                     scr = scr + 0;
                 else if(this.state.answers[i] == "button 1")
@@ -541,19 +541,19 @@ buttonNext: {
     alignItems: 'center',
     width: screen.width - 100,
     borderWidth: 2,
-    borderColor: '#7cfc00',
+    borderColor: '#9fba83',
     borderRadius: 100,
     height: 35,
-    backgroundColor: '#7cfc00'
+    backgroundColor: '#9fba83'
 },
 buttonPrev: {
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: screen.width - 100,
     borderWidth: 2,
-    borderColor: '#ff6347',
+    borderColor: '#e36e7e',
     borderRadius: 100,
     height: 35,
-    backgroundColor: '#ff6347'
+    backgroundColor: '#e36e7e'
 }
 });
