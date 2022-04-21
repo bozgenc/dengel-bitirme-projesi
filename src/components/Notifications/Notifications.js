@@ -19,18 +19,20 @@ export default class Notifications extends  Component {
             index: 0,
             message: '',
             expId: -1,
+            showNoText: true,
         }
     }
 
     componentDidMount =  async () => {
         let userId = await AsyncStorage.getItem("userId");
-        let userType = await AsyncStorage.getItem("userType_")
-        console.log(userType);
+        let userType_ = await AsyncStorage.getItem("userType_")
+        console.log("notifications: " + userType_);
         this.setState({
-            expId: parseInt(userId)
+            expId: parseInt(userId),
+            userType: userType_
         })
 
-        if(userType == 'user') {
+        if(userType_ == 'user') {
             try {
                 const response = await fetch(url +'getRequestById/' + parseInt(userId)).then()
                 const requests = await response.json();
@@ -44,10 +46,22 @@ export default class Notifications extends  Component {
                     temp.push(meeting);
                 }
 
+
+                console.log("temp length: "+ temp.length)
+                if(temp.length == 0) {
+                    this.setState({
+                        showNoText: true
+                    })
+                }
                 let notifs;
+                let flag = true;
                 for(let i = 0; i < temp.length; i++) {
                     const response2 = await fetch(url +'getPostsBySessionId/' + temp[i].sessionId).then()
                     const posts = await response2.json();
+
+                    if(posts.length != 0) {
+                        flag = false;
+                    }
 
                     const response3 = await fetch(url +'getSessionsByExpertId/' + temp[i].expertId).then()
                     const session = await response3.json();
@@ -59,37 +73,34 @@ export default class Notifications extends  Component {
                     }
 
                     notifs = []
-                    if(posts.length != 0) {
-                        this.setState({
-                            noText: false
-                        }, () => {
-                            for(let i = 0; i < posts.length; i++) {
-                                let notification=  {
-                                    id: posts[i].post_id,
-                                    name: sessionObj.session_title,
-                                    time: posts[i].creation_date.substring(0, 10) + " , " + posts[i].creation_date.substring(11, 16),
-                                    session_id: posts[i].session_id,
-                                }
-                                notifs.push(notification)
-                            }
-                        })
+                    console.log("posts length " + posts.length)
+                    for(let i = 0; i < posts.length; i++) {
+                        let notification =  {
+                            id: posts[i].post_id,
+                            name: sessionObj.session_title,
+                            time: posts[i].creation_date.substring(0, 10) + " , " + posts[i].creation_date.substring(11, 16),
+                            session_id: posts[i].session_id,
+                        }
+                        notifs.push(notification)
                     }
-                    else {
-                        this.setState({
-                            noText: true
-                        })
-                    }
-                }
-                this.setState({
-                    notifications: notifs,
-                    userType: 'user'
-                })
 
+                    let finalState = [...this.state.notifications]
+                    for(let i = 0; i < notifs.length; i++) {
+                        finalState.push(notifs[i])
+                    }
+                    this.setState({
+                        notifications: finalState,
+                    })
+                }
+
+                this.setState({
+                    showNoText: flag
+                })
             } catch (e) {
                 console.log(e.message)
             }
         }
-        else {
+        else if(userType_ == 'expert') {
             try {
                 const response3 = await fetch(url +'getSessionsByExpertId/' + userId).then()
                 const sessions = await response3.json();
@@ -170,7 +181,7 @@ export default class Notifications extends  Component {
     }
 
     render() {
-        if(this.state.userType == 'user' && ! this.state.noText) {
+        if(this.state.userType == 'user' &&  this.state.showNoText == false) {
             return (
                 <View style = {{flex: 1, backgroundColor: "#faf8f8"}}>
                     <View>
@@ -228,7 +239,7 @@ export default class Notifications extends  Component {
                 </View>
             );
         }
-        else if (this.state.userType == 'user' && this.state.noText) {
+        else if (this.state.userType == 'user' && this.state.showNoText) {
             return (
                 <View>
                     <View>

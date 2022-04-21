@@ -153,7 +153,7 @@ function MainScreenStack() {
                 headerShown: false,
             }}
         >
-            <Stack.Screen name='Ana sayfa' component={MainScreenUser}/>
+            <Stack.Screen name='Ana sayfa' component={MainScreenUser} options={{unmountOnBlur:true}}/>
             <Drawer.Screen name="Terapi Oluştur" component={SessionCreate} options={{unmountOnBlur:true}} />
             <Stack.Screen name='Live Meeting' component={LiveMeeting}/>
             <Stack.Screen name='Rating Meeting' component={RatingTest}/>

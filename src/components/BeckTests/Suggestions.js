@@ -4,7 +4,7 @@ import {Header, Left, Right} from "native-base"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var screen = Dimensions.get('window');
-var url = "http://192.168.1.23:5000/"
+var url = "http://localhost:5000/"
 
 export default class Suggestions extends  Component {
 

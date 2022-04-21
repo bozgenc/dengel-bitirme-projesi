@@ -75,7 +75,6 @@ export default class ExpertInformationLogin extends Component {
             );
         }
         else {
-
             let expertObj = {
                 religion: this.state.religion == 'H' ? false : true,
                 expert_id: this.state.expertId,

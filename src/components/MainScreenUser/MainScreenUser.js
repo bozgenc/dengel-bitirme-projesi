@@ -35,7 +35,42 @@ export default class MainScreenUser extends Component {
             DEP: 0.0,
             OKB: 0.0,
             PSY: 0.0,
-            I_NT: 0.0
+            I_NT: 0.0,
+            i: 0,
+        }
+    }
+
+    fetchData = async () => {
+        let meetings = [];
+        try {
+            const response = await fetch(url +'getSessionsByExpertId/' + this.state.userId).then()
+            const sessionsOfExp = await response.json();
+
+            for(let i = 0; i < sessionsOfExp.length; i++) {
+                let session = sessionsOfExp[i];
+
+                const responseX = await fetch(url +'getUserById/' + this.state.userId).then()
+                const userX = await responseX.json();
+                let userObjX = userX[0];
+
+                let temp = {
+                    id: session.session_id,
+                    meetingTitle: session.session_title,
+                    time: session.session_time,
+                    expertName: userObjX.first_name,
+                    expertLastName: userObjX.last_name
+                }
+                if(session.isprivate == false) {
+                    meetings.push(temp)
+                }
+            }
+
+            this.setState({
+                meetingsIncoming: meetings
+            })
+
+        } catch (e) {
+            console.log(e.message)
         }
     }
 
@@ -83,7 +118,9 @@ export default class MainScreenUser extends Component {
 
         if(this.state.userType == 'user') {
             let check = await AsyncStorage.getItem("patientFirst");
-            if(check) {
+            console.log(check + " patient async status");
+            if(check == 'true') {
+                await AsyncStorage.setItem("patientFirst", "false").then(console.log("..."));
                 try {
                     const body = user
                     const response = await fetch( url + "savePatient", {
@@ -91,13 +128,12 @@ export default class MainScreenUser extends Component {
                         headers: {'Content-Type' : 'application/json' },
                         body: JSON.stringify(body)
                     })
-
                     console.log('main screen id save patient ');
                     console.log(response)
                 } catch (e) {
+                    await AsyncStorage.setItem("patientFirst", "false").then(console.log("..."));
                     console.log(e.message);
                 }
-                AsyncStorage.setItem("patientFirst", "false").then(console.log("..."));
             }
 
             let meetings = [];
@@ -315,7 +351,9 @@ export default class MainScreenUser extends Component {
                             </TouchableOpacity>
                         </Left>
 
-                        <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Anasayfa</Text>
+                        <TouchableOpacity onPress={() => this.fetchData()}>
+                            <Text style={{marginTop: 10, fontSize: 30, fontFamily: "Helvetica-Bold"}}>Anasayfa</Text>
+                        </TouchableOpacity>
 
                         <Right>
                             {
@@ -343,9 +381,13 @@ export default class MainScreenUser extends Component {
                 </View>
 
                 <View style={{marginTop: 30, height: 20, marginBottom: 20}}>
-                    <Text style={{fontSize: 18, color: '#B00D23', textAlign: 'center', fontWeight: 'bold'}}>
-                        {this.state.userType == 'user' ? "Katıldığım Terapiler" : "Oluşturduğum Terapilerim"}
-                    </Text>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.navigate('Live Meeting')}
+                        >
+                            <Text style={{fontSize: 18, color: '#B00D23', textAlign: 'center', fontWeight: 'bold'}}>
+                                {this.state.userType == 'user' ? "Katıldığım Terapiler" : "Oluşturduğum Terapilerim"}
+                            </Text>
+                        </TouchableOpacity>
                 </View>
 
                 <View style={{

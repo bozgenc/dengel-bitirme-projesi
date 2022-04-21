@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 
 var screen = Dimensions.get('window');
-var url = "http://192.168.1.23:5000/"
+var url = "http://localhost:5000/"
 
 export default class Patients extends Component {
     constructor() {

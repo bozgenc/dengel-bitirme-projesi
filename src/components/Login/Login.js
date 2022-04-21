@@ -100,7 +100,7 @@ export default class Login extends Component {
         }
       };*/
 
-    validateMail(text) {
+    validateMail = async (text) => {
         let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (reg.test(text) === false) {
             this.setState({
@@ -129,7 +129,7 @@ export default class Login extends Component {
         }
     }
 
-    validatePassword(text) {
+    validatePassword = async (text) => {
         let eligible = true;
         let msg = ""
         if(text.length < 8) {
@@ -233,8 +233,8 @@ export default class Login extends Component {
 
     onSubmit = async () => {
         if(!this.state.userExist) {
-            this.validateMail(this.state.email);
-            this.validatePassword(this.state.passwordConfirm)
+            await this.validateMail(this.state.email);
+            await this.validatePassword(this.state.passwordConfirm)
             let tc_pass = this.validateTckn(this.state.userTckn);
             if(!this.state.errorBorderForMail && !this.state.errorBorderForPassword && tc_pass) {
                 let userCredentials  = {
@@ -264,12 +264,15 @@ export default class Login extends Component {
 
                 await AsyncStorage.setItem("userTckn", this.state.userTckn);
                 if(userCredentials.userType == 'expert') {
-                    await AsyncStorage.setItem("expertFirst", "true")
-                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('ExpertDetails'));
+                    await AsyncStorage.setItem("expertFirst", "true").then(
+                        AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('ExpertDetails'))
+                    );
+
                 }
                 else {
-                    await AsyncStorage.setItem("patientFirst", "true")
-                    AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'));
+                    await AsyncStorage.setItem("patientFirst", "true").then(
+                        AsyncStorage.setItem("isLoggedIn", "true").then(this.props.navigation.navigate('Anasayfa'))
+                );
                 }
             }
         }
