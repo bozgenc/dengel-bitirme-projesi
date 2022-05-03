@@ -55,7 +55,7 @@ export default class Login extends Component {
 
         if(DeviceInfo.getSystemName() == "Android") {
             GoogleSignin.configure({
-                webClientId: '50768797639-balvndqlqktdtks061taihf6dq34mc3n.apps.googleusercontent.com',
+                webClientId: '***',
             });
         }
     }
