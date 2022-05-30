@@ -23,7 +23,7 @@ Express.js
 
 A link for the demo video: https://www.youtube.com/watch?v=ETGyoC932JE 
 
-Some screenshots from the Dengel app: 
+<h2>Some screenshots from the Dengel app: </h2>
 
 
 <img src = "https://user-images.githubusercontent.com/59977131/170987238-f711ba93-78ff-4084-9669-239eb5525900.jpg" width="800" height="840">
