@@ -1,0 +1,33 @@
+# dengel-bitirme-projesi
+
+Dengel mental health app is an mobile app developed both for iOS and Android using React Native with the contribution of the members 
+Baran Özgenç, (Frontend-Backend)
+Elif Nur Afşar, (Frontend)
+Can Koçyiğitoğlu, (Frontend)
+Dursun Karaca Erdemir. (Backend)
+
+App Description: 
+
+Dengel is a mobile app that allows people to communicate with therapists remotely. 
+In the application, which is logged in with the therapist or user roles, users can make one-to-one meetings by making virtual appointments with therapists.
+On the other hand, Dengel also offers the feature of creating free group therapy rooms 
+for users who want to come together within the framework of a certain mental problem.
+
+Technologies used in development:
+
+React Native
+PostgreSQL
+Node.js 
+Agora API
+Express.js
+
+A link for the demo video: https://www.youtube.com/watch?v=ETGyoC932JE 
+
+Some screenshots from the Dengel app: 
+
+![Screen Shot 2022-05-30 at 14 52 47](https://user-images.githubusercontent.com/59977131/170987238-f711ba93-78ff-4084-9669-239eb5525900.jpg)
+![Screen Shot 2022-05-30 at 14 52 59](https://user-images.githubusercontent.com/59977131/170987247-94a3723c-4daf-493f-9850-a87225e2dec3.jpg)
+![Screen Shot 2022-05-30 at 14 53 10](https://user-images.githubusercontent.com/59977131/170987250-8bb1df1c-273d-46c1-bf09-13851b4d12e2.jpg)
+![Screen Shot 2022-05-30 at 14 53 25](https://user-images.githubusercontent.com/59977131/170987255-a4c18fe3-73e7-4053-b179-f3465f82d0ec.jpg)
+![Screen Shot 2022-05-30 at 14 53 43](https://user-images.githubusercontent.com/59977131/170987264-f2f5013f-ff84-404b-bc6b-dbe267ff6059.jpg)
+![Screen Shot 2022-05-30 at 14 53 55](https://user-images.githubusercontent.com/59977131/170987270-011c83b8-943b-412b-933b-2bfdb16e7914.jpg)
