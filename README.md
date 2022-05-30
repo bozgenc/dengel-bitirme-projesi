@@ -26,10 +26,10 @@ A link for the demo video: https://www.youtube.com/watch?v=ETGyoC932JE
 Some screenshots from the Dengel app: 
 
 
-<img src = "https://user-images.githubusercontent.com/59977131/170987238-f711ba93-78ff-4084-9669-239eb5525900.jpg" width="600" height="1000">
-<img src = "https://user-images.githubusercontent.com/59977131/170987247-94a3723c-4daf-493f-9850-a87225e2dec3.jpg" width="600" height="1000">
-<img src = "https://user-images.githubusercontent.com/59977131/170987250-8bb1df1c-273d-46c1-bf09-13851b4d12e2.jpg" width="600" height="1000">
-<img src = "https://user-images.githubusercontent.com/59977131/170987255-a4c18fe3-73e7-4053-b179-f3465f82d0ec.jpg" width="600" height="1000">
-<img src = "https://user-images.githubusercontent.com/59977131/170987264-f2f5013f-ff84-404b-bc6b-dbe267ff6059.jpg" width="600" height="1000">
-<img src = "https://user-images.githubusercontent.com/59977131/170987270-011c83b8-943b-412b-933b-2bfdb16e7914.jpg" width="600" height="1000">
+<img src = "https://user-images.githubusercontent.com/59977131/170987238-f711ba93-78ff-4084-9669-239eb5525900.jpg" width="600" height="840">
+<img src = "https://user-images.githubusercontent.com/59977131/170987247-94a3723c-4daf-493f-9850-a87225e2dec3.jpg" width="600" height="840">
+<img src = "https://user-images.githubusercontent.com/59977131/170987250-8bb1df1c-273d-46c1-bf09-13851b4d12e2.jpg" width="600" height="840">
+<img src = "https://user-images.githubusercontent.com/59977131/170987255-a4c18fe3-73e7-4053-b179-f3465f82d0ec.jpg" width="600" height="840">
+<img src = "https://user-images.githubusercontent.com/59977131/170987264-f2f5013f-ff84-404b-bc6b-dbe267ff6059.jpg" width="600" height="840">
+<img src = "https://user-images.githubusercontent.com/59977131/170987270-011c83b8-943b-412b-933b-2bfdb16e7914.jpg" width="600" height="840">
 
